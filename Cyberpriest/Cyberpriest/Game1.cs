@@ -97,7 +97,7 @@ namespace Cyberpriest
 
                     if (keyboardState.IsKeyDown(Keys.B))
                     {
-                        invenList.Add(inventory);
+                        invenList.Add(inventory); //replace with active vs inactive
                         DrawOnRenderTarget(GraphicsDevice);
                     }
 
