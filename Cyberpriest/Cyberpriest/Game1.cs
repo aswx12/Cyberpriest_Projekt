@@ -45,6 +45,9 @@ namespace Cyberpriest
             window = Window;
 
             map = new MapParser("level1.txt");
+
+            //hejdå
+
             //hej
             //gameState = GameState.Start;
         }
