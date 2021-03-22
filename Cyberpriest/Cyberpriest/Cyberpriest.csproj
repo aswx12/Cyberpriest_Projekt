@@ -68,9 +68,9 @@
   <ItemGroup>
     <Content Include="Content\background.png" />
     <Content Include="Content\ball.png" />
-    <Content Include="Content\normalFont.bmp" />
+    <Content Include="Content\Font\normalFont.bmp" />
     <Content Include="Content\plattform.bmp" />
-    <Content Include="Content\selectedFont.bmp" />
+    <Content Include="Content\Font\selectedFont.bmp" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -34,8 +34,8 @@ namespace Cyberpriest
              //= content.Load<Texture2D>(" ");
              //= content.Load<Texture2D>(" ");
 
-             normalFont= content.Load<SpriteFont>("normalFont");
-             selectedFont= content.Load<SpriteFont>("selectedFont");
+             normalFont= content.Load<SpriteFont>(@"Font\normalFont");
+             selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");
         }
     }
 }
