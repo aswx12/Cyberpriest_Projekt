@@ -48,6 +48,8 @@ namespace Cyberpriest
 
             //hejdå
 
+            //Nu har jag gjort en cool branch
+
             //hej
             //gameState = GameState.Start;
         }
