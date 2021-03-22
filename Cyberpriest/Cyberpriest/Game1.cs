@@ -46,13 +46,6 @@ namespace Cyberpriest
 
             map = new MapParser("level1.txt");
 
-            //hejdå
-
-            //Pull request nummber 2
-
-            //Nu har jag gjort en cool branch
-
-            //hej
             //gameState = GameState.Start;
         }
 
