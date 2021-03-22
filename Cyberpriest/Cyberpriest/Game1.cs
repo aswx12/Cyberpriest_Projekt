@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Cyberpriest
 {
@@ -19,6 +20,10 @@ namespace Cyberpriest
         Vector2 playerPos;
 
         MenuComponent menuComponent;
+        public RenderTarget2D renderTarget;
+
+        Inventory inventory;
+        List<Inventory> invenList;
 
         public Game1()
         {
@@ -44,8 +49,10 @@ namespace Cyberpriest
             AssetManager.LoadAssets(Content);
             window = Window;
 
+            renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             map = new MapParser("level1.txt");
-
+            invenList = new List<Inventory>();
+            inventory = new Inventory(AssetManager.inventory, new Vector2(100, 100));
             //gameState = GameState.Start;
         }
 
@@ -88,6 +95,12 @@ namespace Cyberpriest
 
                     GamePlay(gameTime);
 
+                    if (keyboardState.IsKeyDown(Keys.B))
+                    {
+                        invenList.Add(inventory);
+                        DrawOnRenderTarget(GraphicsDevice);
+                    }
+
                     break;
 
                 case GameState.Over:
@@ -98,11 +111,33 @@ namespace Cyberpriest
 
                     break;
             }
-            
+
 
             Console.WriteLine(playerPos);
 
             base.Update(gameTime);
+        }
+
+        public void DrawOnRenderTarget(GraphicsDevice device)
+        {
+            //Ändra så att GraphicsDevice ritar mot vårt render target
+            SpriteBatch sb = new SpriteBatch(device);
+
+            device.SetRenderTarget(renderTarget);
+            device.Clear(Color.Transparent);
+            sb.Begin();
+
+            //Rita ut texturen. Den ritas nu ut till vårt render target istället
+            //för på skärmen.
+            foreach (Inventory i in invenList)
+            {
+                i.Draw(sb);
+            }
+
+            sb.End();
+
+            //Sätt GraphicsDevice att åter igen peka på skärmen
+            device.SetRenderTarget(null);
         }
 
 
@@ -114,6 +149,7 @@ namespace Cyberpriest
 
             map.Draw(spriteBatch);
             spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+            spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
 
             spriteBatch.End();
             base.Draw(gameTime);

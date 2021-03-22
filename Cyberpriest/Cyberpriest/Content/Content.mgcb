@@ -37,13 +37,21 @@
 /processorParam:TextureFormat=Color
 /build:ball.png
 
-#begin normalFont.bmp
+#begin Font/normalFont.bmp
 /importer:TextureImporter
 /processor:FontTextureProcessor
 /processorParam:FirstCharacter= 
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Color
-/build:normalFont.bmp
+/build:Font/normalFont.bmp
+
+#begin Font/selectedFont.bmp
+/importer:TextureImporter
+/processor:FontTextureProcessor
+/processorParam:FirstCharacter= 
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Color
+/build:Font/selectedFont.bmp
 
 #begin plattform.bmp
 /importer:TextureImporter
@@ -57,11 +65,15 @@
 /processorParam:TextureFormat=Color
 /build:plattform.bmp
 
-#begin selectedFont.bmp
+#begin walltile.png
 /importer:TextureImporter
-/processor:FontTextureProcessor
-/processorParam:FirstCharacter= 
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 /processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:selectedFont.bmp
+/build:walltile.png
 

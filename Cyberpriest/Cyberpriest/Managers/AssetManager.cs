@@ -14,7 +14,7 @@ namespace Cyberpriest
         public static Texture2D player;
         public static Texture2D platform;
         public static Texture2D bg;
-        //public static Texture2D ;
+        public static Texture2D inventory;
         //public static Texture2D ;
         //public static Texture2D ;
         //public static Texture2D ;
@@ -30,12 +30,12 @@ namespace Cyberpriest
              player= content.Load<Texture2D>("ball");
              platform= content.Load<Texture2D>("plattform");
              bg= content.Load<Texture2D>("background");
-             //= content.Load<Texture2D>(" ");
+             inventory= content.Load<Texture2D>("walltile");
              //= content.Load<Texture2D>(" ");
              //= content.Load<Texture2D>(" ");
 
-             normalFont= content.Load<SpriteFont>("normalFont");
-             selectedFont= content.Load<SpriteFont>("selectedFont");
+             normalFont= content.Load<SpriteFont>(@"Font\normalFont");
+             selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");
         }
     }
 }
