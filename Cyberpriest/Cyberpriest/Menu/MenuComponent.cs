@@ -78,17 +78,6 @@ namespace Cyberpriest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             bgColor = Color.Black;
             AssetManager.LoadAssets(Game.Content);
-            int choicesGap = 70;
-            float startY = 0.5f * GraphicsDevice.Viewport.Height;
-
-            foreach (var choice in choices)
-            {
-                Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
-                choice.Y = startY;
-                choice.X = GraphicsDevice.Viewport.Width / 0.85f - size.X / 2;
-                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
-                startY += choicesGap;
-            }
 
             previousMouseState = Mouse.GetState();
             base.LoadContent();
@@ -104,6 +93,18 @@ namespace Cyberpriest
             {
                 var selectedChoice = choices.First(c => c.Selected);
                 selectedChoice.ClickAction.Invoke();
+            }
+
+            int choicesGap = 70;
+            float startY = Game1.window.ClientBounds.Height/ 4f;
+
+            foreach (var choice in choices)
+            {
+                Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
+                choice.Y = startY;
+                choice.X = Game1.window.ClientBounds.Width / 2 - size.X / 2;
+                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
+                startY += choicesGap;
             }
 
             var mouseState = Mouse.GetState();

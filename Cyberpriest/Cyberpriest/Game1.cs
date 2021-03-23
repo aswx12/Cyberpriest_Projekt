@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Cyberpriest
 {
-    public enum GameState { Start, Play, Over, Menu }
+    public enum GameState { Start, Play, Over, Menu, Inventory }
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -33,6 +33,7 @@ namespace Cyberpriest
 
         protected override void Initialize()
         {
+            window = Window;
             menuComponent = new MenuComponent(this);
             Components.Add(menuComponent);
             Components.Add(new KeyboardComponent(this));
@@ -47,19 +48,21 @@ namespace Cyberpriest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
-            window = Window;
+           
             window.AllowUserResizing = true;
 
-            renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
+
             map = new MapParser("level1.txt");
-            invenList = new List<Inventory>();
-            inventory = new Inventory(AssetManager.inventory, new Vector2(100, 100));
+
+            //invenList = new List<Inventory>();
+            //inventory = new Inventory(AssetManager.inventory, new Vector2(100, 100));
+            //renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             //gameState = GameState.Start;
 
             /*-----------------------------Window Size-------------------------------*/
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.ApplyChanges();
+            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.PreferredBackBufferHeight = 1080;
+            //graphics.ApplyChanges();
         }
 
         public static GameState GetState
@@ -96,16 +99,16 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Play:
-                    Console.WriteLine("in play");
+                   
                     playerPos = map.player.GetPos;
 
                     GamePlay(gameTime);
 
-                    if (keyboardState.IsKeyDown(Keys.B))
-                    {
-                        invenList.Add(inventory); //replace with active vs inactive
-                        DrawOnRenderTarget(GraphicsDevice);
-                    }
+                    UIKeyBinds();
+
+                    break;
+
+                case GameState.Inventory:
 
                     break;
 
@@ -118,8 +121,9 @@ namespace Cyberpriest
                     break;
             }
 
-
-            Console.WriteLine(playerPos);
+            Console.WriteLine(window.ClientBounds.Height);
+            Console.WriteLine(window.ClientBounds.Width);
+            Console.WriteLine(gameState);
 
             base.Update(gameTime);
         }
@@ -161,7 +165,7 @@ namespace Cyberpriest
                 case GameState.Play:
                     map.Draw(spriteBatch);
                     spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
-                    spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+                    //spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
 
                     break;
 
@@ -173,7 +177,7 @@ namespace Cyberpriest
                     menuComponent.Draw(spriteBatch);
                     break;
             }
-                   
+
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -235,9 +239,24 @@ namespace Cyberpriest
                 }
             }
 
+        }
+
+        public void UIKeyBinds()
+        {
             if (keyboardState.IsKeyDown(Keys.M))
             {
                 gameState = GameState.Menu;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.B))
+            {
+                gameState = GameState.Inventory;
+            }
+
+            if (gameState == GameState.Inventory)
+            {
+                if (keyboardState.IsKeyDown(Keys.B))
+                    gameState = GameState.Play;
             }
         }
 

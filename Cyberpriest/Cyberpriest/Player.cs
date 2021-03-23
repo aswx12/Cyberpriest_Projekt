@@ -73,7 +73,7 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
-            Console.WriteLine(isGrounded);
+            //Console.WriteLine(isGrounded);
         }
 
         public void Control()
