@@ -48,12 +48,18 @@ namespace Cyberpriest
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
             window = Window;
+            window.AllowUserResizing = true;
 
             renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             map = new MapParser("level1.txt");
             invenList = new List<Inventory>();
             inventory = new Inventory(AssetManager.inventory, new Vector2(100, 100));
             //gameState = GameState.Start;
+
+            /*-----------------------------Window Size-------------------------------*/
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
         }
 
         public static GameState GetState
@@ -146,10 +152,28 @@ namespace Cyberpriest
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
+            switch (gameState)
+            {
+                case GameState.Start:
+                    menuComponent.Draw(spriteBatch);
+                    break;
 
-            map.Draw(spriteBatch);
-            spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
-            spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+                case GameState.Play:
+                    map.Draw(spriteBatch);
+                    spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+                    spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+
+                    break;
+
+                case GameState.Over:
+
+                    break;
+
+                case GameState.Menu:
+                    menuComponent.Draw(spriteBatch);
+                    break;
+            }
+                   
 
             spriteBatch.End();
             base.Draw(gameTime);

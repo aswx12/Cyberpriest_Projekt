@@ -16,7 +16,7 @@ namespace Cyberpriest
         List<MenuChoice> choices;
         Color bgColor; // to simulate "States"
         MouseState previousMouseState;
-       //GameState gameState;
+        //GameState gameState;
 
         public MenuComponent(Game game)
             : base(game)
@@ -75,19 +75,19 @@ namespace Cyberpriest
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);            
-            bgColor = Color.White;
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            bgColor = Color.Black;
             AssetManager.LoadAssets(Game.Content);
-
-            float startY = 0.2f * GraphicsDevice.Viewport.Height;
+            int choicesGap = 70;
+            float startY = 0.5f * GraphicsDevice.Viewport.Height;
 
             foreach (var choice in choices)
             {
                 Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
                 choice.Y = startY;
-                choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
+                choice.X = GraphicsDevice.Viewport.Width / 0.85f - size.X / 2;
                 choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
-                startY += 70;
+                startY += choicesGap;
             }
 
             previousMouseState = Mouse.GetState();
@@ -146,22 +146,17 @@ namespace Cyberpriest
             choices[selectedIndex].Selected = true;
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch sb)
         {
-            if(Game1.GetState == GameState.Start || Game1.GetState == GameState.Menu)
-            {
-                GraphicsDevice.Clear(bgColor);
-                spriteBatch.Begin();
+            GraphicsDevice.Clear(bgColor);
 
-                foreach (var choice in choices)
-                {
-                    spriteBatch.DrawString(choice.Selected ? AssetManager.selectedFont : AssetManager.normalFont,
-                        choice.Text, new Vector2(choice.X, choice.Y), Color.White);
-                }
-                spriteBatch.End();
-                base.Draw(gameTime);
+            foreach (var choice in choices)
+            {
+                sb.DrawString(choice.Selected ? AssetManager.selectedFont : AssetManager.normalFont,
+                    choice.Text, new Vector2(choice.X, choice.Y), Color.White);
             }
-            
+
         }
+
     }
 }
