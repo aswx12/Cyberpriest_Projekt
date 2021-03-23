@@ -30,7 +30,7 @@ namespace Cyberpriest
              player= content.Load<Texture2D>("ball");
              platform= content.Load<Texture2D>("plattform");
              bg= content.Load<Texture2D>("background");
-             inventory= content.Load<Texture2D>("walltile");
+             inventory= content.Load<Texture2D>("hole");
              //= content.Load<Texture2D>(" ");
              //= content.Load<Texture2D>(" ");
 

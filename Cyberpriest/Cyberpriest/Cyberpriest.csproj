@@ -70,6 +70,7 @@
     <Content Include="Content\background.png" />
     <Content Include="Content\ball.png" />
     <Content Include="Content\Font\normalFont.bmp" />
+    <Content Include="Content\hole.png" />
     <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
     <Content Include="Content\walltile.png" />
