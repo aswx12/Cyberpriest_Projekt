@@ -213,7 +213,6 @@ namespace Cyberpriest
                                 go.HandleCollision(other);
                             }
 
-
                             //if (go is Player)
                             //{
                             //    if (other is Enemy)
@@ -266,8 +265,8 @@ namespace Cyberpriest
 
             if (gameState == GameState.Play)
             {
-                if(KeyMouseReader.KeyPressed(Keys.M))
-                gameState = GameState.Menu;
+                if (KeyMouseReader.KeyPressed(Keys.M))
+                    gameState = GameState.Menu;
             }
             else if (gameState == GameState.Menu)
             {
