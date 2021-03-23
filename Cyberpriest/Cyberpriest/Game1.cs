@@ -22,6 +22,7 @@ namespace Cyberpriest
 
         public Game1()
         {
+            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -38,14 +39,21 @@ namespace Cyberpriest
 
         protected override void LoadContent()
         {
+            
             IsMouseVisible = true;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
             window = Window;
-
+            window.AllowUserResizing = true;
             map = new MapParser("level1.txt");
 
+            /*-----------------------------Window Size-------------------------------*/
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.ApplyChanges();
+
+            
             //gameState = GameState.Start;
         }
 
@@ -112,8 +120,26 @@ namespace Cyberpriest
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
 
-            map.Draw(spriteBatch);
-            spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+            switch (gameState)
+            {
+                case GameState.Start:
+                   menuComponent.Draw(spriteBatch);
+                    break;
+
+                case GameState.Play:
+                    map.Draw(spriteBatch);
+                    spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+                    break;
+
+                case GameState.Over:
+
+                    break;
+
+                case GameState.Menu:
+                    menuComponent.Draw(spriteBatch);
+                    break;
+            }
+            
 
             spriteBatch.End();
             base.Draw(gameTime);
