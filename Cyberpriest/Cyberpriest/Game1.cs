@@ -101,6 +101,8 @@ namespace Cyberpriest
 
                     GamePlay(gameTime);
 
+                    map.Update();
+
                     //    gameState = GameState.Inventory;
                     //if (KeyMouseReader.KeyPressed(Keys.B) && openInventory == false)
                     //{
@@ -234,22 +236,20 @@ namespace Cyberpriest
                             //        }
                             //    }
 
-                            //    if (other is Present)
-                            //    {
-                            //        if (!other.isActive)
-                            //            continue;
-                            //        if (go.PixelCollision(other))
-                            //        {
-                            //            go.HandleCollision(other);
-                            //        }
-                            //    }
-                            //}
+                            if (other is Item)
+                            {
+                                if (!other.isActive)
+                                    continue;
+                                if (go.PixelCollision(other))
+                                {
+                                    go.HandleCollision(other);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-
         public void UIKeyBinds()
         {
             if (gameState == GameState.Play)
@@ -274,13 +274,32 @@ namespace Cyberpriest
                     gameState = GameState.Play;
             }
         }
-
-        //public void Menu()
-        //{
-        //    if (keyboardState.IsKeyDown(Keys.C))
-        //    {
-        //        gameState = GameState.Play;
-        //    }
-        //}
     }
 }
+
+/*------------------TRASH-----------------------------------------------------
+public void Menu()
+{
+    if (keyboardState.IsKeyDown(Keys.C))
+    {
+        gameState = GameState.Play;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    */
+
+

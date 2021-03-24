@@ -14,7 +14,7 @@ namespace Cyberpriest
         protected Texture2D tex;
         
         protected Rectangle srRect;
-        protected Point tileSize; //beror på sprite size
+        protected Point tileSize = new Point(64, 64);
 
         public Rectangle hitBox;
         public bool isActive = true;

@@ -15,7 +15,7 @@ namespace Cyberpriest
         public static Texture2D platform;
         public static Texture2D bg;
         public static Texture2D inventory;
-        //public static Texture2D ;
+        public static Texture2D item;
         //public static Texture2D ;
         //public static Texture2D ;
         //public static Texture2D ;
@@ -31,7 +31,7 @@ namespace Cyberpriest
              platform= content.Load<Texture2D>("plattform");
              bg= content.Load<Texture2D>("background");
              inventory= content.Load<Texture2D>("hole");
-             //= content.Load<Texture2D>(" ");
+             item= content.Load<Texture2D>("PotionsSprite");
              //= content.Load<Texture2D>(" ");
 
              normalFont= content.Load<SpriteFont>(@"Font\normalFont");

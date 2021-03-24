@@ -8,18 +8,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    class Inventory
+    class Inventory : StationaryObject
     {
-        Texture2D tex;
-        Vector2 pos;
+       
 
-        public Inventory(Texture2D tex, Vector2 pos)
+        public Inventory(Texture2D tex, Vector2 pos) : base(tex,pos)
         {
-            this.tex = tex;
             this.pos = pos;
         }
 
-        public void Draw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, pos, Color.White);
         }
