@@ -14,8 +14,8 @@ namespace Cyberpriest
     class MapParser
     {
         public List<GameObject> objectList;
-        public List<Item> itemlist;
-        Point tileSize = new Point(64, 64);
+        public List<GameObject> inventory;
+        public Point tileSize = new Point(64, 64);
 
         public Player player;
         public Item item;
@@ -34,7 +34,7 @@ namespace Cyberpriest
         {
 
             objectList = new List<GameObject>();
-            itemlist = new List<Item>();
+            inventory = new List<GameObject>();
             List<string> stringList = ReadFromFile(fileName);
 
             /*--------------------Map--------------------------*/
@@ -53,22 +53,21 @@ namespace Cyberpriest
 
             for (int i = 0; i < itemPos.Length; i++)
             {
-                item = new Item(AssetManager.item, itemPos[i],itemlist);
+                item = new Item(AssetManager.item, itemPos[i]);
 
                 objectList.Add(item);
-                itemlist.Add(item);
             }
 
             PlayerPos = ParsePos(stringList[0]);
 
-            player = new Player(AssetManager.player, PlayerPos, Game1.window, item);
+            player = new Player(AssetManager.player, PlayerPos, Game1.window);
             objectList.Add(player);
 
         }
 
         public void Update()
         {
-            item.Update();
+   
         }
 
 
@@ -146,6 +145,8 @@ namespace Cyberpriest
         {
             foreach (GameObject o in objectList)
                 o.Draw(sb);
+
+            
         }
     }
 }

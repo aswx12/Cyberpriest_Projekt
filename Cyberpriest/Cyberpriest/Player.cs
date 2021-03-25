@@ -19,9 +19,10 @@ namespace Cyberpriest
         bool downPlatform;
         Vector2 startPos;
 
-        public List<Inventory> inventory = new List<Inventory>();
+        //public List<Item> inventory = new List<Item>();
+        //Item item;
 
-        public Player(Texture2D tex, Vector2 pos, GameWindow window,List<Inventory> inventory) : base(tex, pos)
+        public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             isGrounded = true;
             live = 3;
@@ -29,12 +30,12 @@ namespace Cyberpriest
             vel = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
             isGrounded = true;
-          
+
             playerFacing = Facing.Idle;
 
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
-
-            this.inventory = inventory;
+            //this.inventory = inventory;
+            //this.item = item;
         }
 
         public override void HandleCollision(GameObject other)
@@ -50,7 +51,6 @@ namespace Cyberpriest
 
             if (other is Item)
             {
-                
                 other.isActive = false;
                 return;
             }
@@ -59,7 +59,7 @@ namespace Cyberpriest
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
-                
+
         }
 
         public override void Update(GameTime gt)
@@ -73,7 +73,7 @@ namespace Cyberpriest
 
             Control();
             pos += vel;
-            
+
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 

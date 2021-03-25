@@ -17,13 +17,13 @@ namespace Cyberpriest
         static GameState gameState;
         KeyboardState keyboardState;
 
-
         public static GameWindow window;
         Vector2 playerPos;
         bool openInventory;
+
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
-
+        Vector2 itemPos;
         //Inventory inventory;
         //List<Inventory> invenList;
 
@@ -52,7 +52,6 @@ namespace Cyberpriest
             AssetManager.LoadAssets(Content);
             openInventory = false;
             window.AllowUserResizing = true;
-
             map = new MapParser("level1.txt");
 
             //invenList = new List<Inventory>();
@@ -131,7 +130,7 @@ namespace Cyberpriest
             }
 
             Console.WriteLine(gameState);
-
+            Console.WriteLine(itemPos);
             base.Update(gameTime);
         }
 
@@ -157,12 +156,12 @@ namespace Cyberpriest
              device.SetRenderTarget(null);
          }*/
 
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
+            spriteBatch.Begin();
             switch (gameState)
             {
                 case GameState.Start:
@@ -175,10 +174,26 @@ namespace Cyberpriest
                     // if(openInventory)
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
+
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
+
+                    itemPos.X = 0;
+
+                    for (int i = 0; i < map.inventory.Count ; i++)
+                    {
+                        itemPos.X = itemPos.X + i * map.tileSize.X;
+
+                        //if (i >= 3)
+                        //{
+                        //    i = 0;
+                        //    itemPos.Y = itemPos.Y + map.tileSize.X;
+                        //}
+                        map.item.DrawInInventory(spriteBatch, itemPos);
+                    }
+
 
                     break;
 
@@ -236,12 +251,23 @@ namespace Cyberpriest
                             //        }
                             //    }
 
-                            if (other is Item)
+                            if (other is Item && go is Player)
                             {
+
                                 if (!other.isActive)
+                                {
+
                                     continue;
+                                }
+
                                 if (go.PixelCollision(other))
                                 {
+                                    if (other.isActive)
+                                    {
+                                        map.inventory.Add(other);
+                                        map.item.isCollected = true;
+                                    }
+
                                     go.HandleCollision(other);
                                 }
                             }

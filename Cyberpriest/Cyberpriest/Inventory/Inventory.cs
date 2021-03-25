@@ -14,7 +14,6 @@ namespace Cyberpriest
 
         public Inventory(Texture2D tex, Vector2 pos) : base(tex,pos)
         {
-            this.pos = pos;
         }
 
         public override void Draw(SpriteBatch sb)

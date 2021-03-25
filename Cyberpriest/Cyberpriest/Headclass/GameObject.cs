@@ -14,13 +14,14 @@ namespace Cyberpriest
         protected Texture2D tex;
         
         protected Rectangle srRect;
-        protected Point tileSize = new Point(64, 64);
+        protected Point tileSize;
 
         public Rectangle hitBox;
         public bool isActive = true;
 
         public GameObject(Texture2D tex, Vector2 pos)
         {
+            tileSize = new Point(64, 64);
             this.tex = tex;
             this.pos = pos;
             tileSize = new Point(tex.Width, tex.Height);
