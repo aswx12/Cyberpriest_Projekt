@@ -5,6 +5,7 @@ using System;
 
 namespace Cyberpriest
 {
+    //test
     public enum GameState { Start, Play, Over, Menu }
     public class Game1 : Game
     {
