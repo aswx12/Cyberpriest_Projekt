@@ -105,7 +105,7 @@ namespace Cyberpriest
             base.Update(gameTime);
         }
 
-
+        //Kommentar för test
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
