@@ -10,22 +10,46 @@ namespace Cyberpriest
 {
     class Item : Inventory
     {
+        Random rand = new Random();
+
         public bool isCollected;
-        public Item(Texture2D tex, Vector2 pos) : base(tex, pos)
+ 
+        public List<GameObject> inventory;
+        public Item(Texture2D tex, Vector2 pos, List<GameObject> invetory) : base(tex, pos)
         {
             tileSize = new Point(64, 64);
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            srRect=new Rectangle(tileSize.X * 0, tileSize.Y * 0, tileSize.X, tileSize.Y);
             isCollected = false;
-            srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 0, tileSize.X, tileSize.Y);
-
+            this.inventory = invetory;
         }
 
-        public void Update()
+        public override void Update(GameTime gameTime)
+        {
+            if (!isActive)
+                isCollected = true;
+        }
+
+        public override void HandleCollision(GameObject other)
         {
 
+       
+
         }
 
+        //public Vector2 GetItemPos
+        //{
+        //    get
+        //    {
+        //        return itemPos;
+        //    }
+
+        //    set
+        //    {
+        //        itemPos = value;
+        //    }
+        //}
 
         public override void Draw(SpriteBatch sb)
         {
@@ -35,9 +59,11 @@ namespace Cyberpriest
 
         public void DrawInInventory(SpriteBatch sb, Vector2 itemPos)
         {
-            if (isCollected)
-                sb.Draw(tex, itemPos, srRect, Color.White);
-
+            foreach(Item item in inventory)
+            {
+                if (isCollected)
+                    sb.Draw(tex, itemPos, srRect, Color.White);
+            }
         }
     }
 }

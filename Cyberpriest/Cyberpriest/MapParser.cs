@@ -15,6 +15,7 @@ namespace Cyberpriest
     {
         public List<GameObject> objectList;
         public List<GameObject> inventory;
+        public Inventory[,] inventoryArray;
         public Point tileSize = new Point(64, 64);
 
         public Player player;
@@ -24,6 +25,11 @@ namespace Cyberpriest
         Vector2 PlayerPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
+
+        public Vector2 slotPos;
+
+        //public int row = 0;
+        //public int column = 0;
 
         public MapParser(string filename)
         {
@@ -35,10 +41,21 @@ namespace Cyberpriest
 
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
+            inventoryArray = new Inventory[3, 3];
+
             List<string> stringList = ReadFromFile(fileName);
 
+            /*-----------------------Inventory slots-----------------*/
+            for (int i = 0; i < inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryArray.GetLength(1); j++)
+                {
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 300, 64 * j+300));
+                }
+            }
+            
             /*--------------------Map--------------------------*/
-         
+
 
             platformPos = ParseVectorArray(stringList[2]);
 
@@ -48,12 +65,13 @@ namespace Cyberpriest
                 objectList.Add(platform);
 
             }
-            
+
             itemPos = ParseVectorArray(stringList[5]);
 
             for (int i = 0; i < itemPos.Length; i++)
             {
-                item = new Item(AssetManager.item, itemPos[i]);
+            
+                item = new Item(AssetManager.item, itemPos[i],inventory);
 
                 objectList.Add(item);
             }
@@ -67,7 +85,8 @@ namespace Cyberpriest
 
         public void Update()
         {
-   
+            //slotPos = inventoryArray[row, column].GetSlotPos;
+            //Console.WriteLine(slotPos);
         }
 
 
@@ -146,7 +165,7 @@ namespace Cyberpriest
             foreach (GameObject o in objectList)
                 o.Draw(sb);
 
-            
+
         }
     }
 }

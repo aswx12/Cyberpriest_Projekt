@@ -19,7 +19,7 @@ namespace Cyberpriest
         bool downPlatform;
         Vector2 startPos;
 
-        //public List<Item> inventory = new List<Item>();
+        public List<GameObject> inventory = new List<GameObject>();
         //Item item;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)

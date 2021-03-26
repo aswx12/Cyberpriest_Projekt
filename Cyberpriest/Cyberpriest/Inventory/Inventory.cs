@@ -16,6 +16,14 @@ namespace Cyberpriest
         {
         }
 
+        public Vector2 GetSlotPos
+        {
+            get
+            {
+                return pos;
+            }
+        }
+
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, pos, Color.White);

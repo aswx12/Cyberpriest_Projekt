@@ -23,10 +23,10 @@ namespace Cyberpriest
 
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
-        Vector2 itemPos;
-        //Inventory inventory;
-        //List<Inventory> invenList;
+        Vector2 inventorySlotPos,previousSlot;
 
+        public int row = 0;
+        public int column = 0;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -63,6 +63,8 @@ namespace Cyberpriest
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 1080;
             //graphics.ApplyChanges();
+            
+
         }
 
         public static GameState GetState
@@ -88,6 +90,8 @@ namespace Cyberpriest
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
+            inventorySlotPos = map.inventoryArray[row, column].GetSlotPos;
+            previousSlot = inventorySlotPos;//to save previous item location? 
             switch (gameState)
             {
                 case GameState.Start:
@@ -99,8 +103,6 @@ namespace Cyberpriest
                     playerPos = map.player.GetPos;
 
                     GamePlay(gameTime);
-
-                    map.Update();
 
                     //    gameState = GameState.Inventory;
                     //if (KeyMouseReader.KeyPressed(Keys.B) && openInventory == false)
@@ -129,8 +131,8 @@ namespace Cyberpriest
                     break;
             }
 
-            Console.WriteLine(gameState);
-            Console.WriteLine(itemPos);
+            Console.WriteLine(map.inventory.Count);
+
             base.Update(gameTime);
         }
 
@@ -162,6 +164,7 @@ namespace Cyberpriest
 
             //spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
             spriteBatch.Begin();
+
             switch (gameState)
             {
                 case GameState.Start:
@@ -174,26 +177,17 @@ namespace Cyberpriest
                     // if(openInventory)
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
-
+                    DrawInventory(spriteBatch);
+                    foreach (Item item in map.inventory)//live inventory update
+                        item.DrawInInventory(spriteBatch, previousSlot);
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
-                    itemPos.X = 0;
-
-                    for (int i = 0; i < map.inventory.Count ; i++)
-                    {
-                        itemPos.X = itemPos.X + i * map.tileSize.X;
-
-                        //if (i >= 3)
-                        //{
-                        //    i = 0;
-                        //    itemPos.Y = itemPos.Y + map.tileSize.X;
-                        //}
-                        map.item.DrawInInventory(spriteBatch, itemPos);
-                    }
-
+                    DrawInventory(spriteBatch);
+                    foreach (Item item in map.inventory)
+                        item.DrawInInventory(spriteBatch, previousSlot);
 
                     break;
 
@@ -209,6 +203,18 @@ namespace Cyberpriest
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public void DrawInventory(SpriteBatch sb)
+        {
+            for (int i = 0; i < map.inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.inventoryArray.GetLength(1); j++)
+                {
+                    map.inventoryArray[i, j].Draw(spriteBatch);                 
+                }            
+            }
+            
         }
 
         public void GamePlay(GameTime gameTime)
@@ -230,42 +236,46 @@ namespace Cyberpriest
                                 go.HandleCollision(other);
                             }
 
-                            //if (go is Player)
-                            //{
-                            //    if (other is Enemy)
-                            //    {
-                            //        if (!other.isActive)
-                            //            continue;
-                            //        if (go.PixelCollision(other))
-                            //        {
-                            //            go.HandleCollision(other);
-                            //            other.HandleCollision(go);
-                            //        }
-                            //    }
+                           /* if (go is Player)
+                            {
+                                if (other is Enemy)
+                                {
+                                    if (!other.isActive)
+                                        continue;
+                                    if (go.PixelCollision(other))
+                                    {
+                                        go.HandleCollision(other);
+                                        other.HandleCollision(go);
+                                    }
+                                }
 
-                            //    if (other is Spike)
-                            //    {
-                            //        if (go.PixelCollision(other))
-                            //        {
-                            //            go.HandleCollision(other);
-                            //        }
-                            //    }
+                                if (other is Spike)
+                                {
+                                    if (go.PixelCollision(other))
+                                    {
+                                        go.HandleCollision(other);
+                                    }
+                                }*/
 
-                            if (other is Item && go is Player)
+                                if (other is Item && go is Player)
                             {
 
                                 if (!other.isActive)
                                 {
-
                                     continue;
                                 }
-
+                                /*-----------------------------CHECK HERE-----------------------*/
                                 if (go.PixelCollision(other))
                                 {
-                                    if (other.isActive)
+                                    map.inventory.Add(other);
+                                    if (map.inventory.Count > 1)
                                     {
-                                        map.inventory.Add(other);
-                                        map.item.isCollected = true;
+                                        row++;
+                                        if (row >= 3)
+                                        {
+                                            column++;
+                                            row = 0;
+                                        }
                                     }
 
                                     go.HandleCollision(other);
