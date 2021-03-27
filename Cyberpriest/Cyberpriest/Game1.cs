@@ -23,7 +23,7 @@ namespace Cyberpriest
 
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
-        Vector2 inventorySlotPos,previousSlot;
+        public static Vector2 inventorySlotPos, previousSlot;
 
         public int row = 0;
         public int column = 0;
@@ -63,7 +63,7 @@ namespace Cyberpriest
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 1080;
             //graphics.ApplyChanges();
-            
+
 
         }
 
@@ -90,8 +90,8 @@ namespace Cyberpriest
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
-            inventorySlotPos = map.inventoryArray[row, column].GetSlotPos;
-            previousSlot = inventorySlotPos;//to save previous item location? 
+            //inventorySlotPos = map.inventoryArray[row, column].GetSlotPos;
+            //previousSlot = inventorySlotPos;//to save previous item location? 
             switch (gameState)
             {
                 case GameState.Start:
@@ -131,7 +131,7 @@ namespace Cyberpriest
                     break;
             }
 
-            Console.WriteLine(map.inventory.Count);
+            //Console.WriteLine(map.inventory.Count);
 
             base.Update(gameTime);
         }
@@ -178,16 +178,17 @@ namespace Cyberpriest
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
                     DrawInventory(spriteBatch);
-                    foreach (Item item in map.inventory)//live inventory update
-                        item.DrawInInventory(spriteBatch, previousSlot);
+
+                    foreach (Item item in map.inventory) //live inventory update
+                        item.DrawInInventory(spriteBatch,row,column);
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
                     DrawInventory(spriteBatch);
-                    foreach (Item item in map.inventory)
-                        item.DrawInInventory(spriteBatch, previousSlot);
+                    //foreach (Item item in map.inventory)
+                    //    item.DrawInInventory(spriteBatch);
 
                     break;
 
@@ -211,10 +212,10 @@ namespace Cyberpriest
             {
                 for (int j = 0; j < map.inventoryArray.GetLength(1); j++)
                 {
-                    map.inventoryArray[i, j].Draw(spriteBatch);                 
-                }            
+                    map.inventoryArray[i, j].Draw(spriteBatch);
+                }
             }
-            
+
         }
 
         public void GamePlay(GameTime gameTime)
@@ -236,50 +237,58 @@ namespace Cyberpriest
                                 go.HandleCollision(other);
                             }
 
-                           /* if (go is Player)
+                            /* if (go is Player)
+                             {
+                                 if (other is Enemy)
+                                 {
+                                     if (!other.isActive)
+                                         continue;
+                                     if (go.PixelCollision(other))
+                                     {
+                                         go.HandleCollision(other);
+                                         other.HandleCollision(go);
+                                     }
+                                 }
+
+                                 if (other is Spike)
+                                 {
+                                     if (go.PixelCollision(other))
+                                     {
+                                         go.HandleCollision(other);
+                                     }
+                                 }*/
+
+                            if (other is Item)
                             {
-                                if (other is Enemy)
+                                if (go is Player)
                                 {
                                     if (!other.isActive)
+                                    {
                                         continue;
+                                    }
+                                    /*-----------------------------CHECK HERE-----------------------*/
                                     if (go.PixelCollision(other))
                                     {
-                                        go.HandleCollision(other);
-                                        other.HandleCollision(go);
-                                    }
-                                }
-
-                                if (other is Spike)
-                                {
-                                    if (go.PixelCollision(other))
-                                    {
-                                        go.HandleCollision(other);
-                                    }
-                                }*/
-
-                                if (other is Item && go is Player)
-                            {
-
-                                if (!other.isActive)
-                                {
-                                    continue;
-                                }
-                                /*-----------------------------CHECK HERE-----------------------*/
-                                if (go.PixelCollision(other))
-                                {
-                                    map.inventory.Add(other);
-                                    if (map.inventory.Count > 1)
-                                    {
-                                        row++;
-                                        if (row >= 3)
+                                        //foreach (Item item in map.inventory)
+                                        //    map.item.SetSlotPos = inventorySlotPos;
+                                        //Item item = new Item(map.item.GetTexture, inventorySlotPos,map.inventory,map.inventoryArray);
+                                        //foreach(Item item in map.inventory)
+                                        
+                                        map.inventory.Add(other);
+                                        if(map.inventory.Count > 1)
                                         {
-                                            column++;
-                                            row = 0;
+                                            row++;
+                                            if (row >= 3)
+                                            {
+                                                column++;
+                                                row = 0;
+                                            }
                                         }
-                                    }
+                                        go.HandleCollision(other);
 
-                                    go.HandleCollision(other);
-                                }
+                                    }
+                                }                           
+                                    
                             }
                         }
                     }

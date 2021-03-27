@@ -13,6 +13,9 @@ namespace Cyberpriest
 
     class MapParser
     {
+        Random rand = new Random();
+        int random;
+
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
@@ -44,7 +47,7 @@ namespace Cyberpriest
             inventoryArray = new Inventory[3, 3];
 
             List<string> stringList = ReadFromFile(fileName);
-
+           
             /*-----------------------Inventory slots-----------------*/
             for (int i = 0; i < inventoryArray.GetLength(0); i++)
             {
@@ -70,8 +73,8 @@ namespace Cyberpriest
 
             for (int i = 0; i < itemPos.Length; i++)
             {
-            
-                item = new Item(AssetManager.item, itemPos[i],inventory);
+                random = rand.Next(0, 3);
+                item = new Item(random,AssetManager.item, itemPos[i],inventoryArray);
 
                 objectList.Add(item);
             }
