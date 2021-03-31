@@ -21,22 +21,8 @@ namespace Cyberpriest
         public MenuComponent(Game game)
             : base(game)
         {
-            //this.gameState = gameState;
+
         }
-
-        //public GameState GetState
-        //{
-        //    get
-        //    {
-        //        return gameState;
-        //    }
-
-        //    set
-        //    {
-        //        gameState = value;
-        //    }
-        //}
-
 
         public override void Initialize()
         {
@@ -76,7 +62,9 @@ namespace Cyberpriest
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            
             bgColor = Color.Black;
+
             AssetManager.LoadAssets(Game.Content);
 
             previousMouseState = Mouse.GetState();
@@ -156,8 +144,6 @@ namespace Cyberpriest
                 sb.DrawString(choice.Selected ? AssetManager.selectedFont : AssetManager.normalFont,
                     choice.Text, new Vector2(choice.X, choice.Y), Color.White);
             }
-
         }
-
     }
 }

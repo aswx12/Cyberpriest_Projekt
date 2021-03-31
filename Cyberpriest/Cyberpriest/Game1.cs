@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace Cyberpriest
 {
     public enum GameState { Start, Play, Over, Menu, Inventory }
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -21,6 +22,8 @@ namespace Cyberpriest
         Vector2 playerPos;
         //bool openInventory;
 
+        //Comment for branch testing in workshop
+
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
 
@@ -28,6 +31,7 @@ namespace Cyberpriest
         int column = 0;
         public Game1()
         {
+            
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -44,6 +48,7 @@ namespace Cyberpriest
 
         protected override void LoadContent()
         {
+            
             IsMouseVisible = true;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
@@ -58,7 +63,6 @@ namespace Cyberpriest
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 1080;
             //graphics.ApplyChanges();
-
         }
 
         public static GameState GetState
@@ -113,7 +117,7 @@ namespace Cyberpriest
 
             base.Update(gameTime);
         }
-
+        
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -123,7 +127,9 @@ namespace Cyberpriest
             switch (gameState)
             {
                 case GameState.Start:
+                
                     menuComponent.Draw(spriteBatch);
+
                     break;
 
                 case GameState.Play:
@@ -154,8 +160,9 @@ namespace Cyberpriest
                     menuComponent.Draw(spriteBatch);
                     break;
             }
-
+            
             spriteBatch.End();
+            
             base.Draw(gameTime);
         }
 
