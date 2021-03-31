@@ -274,7 +274,7 @@ namespace Cyberpriest
                                         //foreach(Item item in map.inventory)
 
                                         map.inventory.Add(other);
-                                        if(map.inventory.Count > 1)
+                                        if (map.inventory.Count > 1)
                                         {
                                             row++;
                                             if (row >= 3)
