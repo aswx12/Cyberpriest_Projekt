@@ -177,18 +177,17 @@ namespace Cyberpriest
                     // if(openInventory)
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
-                    DrawInventory(spriteBatch);
+                   // DrawInventory(spriteBatch);
 
-                    foreach (Item item in map.inventory) //live inventory update
-                        item.DrawInInventory(spriteBatch, row, column);
+                   
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
 
                     DrawInventory(spriteBatch);
-                    //foreach (Item item in map.inventory)
-                    //    item.DrawInInventory(spriteBatch);
+                    foreach (Item item in map.inventory) //live inventory update
+                        item.DrawInInventory(spriteBatch, item.row, item.column);
 
                     break;
 
@@ -282,6 +281,8 @@ namespace Cyberpriest
                                                 column++;
                                                 row = 0;
                                             }
+                                            (other as Item).row = row;
+                                            (other as Item).column = column;
                                         }
                                         go.HandleCollision(other);
 

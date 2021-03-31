@@ -43,7 +43,7 @@ namespace Cyberpriest
             if (!isActive)
                 isCollected = true;
       
-            Console.WriteLine(row);
+            //Console.WriteLine(row);
         }
 
         public override void HandleCollision(GameObject other)
