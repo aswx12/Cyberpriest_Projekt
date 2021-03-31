@@ -23,7 +23,6 @@ namespace Cyberpriest
 
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
-        public static Vector2 inventorySlotPos, previousSlot;
 
         int row = 0;
         int column = 0;
