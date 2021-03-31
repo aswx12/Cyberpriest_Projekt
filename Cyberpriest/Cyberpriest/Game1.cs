@@ -22,8 +22,6 @@ namespace Cyberpriest
         Vector2 playerPos;
         //bool openInventory;
 
-        //Comment for branch testing in workshop
-
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
 
