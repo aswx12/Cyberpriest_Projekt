@@ -10,26 +10,23 @@ namespace Cyberpriest
 {
     class Item : Inventory
     {
-
         public bool isCollected;
-        public Vector2 slotPos;
         public int itemId;
-        //public List<GameObject> inventory;
         public Inventory[,] inventory;
         public int row, column;
 
-        public Item(int itemId,Texture2D tex, Vector2 pos, Inventory[,] inventoryTest) : base(tex, pos)
+        public Item(int itemId, Texture2D tex, Vector2 pos, Inventory[,] inventory) : base(tex, pos)
         {
             tileSize = new Point(64, 64);
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            
+
             isCollected = false;
-            //this.slotPos = slotPos;
-            this.inventory = inventoryTest;
+
+            this.inventory = inventory;
             this.itemId = itemId;
-           //this.inventory = inventory;
-           if(itemId ==0)
+
+            if (itemId == 0)
                 srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 0, tileSize.X, tileSize.Y);
             else if (itemId == 1)
                 srRect = new Rectangle(tileSize.X * 1, tileSize.Y * 1, tileSize.X, tileSize.Y);
@@ -42,8 +39,7 @@ namespace Cyberpriest
         {
             if (!isActive)
                 isCollected = true;
-      
-            //Console.WriteLine(row);
+
         }
 
         public override void HandleCollision(GameObject other)
@@ -78,7 +74,7 @@ namespace Cyberpriest
                 sb.Draw(tex, pos, srRect, Color.White);
         }
 
-        public void DrawInInventory(SpriteBatch sb,int row,int column)//, Vector2 itemPos
+        public void DrawInInventory(SpriteBatch sb, int row, int column)//, Vector2 itemPos
         {
             this.row = row;
             this.column = column;

@@ -85,14 +85,6 @@ namespace Cyberpriest
             objectList.Add(player);
 
         }
-
-        public void Update()
-        {
-            //slotPos = inventoryArray[row, column].GetSlotPos;
-            //Console.WriteLine(slotPos);
-        }
-
-
         /*--------------------PARSERS-------------------*/
 
         public static int ParseInt(string str)
