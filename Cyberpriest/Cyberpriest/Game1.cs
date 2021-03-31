@@ -180,7 +180,7 @@ namespace Cyberpriest
                     DrawInventory(spriteBatch);
 
                     foreach (Item item in map.inventory) //live inventory update
-                        item.DrawInInventory(spriteBatch,row,column);
+                        item.DrawInInventory(spriteBatch, row, column);
                     break;
 
                 case GameState.Inventory:
@@ -200,7 +200,6 @@ namespace Cyberpriest
                     menuComponent.Draw(spriteBatch);
                     break;
             }
-
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -273,7 +272,7 @@ namespace Cyberpriest
                                         //    map.item.SetSlotPos = inventorySlotPos;
                                         //Item item = new Item(map.item.GetTexture, inventorySlotPos,map.inventory,map.inventoryArray);
                                         //foreach(Item item in map.inventory)
-                                        
+
                                         map.inventory.Add(other);
                                         if(map.inventory.Count > 1)
                                         {
@@ -287,8 +286,7 @@ namespace Cyberpriest
                                         go.HandleCollision(other);
 
                                     }
-                                }                           
-                                    
+                                }
                             }
                         }
                     }
