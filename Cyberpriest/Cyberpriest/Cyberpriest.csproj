@@ -41,6 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\Item.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\Camera.cs" />
     <Compile Include="ENEMY\EnemyType.cs" />
@@ -69,8 +71,12 @@
     <Content Include="Content\background.png" />
     <Content Include="Content\ball.png" />
     <Content Include="Content\Font\normalFont.bmp" />
+    <Content Include="Content\hole.png" />
     <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
+    <Content Include="Content\PotionsSprite.png" />
+    <Content Include="Content\walltile.png" />
+
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
