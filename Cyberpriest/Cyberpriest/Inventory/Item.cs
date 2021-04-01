@@ -60,6 +60,14 @@ namespace Cyberpriest
             }
         }
 
+        public Rectangle getHitbox
+        {
+            get
+            {
+                return hitBox;
+            }
+        }
+
         public Texture2D GetTexture
         {
             get
@@ -79,6 +87,7 @@ namespace Cyberpriest
             this.row = row;
             this.column = column;
             pos = inventory[row, column].GetSlotPos;
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             if (isCollected)
                 sb.Draw(tex, pos, srRect, Color.White);
         }
