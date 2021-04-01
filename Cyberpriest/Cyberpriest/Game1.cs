@@ -160,10 +160,11 @@ namespace Cyberpriest
                         {
                             if (other is Platform)
                             {
-                                other.PixelCollision(go);
-                                go.HandleCollision(other);
+                                if(other.PixelCollision(go))
+                                    go.HandleCollision(other);
                             }
 
+<<<<<<< Updated upstream
 
                             //if (go is Player)
                             //{
@@ -196,6 +197,60 @@ namespace Cyberpriest
                             //        }
                             //    }
                             //}
+=======
+                            if (go is Player)
+                            {
+                                if (other is EnemyType)
+                                {
+                                    if (!other.isActive)
+                                        continue;
+                                    if (go.PixelCollision(other))
+                                    {
+                                        go.HandleCollision(other);
+                                        other.HandleCollision(go);
+                                    }
+                                }
+
+                                //if (other is Spike)
+                                //{
+                                //    if (go.PixelCollision(other))
+                                //    {
+                                //        go.HandleCollision(other);
+                                //    }
+                                //}
+                            }
+
+#region ItemToInventory
+                            if (other is Item)
+                            {
+                                if (go is Player)
+                                {
+                                    if (!other.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (go.PixelCollision(other))
+                                    {
+                                        map.inventory.Add(other);
+                                        if (map.inventory.Count > 1)
+                                        {
+                                            row++;
+                                            if (row >= 3)
+                                            {
+                                                column++;
+                                                row = 0;
+                                            }
+                                            (other as Item).row = row;
+                                            (other as Item).column = column;
+                                        }
+                                        go.HandleCollision(other);
+
+                                    }
+                                }
+                            }
+#endregion
+>>>>>>> Stashed changes
                         }
                     }
                 }

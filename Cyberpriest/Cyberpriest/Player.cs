@@ -44,18 +44,40 @@ namespace Cyberpriest
             //    pos = startPos;
             //}
 
+<<<<<<< Updated upstream
             //if (other is Present)
             //{
             //    score += 100;
             //    other.isActive = false;
             //    return;
             //}
+=======
+            if(other is EnemyType)
+            {
+                //other.isActive = false;
+                live--;
+                Console.WriteLine(live);
+                return;
+            }
+
+            if (other is Item)
+            {
+                other.isActive = false;
+                Console.WriteLine("Pickup");
+                return;
+            }
+>>>>>>> Stashed changes
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
+<<<<<<< Updated upstream
                 
+=======
+
+
+>>>>>>> Stashed changes
         }
 
         public override void Update(GameTime gt)

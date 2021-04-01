@@ -19,8 +19,15 @@ namespace Cyberpriest
 
         public Player player;
         public Platform platform;
+        public EnemyType enemy;
 
+       
         Vector2 PlayerPos;
+<<<<<<< Updated upstream
+=======
+        Vector2 EnemyPos;
+        Vector2[] itemPos;
+>>>>>>> Stashed changes
         Vector2[] platformPos;
 
         public MapParser(string filename)
@@ -34,12 +41,34 @@ namespace Cyberpriest
             objectList = new List<GameObject>();
 
             List<string> stringList = ReadFromFile(fileName);
+<<<<<<< Updated upstream
 
             /*--------------------Map--------------------------*/
             PlayerPos = ParsePos(stringList[0]);
 
             player = new Player(AssetManager.player, PlayerPos, Game1.window);
             objectList.Add(player);
+=======
+           
+            /*-----------------------Inventory slots-----------------*/
+            for (int i = 0; i < inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryArray.GetLength(1); j++)
+                {
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
+                }
+            }
+
+            /*--------------------Enemy------------------------*/
+
+            EnemyPos = ParsePos(stringList[6]);
+
+            enemy = new EnemyType(AssetManager.enemy, EnemyPos, Game1.window);
+            objectList.Add(enemy);
+            
+            /*--------------------Map--------------------------*/
+         
+>>>>>>> Stashed changes
 
             platformPos = ParseVectorArray(stringList[2]);
 
