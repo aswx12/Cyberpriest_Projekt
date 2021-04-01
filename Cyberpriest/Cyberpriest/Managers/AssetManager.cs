@@ -27,10 +27,6 @@ namespace Cyberpriest
         public static Texture2D coinSprite;
         public static Texture2D tilesetSprite;
         public static Texture2D tilesetSprite2;
-
-        public static Texture2D inventory;
-        public static Texture2D item;
-        public static Texture2D walltile;
         public static Texture2D enemy;
         //public static Texture2D ;
         //public static Texture2D ;

@@ -21,7 +21,7 @@ namespace Cyberpriest
 
         public GameObject(Texture2D tex, Vector2 pos)
         {
-            tileSize = new Point(64, 64);
+            //tileSize = new Point(64, 64);
             this.tex = tex;
             this.pos = pos;
             tileSize = new Point(tex.Width, tex.Height);
