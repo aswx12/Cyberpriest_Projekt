@@ -49,17 +49,25 @@ namespace Cyberpriest
             //    pos = startPos;
             //}
 
+            if(other is EnemyType)
+            {
+                //other.isActive = false;
+                live--;
+                Console.WriteLine(live);
+                return;
+            }
+
             if (other is Item)
             {
                 other.isActive = false;
                 return;
             }
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
-
         }
 
         public override void Update(GameTime gt)

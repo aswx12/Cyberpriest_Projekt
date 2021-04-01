@@ -24,8 +24,15 @@ namespace Cyberpriest
         public Player player;
         public Item item;
         public Platform platform;
+        public EnemyType enemy;
 
+       
         Vector2 PlayerPos;
+        Enemy_NPC_Krav_1.6.2
+
+        Vector2 EnemyPos;
+        Vector2[] itemPos;
+
         Vector2[] itemPos;
         Vector2[] platformPos;
 
@@ -47,6 +54,7 @@ namespace Cyberpriest
             inventoryArray = new Inventory[3, 3];
 
             List<string> stringList = ReadFromFile(fileName);
+
            
             /*-----------------------Inventory slots-----------------*/
             for (int i = 0; i < inventoryArray.GetLength(0); i++)
@@ -59,6 +67,26 @@ namespace Cyberpriest
             
             /*--------------------Map--------------------------*/
 
+            player = new Player(AssetManager.player, PlayerPos, Game1.window);
+            objectList.Add(player);
+           
+            /*-----------------------Inventory slots-----------------*/
+            for (int i = 0; i < inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryArray.GetLength(1); j++)
+                {
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
+                }
+            }
+
+            /*--------------------Enemy------------------------*/
+
+            EnemyPos = ParsePos(stringList[6]);
+
+            enemy = new EnemyType(AssetManager.enemy, EnemyPos, Game1.window);
+            objectList.Add(enemy);
+            
+            /*--------------------Map--------------------------*/
 
             platformPos = ParseVectorArray(stringList[2]);
 

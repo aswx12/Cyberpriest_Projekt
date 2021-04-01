@@ -59,7 +59,7 @@ namespace Cyberpriest
                     Color colorA = dataA[(x - hitBox.Left) + (y - hitBox.Top) * hitBox.Width];
                     Color colorB = dataB[(x - other.hitBox.Left) + (y - other.hitBox.Top) * other.hitBox.Width];
 
-                    if (colorA.A != 0 && colorB.A != 0)
+                    if (colorA.A + colorB.A > 200)
                     {
                         return true;
                     }

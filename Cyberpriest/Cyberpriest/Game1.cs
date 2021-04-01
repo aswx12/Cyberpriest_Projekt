@@ -179,32 +179,64 @@ namespace Cyberpriest
                         {
                             if (other is Platform)
                             {
-                                other.PixelCollision(go);
-                                go.HandleCollision(other);
+                                if(other.PixelCollision(go))
+                                    go.HandleCollision(other);
                             }
 
-                            /* if (go is Player)
-                             {
-                                 if (other is Enemy)
-                                 {
-                                     if (!other.isActive)
-                                         continue;
-                                     if (go.PixelCollision(other))
-                                     {
-                                         go.HandleCollision(other);
-                                         other.HandleCollision(go);
-                                     }
-                                 }
+                            //if (go is Player)
+                            //{
+                            //    if (other is Enemy)
+                            //    {
+                            //        if (!other.isActive)
+                            //            continue;
+                            //        if (go.PixelCollision(other))
+                            //        {
+                            //            go.HandleCollision(other);
+                            //            other.HandleCollision(go);
+                            //        }
+                            //    }
 
-                                 if (other is Spike)
-                                 {
-                                     if (go.PixelCollision(other))
-                                     {
-                                         go.HandleCollision(other);
-                                     }
-                                 }*/
+                            //    if (other is Spike)
+                            //    {
+                            //        if (go.PixelCollision(other))
+                            //        {
+                            //            go.HandleCollision(other);
+                            //        }
+                            //    }
 
-                            #region ItemToInventory
+                            //    if (other is Present)
+                            //    {
+                            //        if (!other.isActive)
+                            //            continue;
+                            //        if (go.PixelCollision(other))
+                            //        {
+                            //            go.HandleCollision(other);
+                            //        }
+                            //    }
+                            //}
+                            if (go is Player)
+                            {
+                                if (other is EnemyType)
+                                {
+                                    if (!other.isActive)
+                                        continue;
+                                    if (go.PixelCollision(other))
+                                    {
+                                        go.HandleCollision(other);
+                                        other.HandleCollision(go);
+                                    }
+                                }
+
+                                //if (other is Spike)
+                                //{
+                                //    if (go.PixelCollision(other))
+                                //    {
+                                //        go.HandleCollision(other);
+                                //    }
+                                //}
+                            }
+
+#region ItemToInventory
                             if (other is Item)
                             {
                                 if (go is Player)
@@ -233,7 +265,7 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-                            #endregion
+#endregion
                         }
                     }
                 }
