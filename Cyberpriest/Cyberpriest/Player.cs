@@ -19,6 +19,9 @@ namespace Cyberpriest
         bool downPlatform;
         Vector2 startPos;
 
+        public List<GameObject> inventory = new List<GameObject>();
+        //Item item;
+
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             isGrounded = true;
@@ -31,6 +34,8 @@ namespace Cyberpriest
             playerFacing = Facing.Idle;
 
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
+            //this.inventory = inventory;
+            //this.item = item;
         }
 
         public override void HandleCollision(GameObject other)
@@ -44,14 +49,6 @@ namespace Cyberpriest
             //    pos = startPos;
             //}
 
-<<<<<<< Updated upstream
-            //if (other is Present)
-            //{
-            //    score += 100;
-            //    other.isActive = false;
-            //    return;
-            //}
-=======
             if(other is EnemyType)
             {
                 //other.isActive = false;
@@ -63,21 +60,14 @@ namespace Cyberpriest
             if (other is Item)
             {
                 other.isActive = false;
-                Console.WriteLine("Pickup");
                 return;
             }
->>>>>>> Stashed changes
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
-<<<<<<< Updated upstream
-                
-=======
-
-
->>>>>>> Stashed changes
         }
 
         public override void Update(GameTime gt)
@@ -91,11 +81,11 @@ namespace Cyberpriest
 
             Control();
             pos += vel;
-            
+
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
-            Console.WriteLine(isGrounded);
+            //Console.WriteLine(isGrounded);
         }
 
         public void Control()

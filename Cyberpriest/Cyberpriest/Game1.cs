@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Cyberpriest
 {
-    public enum GameState { Start, Play, Over, Menu }
+    public enum GameState { Start, Play, Over, Menu, Inventory }
+
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -15,11 +17,16 @@ namespace Cyberpriest
 
         static GameState gameState;
         KeyboardState keyboardState;
+
         public static GameWindow window;
         Vector2 playerPos;
+        //bool openInventory;
 
         MenuComponent menuComponent;
+        public RenderTarget2D renderTarget;
 
+        int row = 0;
+        int column = 0;
         public Game1()
         {
             
@@ -29,13 +36,13 @@ namespace Cyberpriest
 
         protected override void Initialize()
         {
+            window = Window;
             menuComponent = new MenuComponent(this);
             Components.Add(menuComponent);
             Components.Add(new KeyboardComponent(this));
 
             base.Initialize();
         }
-
 
         protected override void LoadContent()
         {
@@ -44,17 +51,16 @@ namespace Cyberpriest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
-            window = Window;
             window.AllowUserResizing = true;
             map = new MapParser("level1.txt");
 
-            /*-----------------------------Window Size-------------------------------*/
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.ApplyChanges();
+            //renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
+            //openInventory = false;
 
-            
-            //gameState = GameState.Start;
+            /*-----------------------------Window Size-------------------------------*/
+            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.PreferredBackBufferHeight = 1080;
+            //graphics.ApplyChanges();
         }
 
         public static GameState GetState
@@ -70,19 +76,15 @@ namespace Cyberpriest
             }
         }
 
-        protected override void UnloadContent()
-        {
-
-        }
-
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             keyboardState = Keyboard.GetState();
+            KeyMouseReader.Update();
 
             camera.SetPosition(playerPos, gameState);
+            UIKeyBinds();
 
             switch (gameState)
             {
@@ -91,10 +93,14 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Play:
-                    Console.WriteLine("in play");
+
                     playerPos = map.player.GetPos;
 
                     GamePlay(gameTime);
+
+                    break;
+
+                case GameState.Inventory:
 
                     break;
 
@@ -106,14 +112,10 @@ namespace Cyberpriest
 
                     break;
             }
-            
-
-            Console.WriteLine(playerPos);
 
             base.Update(gameTime);
         }
-
-
+        
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -123,12 +125,29 @@ namespace Cyberpriest
             switch (gameState)
             {
                 case GameState.Start:
-                   menuComponent.Draw(spriteBatch);
+                
+                    menuComponent.Draw(spriteBatch);
+
                     break;
 
                 case GameState.Play:
                     map.Draw(spriteBatch);
                     spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+
+                    #region Unpaused Invetory If Needed
+                    // if(openInventory)
+                    //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
+                    #endregion
+
+                    break;
+
+                case GameState.Inventory:
+                    spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
+
+                    DrawInventory(spriteBatch);
+                    foreach (Item item in map.inventory) //live inventory update
+                        item.DrawInInventory(spriteBatch, item.row, item.column);
+
                     break;
 
                 case GameState.Over:
@@ -140,8 +159,8 @@ namespace Cyberpriest
                     break;
             }
             
-
             spriteBatch.End();
+            
             base.Draw(gameTime);
         }
 
@@ -163,8 +182,6 @@ namespace Cyberpriest
                                 if(other.PixelCollision(go))
                                     go.HandleCollision(other);
                             }
-
-<<<<<<< Updated upstream
 
                             //if (go is Player)
                             //{
@@ -197,7 +214,6 @@ namespace Cyberpriest
                             //        }
                             //    }
                             //}
-=======
                             if (go is Player)
                             {
                                 if (other is EnemyType)
@@ -250,24 +266,116 @@ namespace Cyberpriest
                                 }
                             }
 #endregion
->>>>>>> Stashed changes
                         }
                     }
                 }
             }
+        }
 
-            if (keyboardState.IsKeyDown(Keys.M))
+        /*--------------------------METHODS--------------------------*/
+
+        public void UIKeyBinds()
+        {
+            if (gameState == GameState.Play)
             {
-                gameState = GameState.Menu;
+                if (KeyMouseReader.KeyPressed(Keys.B))
+                    gameState = GameState.Inventory;
+            }
+            else if (gameState == GameState.Inventory)
+            {
+                if (KeyMouseReader.KeyPressed(Keys.B))
+                    gameState = GameState.Play;
+            }
+
+            if (gameState == GameState.Play)
+            {
+                if (KeyMouseReader.KeyPressed(Keys.M))
+                    gameState = GameState.Menu;
+            }
+            else if (gameState == GameState.Menu)
+            {
+                if (KeyMouseReader.KeyPressed(Keys.M))
+                    gameState = GameState.Play;
             }
         }
 
-        //public void Menu()
-        //{
-        //    if (keyboardState.IsKeyDown(Keys.C))
-        //    {
-        //        gameState = GameState.Play;
-        //    }
-        //}
+        public void DrawInventory(SpriteBatch sb)
+        {
+            for (int i = 0; i < map.inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.inventoryArray.GetLength(1); j++)
+                {
+                    map.inventoryArray[i, j].Draw(spriteBatch);
+                }
+            }
+
+        }
     }
 }
+
+
+/*------------------TRASH-----------------------------------------------------
+public void Menu()
+{
+    if (keyboardState.IsKeyDown(Keys.C))
+    {
+        gameState = GameState.Play;
+    }
+}
+
+       public void UnpauseInvent()
+        {
+
+            //    gameState = GameState.Inventory;
+            //if (KeyMouseReader.KeyPressed(Keys.B) && openInventory == false)
+            //{
+            //    openInventory = true;
+            //    gameState = GameState.Inventory;
+            //}
+            //else if (KeyMouseReader.KeyPressed(Keys.B) && openInventory == true)
+            //{
+            //    openInventory = false;
+            //    gameState = GameState.Play;
+            //} //Active inventory
+        }
+
+    /* public void DrawOnRenderTarget(GraphicsDevice device)
+         {
+             //Ändra så att GraphicsDevice ritar mot vårt render target
+             SpriteBatch sb = new SpriteBatch(device);
+
+             device.SetRenderTarget(renderTarget);
+             device.Clear(Color.Transparent);
+             sb.Begin();
+
+             //Rita ut texturen. Den ritas nu ut till vårt render target istället
+             //för på skärmen.
+             foreach (Inventory i in invenList)
+             {
+                 i.Draw(sb);
+             }
+
+             sb.End();
+
+             //Sätt GraphicsDevice att åter igen peka på skärmen
+             device.SetRenderTarget(null);
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    */
+
+

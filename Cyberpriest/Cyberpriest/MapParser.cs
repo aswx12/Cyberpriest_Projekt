@@ -13,22 +13,33 @@ namespace Cyberpriest
 
     class MapParser
     {
-        public List<GameObject> objectList;
+        Random rand = new Random();
+        int random;
 
-        Point tileSize = new Point(50, 50);
+        public List<GameObject> objectList;
+        public List<GameObject> inventory;
+        public Inventory[,] inventoryArray;
+        public Point tileSize = new Point(64, 64);
 
         public Player player;
+        public Item item;
         public Platform platform;
         public EnemyType enemy;
 
        
         Vector2 PlayerPos;
-<<<<<<< Updated upstream
-=======
+        Enemy_NPC_Krav_1.6.2
+
         Vector2 EnemyPos;
         Vector2[] itemPos;
->>>>>>> Stashed changes
+
+        Vector2[] itemPos;
         Vector2[] platformPos;
+
+        public Vector2 slotPos;
+
+        //public int row = 0;
+        //public int column = 0;
 
         public MapParser(string filename)
         {
@@ -39,16 +50,25 @@ namespace Cyberpriest
         {
 
             objectList = new List<GameObject>();
+            inventory = new List<GameObject>();
+            inventoryArray = new Inventory[3, 3];
 
             List<string> stringList = ReadFromFile(fileName);
-<<<<<<< Updated upstream
 
+           
+            /*-----------------------Inventory slots-----------------*/
+            for (int i = 0; i < inventoryArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < inventoryArray.GetLength(1); j++)
+                {
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
+                }
+            }
+            
             /*--------------------Map--------------------------*/
-            PlayerPos = ParsePos(stringList[0]);
 
             player = new Player(AssetManager.player, PlayerPos, Game1.window);
             objectList.Add(player);
-=======
            
             /*-----------------------Inventory slots-----------------*/
             for (int i = 0; i < inventoryArray.GetLength(0); i++)
@@ -67,8 +87,6 @@ namespace Cyberpriest
             objectList.Add(enemy);
             
             /*--------------------Map--------------------------*/
-         
->>>>>>> Stashed changes
 
             platformPos = ParseVectorArray(stringList[2]);
 
@@ -79,9 +97,22 @@ namespace Cyberpriest
 
             }
 
+            itemPos = ParseVectorArray(stringList[5]);
+
+            for (int i = 0; i < itemPos.Length; i++)
+            {
+                random = rand.Next(0, 3);
+                item = new Item(random,AssetManager.item, itemPos[i],inventoryArray);
+
+                objectList.Add(item);
+            }
+
+            PlayerPos = ParsePos(stringList[0]);
+
+            player = new Player(AssetManager.player, PlayerPos, Game1.window);
+            objectList.Add(player);
+
         }
-
-
         /*--------------------PARSERS-------------------*/
 
         public static int ParseInt(string str)
@@ -156,6 +187,8 @@ namespace Cyberpriest
         {
             foreach (GameObject o in objectList)
                 o.Draw(sb);
+
+
         }
     }
 }

@@ -14,17 +14,24 @@ namespace Cyberpriest
         public static Texture2D player;
         public static Texture2D platform;
         public static Texture2D bg;
-<<<<<<< Updated upstream
-        //public static Texture2D ;
-        //public static Texture2D ;
-        //public static Texture2D ;
-        //public static Texture2D ;
-=======
+        public static Texture2D inventory;
+        public static Texture2D item;
+        public static Texture2D walltile;
+        public static Texture2D enemy1;
+        public static Texture2D enemy2;
+        public static Texture2D purpleFire;
+        public static Texture2D redFire;
+        public static Texture2D shield1;
+        public static Texture2D shield2;
+        public static Texture2D heartSprite;
+        public static Texture2D coinSprite;
+        public static Texture2D tilesetSprite;
+        public static Texture2D tilesetSprite2;
+
         public static Texture2D inventory;
         public static Texture2D item;
         public static Texture2D walltile;
         public static Texture2D enemy;
->>>>>>> Stashed changes
         //public static Texture2D ;
         //public static Texture2D ;
         //public static Texture2D ;
@@ -34,22 +41,25 @@ namespace Cyberpriest
 
         public static void LoadAssets(ContentManager content)
         {
-             player= content.Load<Texture2D>("ball");
-             platform= content.Load<Texture2D>("plattform");
-             bg= content.Load<Texture2D>("background");
-<<<<<<< Updated upstream
-             //= content.Load<Texture2D>(" ");
-             //= content.Load<Texture2D>(" ");
-             //= content.Load<Texture2D>(" ");
-=======
-             inventory= content.Load<Texture2D>("hole");
-             item= content.Load<Texture2D>("PotionsSprite");
-             walltile= content.Load<Texture2D>("walltile");
-             enemy = content.Load<Texture2D>("ball");
->>>>>>> Stashed changes
+            player= content.Load<Texture2D>("player1");
+            platform= content.Load<Texture2D>("plattform");
+            bg= content.Load<Texture2D>("background");
+            inventory= content.Load<Texture2D>("hole");
+            item= content.Load<Texture2D>("PotionsSprite");
+            walltile= content.Load<Texture2D>("walltile");
+            enemy1 = content.Load<Texture2D>("Enemy1");
+            enemy2 = content.Load<Texture2D>("enemy2");
+            purpleFire = content.Load<Texture2D>("PurpleFireSprite");
+            redFire = content.Load<Texture2D>("RedFireSprite");
+            shield1 = content.Load<Texture2D>("Shield1");
+            shield2 = content.Load<Texture2D>("Shield2");
+            heartSprite = content.Load<Texture2D>("HeartSprite");
+            coinSprite = content.Load<Texture2D>("CoinSprite");
+            tilesetSprite = content.Load<Texture2D>("BrickTilesetSprite");
+            tilesetSprite2 = content.Load<Texture2D>("BrickTilesetSprite2");
 
-             normalFont= content.Load<SpriteFont>(@"Font\normalFont");
-             selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");
+            normalFont = content.Load<SpriteFont>(@"Font\normalFont");
+            selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");
         }
     }
 }

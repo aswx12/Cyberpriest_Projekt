@@ -21,22 +21,8 @@ namespace Cyberpriest
         public MenuComponent(Game game)
             : base(game)
         {
-            //this.gameState = gameState;
+
         }
-
-        //public GameState GetState
-        //{
-        //    get
-        //    {
-        //        return gameState;
-        //    }
-
-        //    set
-        //    {
-        //        gameState = value;
-        //    }
-        //}
-
 
         public override void Initialize()
         {
@@ -76,19 +62,10 @@ namespace Cyberpriest
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            bgColor = Color.White;
+            
+            bgColor = Color.Black;
+
             AssetManager.LoadAssets(Game.Content);
-
-            float startY = 0.2f * GraphicsDevice.Viewport.Height;
-
-            foreach (var choice in choices)
-            {
-                Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
-                choice.Y = startY;
-                choice.X = GraphicsDevice.Viewport.Width / 2.0f - size.X / 2;
-                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
-                startY += 70;
-            }
 
             previousMouseState = Mouse.GetState();
             base.LoadContent();
@@ -104,6 +81,18 @@ namespace Cyberpriest
             {
                 var selectedChoice = choices.First(c => c.Selected);
                 selectedChoice.ClickAction.Invoke();
+            }
+
+            int choicesGap = 70;
+            float startY = Game1.window.ClientBounds.Height/ 4f;
+
+            foreach (var choice in choices)
+            {
+                Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
+                choice.Y = startY;
+                choice.X = Game1.window.ClientBounds.Width / 2 - size.X / 2;
+                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
+                startY += choicesGap;
             }
 
             var mouseState = Mouse.GetState();
