@@ -19,6 +19,7 @@ namespace Cyberpriest
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
+        public List<Inventory> inventoryList;
         public Point tileSize = new Point(64, 64);
 
         public Player player;
@@ -28,8 +29,6 @@ namespace Cyberpriest
         Vector2 PlayerPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
-
-        public Vector2 slotPos;
 
         //public int row = 0;
         //public int column = 0;
@@ -45,6 +44,7 @@ namespace Cyberpriest
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
             inventoryArray = new Inventory[3, 3];
+            inventoryList = new List<Inventory>();
 
             List<string> stringList = ReadFromFile(fileName);
            
@@ -54,8 +54,10 @@ namespace Cyberpriest
                 for (int j = 0; j < inventoryArray.GetLength(1); j++)
                 {
                     inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
+                    objectList.Add(inventoryArray[i, j]);
                 }
             }
+            
             
             /*--------------------Map--------------------------*/
 

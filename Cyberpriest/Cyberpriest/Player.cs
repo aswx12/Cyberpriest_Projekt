@@ -52,6 +52,7 @@ namespace Cyberpriest
             if (other is Item)
             {
                 other.isActive = false;
+                (other as Item).isCollected = true;
                 return;
             }
             if (downPlatform == true)

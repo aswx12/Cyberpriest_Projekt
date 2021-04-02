@@ -89,7 +89,7 @@ namespace Cyberpriest
             //mouseState = Mouse.GetState();
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
 
-            Console.WriteLine("Mouse: " + mouseRect);
+            //Console.WriteLine("Mouse: " + mouseRect);
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
@@ -158,7 +158,8 @@ namespace Cyberpriest
 
                     DrawInventory(spriteBatch);
                     foreach (Item item in map.inventory) //live inventory update
-                        item.DrawInInventory(spriteBatch, item.row, item.column);
+                        if (item.isCollected)
+                            item.DrawInInventory(spriteBatch);//, item.row, item.column);
 
                     break;
 
@@ -219,6 +220,18 @@ namespace Cyberpriest
                             #region ItemToInventory
                             if (other is Item)
                             {
+                                if (go is Inventory)
+                                {
+                                    //if(!((other as Item).isCollected))
+                                    go.HandleCollision(other); //?
+                                    //if ((map.inventoryArray[0, 0] as Inventory).empty)
+                                    //{
+
+                                    //    row = 0;
+                                    //    column = 0;
+                                    //}
+                                }
+
                                 if (go is Player)
                                 {
                                     if (!other.isActive)
@@ -237,9 +250,11 @@ namespace Cyberpriest
                                                 column++;
                                                 row = 0;
                                             }
+                                            //if()
                                             (other as Item).row = row;
                                             (other as Item).column = column;
                                         }
+
                                         go.HandleCollision(other);
 
                                     }
@@ -297,7 +312,7 @@ namespace Cyberpriest
                 if (item.getHitbox.Contains(mouseRect) && item.isCollected)
                 {
                     if (KeyMouseReader.RightClick())
-                        map.inventory.Remove(item); //iscollect = false instead?
+                        map.inventory.Remove(item);//item.isCollected = false;
                     break;
                 }
             }

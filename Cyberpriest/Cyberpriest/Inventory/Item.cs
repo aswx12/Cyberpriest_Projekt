@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
-    class Item : Inventory
+    class Item : StationaryObject
     {
         public bool isCollected;
         public int itemId;
@@ -37,14 +37,16 @@ namespace Cyberpriest
 
         public override void Update(GameTime gameTime)
         {
-            if (!isActive)
-                isCollected = true;
 
         }
 
         public override void HandleCollision(GameObject other)
         {
-
+            if(other is Inventory)
+            {
+                (other as Inventory).empty = false;
+            }
+                
         }
 
         public Vector2 SetSlotPos
@@ -82,13 +84,13 @@ namespace Cyberpriest
                 sb.Draw(tex, pos, srRect, Color.White);
         }
 
-        public void DrawInInventory(SpriteBatch sb, int row, int column)//, Vector2 itemPos
+        public void DrawInInventory(SpriteBatch sb)//, int row, int column)//, Vector2 itemPos
         {
-            this.row = row;
-            this.column = column;
+            //this.row = row;
+            //this.column = column;
             pos = inventory[row, column].GetSlotPos;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            if (isCollected)
+            //if (isCollected)
                 sb.Draw(tex, pos, srRect, Color.White);
         }
     }
