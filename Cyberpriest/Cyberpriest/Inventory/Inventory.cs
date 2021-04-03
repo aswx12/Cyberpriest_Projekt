@@ -18,20 +18,22 @@ namespace Cyberpriest
             empty = true;
         }
 
-        public override void HandleCollision(GameObject other)
+        public override void Update(GameTime gt)
         {
-            if (other is Item)
-            {
-                empty = false;
-                //Console.WriteLine(empty);
-            }
-            else
-                empty = true;
-
             Console.WriteLine(empty);
         }
 
-        public Vector2 GetSlotPos
+        public override void HandleCollision(GameObject other)
+        {
+            //Console.WriteLine(empty);
+            if (other is Item)
+            {
+                empty = false;
+            }
+            
+        }
+
+        public override Vector2 GetPos
         {
             get
             {

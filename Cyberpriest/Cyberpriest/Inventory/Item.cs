@@ -88,7 +88,7 @@ namespace Cyberpriest
         {
             //this.row = row;
             //this.column = column;
-            pos = inventory[row, column].GetSlotPos;
+            pos = inventory[row, column].GetPos;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             //if (isCollected)
                 sb.Draw(tex, pos, srRect, Color.White);

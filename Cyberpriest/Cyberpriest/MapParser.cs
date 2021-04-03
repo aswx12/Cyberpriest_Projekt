@@ -19,7 +19,7 @@ namespace Cyberpriest
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
-        public List<Inventory> inventoryList;
+
         public Point tileSize = new Point(64, 64);
 
         public Player player;
@@ -44,7 +44,6 @@ namespace Cyberpriest
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
             inventoryArray = new Inventory[3, 3];
-            inventoryList = new List<Inventory>();
 
             List<string> stringList = ReadFromFile(fileName);
            

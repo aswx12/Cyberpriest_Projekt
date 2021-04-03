@@ -25,6 +25,7 @@ namespace Cyberpriest
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
         public Rectangle mouseRect;
+        Vector2 emptySlot;
         //public MouseState mouseState, previousMouseState;
 
         int row = 0;
@@ -89,7 +90,7 @@ namespace Cyberpriest
             //mouseState = Mouse.GetState();
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
 
-            //Console.WriteLine("Mouse: " + mouseRect);
+
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
@@ -222,6 +223,9 @@ namespace Cyberpriest
                             {
                                 if (go is Inventory)
                                 {
+
+                                    //(go as Inventory).empty = false;
+
                                     //if(!((other as Item).isCollected))
                                     go.HandleCollision(other); //?
                                     //if ((map.inventoryArray[0, 0] as Inventory).empty)
@@ -250,7 +254,6 @@ namespace Cyberpriest
                                                 column++;
                                                 row = 0;
                                             }
-                                            //if()
                                             (other as Item).row = row;
                                             (other as Item).column = column;
                                         }
@@ -312,7 +315,16 @@ namespace Cyberpriest
                 if (item.getHitbox.Contains(mouseRect) && item.isCollected)
                 {
                     if (KeyMouseReader.RightClick())
+                    {
+                        emptySlot = item.GetPos;
+
                         map.inventory.Remove(item);//item.isCollected = false;
+
+                        Console.WriteLine("empty: " + emptySlot);
+                        Console.WriteLine("Mouse: " + mouseRect);
+                    }
+
+
                     break;
                 }
             }
