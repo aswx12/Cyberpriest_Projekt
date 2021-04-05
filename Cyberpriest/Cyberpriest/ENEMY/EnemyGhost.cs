@@ -23,11 +23,13 @@ namespace Cyberpriest
         public EnemyGhost(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
         {
             tileSize.X = 128;
+            enemyState = EnemyState.Patrol;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             rand = new Random();
             this.player = player;
             isActive = true;
             healthPoints = 200;
+            moveDir = new Vector2(50, 50); //Starting moveDir
             vel = new Vector2(1, 1);
             startVel = vel;
         }
@@ -38,6 +40,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
