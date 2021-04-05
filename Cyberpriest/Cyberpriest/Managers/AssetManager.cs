@@ -28,6 +28,13 @@ namespace Cyberpriest
         public static Texture2D tilesetSprite;
         public static Texture2D tilesetSprite2;
         public static Texture2D enemy;
+        public static Texture2D smallVTile;
+        public static Texture2D largeVTile;
+        public static Texture2D smallPlatform;
+        public static Texture2D bigSquare;
+        public static Texture2D tallPlatform;
+        public static Texture2D squarePlatform;
+        public static Texture2D longPlatform;
         //public static Texture2D ;
         //public static Texture2D ;
         //public static Texture2D ;
@@ -53,6 +60,13 @@ namespace Cyberpriest
             coinSprite = content.Load<Texture2D>("CoinSprite");
             tilesetSprite = content.Load<Texture2D>("BrickTilesetSprite");
             tilesetSprite2 = content.Load<Texture2D>("BrickTilesetSprite2");
+            smallVTile = content.Load<Texture2D>("SmallVTile");
+            largeVTile = content.Load<Texture2D>("LargeVTile");
+            smallPlatform = content.Load<Texture2D>("SmallPlatform");
+            bigSquare = content.Load<Texture2D>("BigSquare");
+            tallPlatform = content.Load<Texture2D>("TallPlatform");
+            squarePlatform = content.Load<Texture2D>("SquarePlatform");
+            longPlatform = content.Load<Texture2D>("LongPlatform");
 
             normalFont = content.Load<SpriteFont>(@"Font\normalFont");
             selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");

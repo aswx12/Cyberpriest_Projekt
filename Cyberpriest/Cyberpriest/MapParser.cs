@@ -69,12 +69,27 @@ namespace Cyberpriest
             /*--------------------Map--------------------------*/
 
             platformPos = ParseVectorArray(stringList[2]);
-
+            //This is the first platform
             for (int i = 0; i < platformPos.Length; i++)
             {
-                platform = new Platform(AssetManager.platform, platformPos[i]);
+                platform = new Platform(AssetManager.longPlatform, platformPos[i]);
                 objectList.Add(platform);
+            }
 
+            platformPos = ParseVectorArray(stringList[7]);
+            //This is the taller version of the platform
+            for (int i = 0; i < platformPos.Length; i++)
+            {
+                platform = new Platform(AssetManager.tallPlatform, platformPos[i]);
+                objectList.Add(platform);
+            }
+
+            platformPos = ParseVectorArray(stringList[8]);
+            //This is the smallest platform
+            for (int i = 0; i < platformPos.Length; i++)
+            {
+                platform = new Platform(AssetManager.smallPlatform, platformPos[i]);
+                objectList.Add(platform);
             }
 
             itemPos = ParseVectorArray(stringList[5]);
