@@ -310,46 +310,31 @@ namespace Cyberpriest
         {
             foreach (Item item in map.inventory)
             {
-                foreach (Inventory inventory in map.inventoryArray)
+                if (item.getHitbox.Contains(mouseRect) && item.isCollected)
                 {
-                    if (item.getHitbox.Contains(mouseRect) && item.isCollected)
+                    if (KeyMouseReader.RightClick())
                     {
-                        if (KeyMouseReader.RightClick())
-                        {
-                            map.inventory.Remove(item);//item.isCollected = false;
+                        map.inventory.Remove(item);//item.isCollected = false;
 
-
-
-                        }
-                        break;
+                        
+                        
                     }
-
-                    if (inventory.getHitbox.Contains(mouseRect) && inventory.empty == true)
-                    {
-                        if (KeyMouseReader.RightClick())
-                        {
-
-                            Console.WriteLine("Mouse: " + mouseRect);
-                            Console.WriteLine("invhitbox: " + inventory.getHitbox);
-                        }
-
-                    }
+                    break;
                 }
             }
 
-            //foreach (Inventory inventory in map.inventoryArray)
-            //{
-            //    if (inventory.getHitbox.Contains(mouseRect) && inventory.empty == true)
-            //    {
-            //        if (KeyMouseReader.RightClick())
-            //        {
+            foreach (Inventory inventory in map.inventoryArray)
+            {
+                if (inventory.getHitbox.Contains(mouseRect))
+                {
+                    if (KeyMouseReader.RightClick())
+                    {
 
-            //            Console.WriteLine("Mouse: " + mouseRect);
-            //            Console.WriteLine("invhitbox: " + inventory.getHitbox);
-            //        }
-
-            //    }
-            //}
+                        
+                    }
+                    
+                }
+            }
 
 
 
