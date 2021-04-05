@@ -107,6 +107,8 @@ namespace Cyberpriest
 
                     GamePlay(gameTime);
 
+
+
                     break;
 
                 case GameState.Inventory:
@@ -152,11 +154,11 @@ namespace Cyberpriest
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
                     #endregion
 
+
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
-
                     DrawInventory(spriteBatch);
                     foreach (Item item in map.inventory) //live inventory update
                         if (item.isCollected)
@@ -224,16 +226,8 @@ namespace Cyberpriest
                                 if (go is Inventory)
                                 {
 
-                                    //(go as Inventory).empty = false;
+                                    go.HandleCollision(other); //?
 
-                                    //if(!((other as Item).isCollected))
-                                    //go.HandleCollision(other); //?
-                                    //if ((map.inventoryArray[0, 0] as Inventory).empty)
-                                    //{
-
-                                    //    row = 0;
-                                    //    column = 0;
-                                    //}
                                 }
 
                                 if (go is Player)
@@ -245,8 +239,7 @@ namespace Cyberpriest
 
                                     if (go.PixelCollision(other))
                                     {
-                                        map.inventory.Add(other);
-                                        if (map.inventory.Count > 1)
+                                        if (!(map.inventoryArray[row, column].empty))
                                         {
                                             row++;
                                             if (row >= 3)
@@ -256,6 +249,11 @@ namespace Cyberpriest
                                             }
                                             (other as Item).row = row;
                                             (other as Item).column = column;
+                                        }
+
+                                        if (map.inventoryArray[row, column].empty)//
+                                        {
+                                            map.inventory.Add(other);
                                         }
 
                                         go.HandleCollision(other);
@@ -312,22 +310,49 @@ namespace Cyberpriest
         {
             foreach (Item item in map.inventory)
             {
-                if (item.getHitbox.Contains(mouseRect) && item.isCollected)
+                foreach (Inventory inventory in map.inventoryArray)
                 {
-                    if (KeyMouseReader.RightClick())
+                    if (item.getHitbox.Contains(mouseRect) && item.isCollected)
                     {
-                        emptySlot = item.GetPos;
+                        if (KeyMouseReader.RightClick())
+                        {
+                            map.inventory.Remove(item);//item.isCollected = false;
 
-                        //map.inventory.Remove(item);//item.isCollected = false;
 
-                        Console.WriteLine("empty: " + emptySlot);
-                        Console.WriteLine("Mouse: " + mouseRect);
+
+                        }
+                        break;
                     }
 
+                    if (inventory.getHitbox.Contains(mouseRect) && inventory.empty == true)
+                    {
+                        if (KeyMouseReader.RightClick())
+                        {
 
-                    break;
+                            Console.WriteLine("Mouse: " + mouseRect);
+                            Console.WriteLine("invhitbox: " + inventory.getHitbox);
+                        }
+
+                    }
                 }
             }
+
+            //foreach (Inventory inventory in map.inventoryArray)
+            //{
+            //    if (inventory.getHitbox.Contains(mouseRect) && inventory.empty == true)
+            //    {
+            //        if (KeyMouseReader.RightClick())
+            //        {
+
+            //            Console.WriteLine("Mouse: " + mouseRect);
+            //            Console.WriteLine("invhitbox: " + inventory.getHitbox);
+            //        }
+
+            //    }
+            //}
+
+
+
         }
     }
 }

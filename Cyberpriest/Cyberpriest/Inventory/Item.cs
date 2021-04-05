@@ -62,7 +62,7 @@ namespace Cyberpriest
             }
         }
 
-        public Rectangle getHitbox
+        public override Rectangle getHitbox
         {
             get
             {

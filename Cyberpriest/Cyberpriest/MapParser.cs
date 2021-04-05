@@ -15,7 +15,7 @@ namespace Cyberpriest
     {
         Random rand = new Random();
         int random;
-
+        int slotNr = 0;
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
@@ -52,7 +52,8 @@ namespace Cyberpriest
             {
                 for (int j = 0; j < inventoryArray.GetLength(1); j++)
                 {
-                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
+                    slotNr++;
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200),slotNr);
                     objectList.Add(inventoryArray[i, j]);
                 }
             }

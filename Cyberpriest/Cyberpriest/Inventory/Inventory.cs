@@ -12,15 +12,19 @@ namespace Cyberpriest
     {
 
         public bool empty;
-        public Inventory(Texture2D tex, Vector2 pos) : base(tex,pos)
+        int inventorySlotNr;
+        public Inventory(Texture2D tex, Vector2 pos,int inventorySlotNr) : base(tex,pos)
         {
-            //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             empty = true;
+            this.inventorySlotNr = inventorySlotNr;
         }
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine(empty);
+            //empty = true;
+            //Console.WriteLine(empty);
+            //Console.WriteLine(inventorySlotNr);
         }
 
         public override void HandleCollision(GameObject other)
@@ -30,7 +34,18 @@ namespace Cyberpriest
             {
                 empty = false;
             }
-            
+            //if (other is Inventory)
+            //    empty = true;
+        }
+
+        public override Rectangle getHitbox => base.getHitbox;
+
+        public int GetSlotNr
+        {
+            get
+            {
+                return inventorySlotNr;
+            }
         }
 
         public override Vector2 GetPos
