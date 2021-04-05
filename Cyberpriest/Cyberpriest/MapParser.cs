@@ -25,8 +25,8 @@ namespace Cyberpriest
         public Item item;
         public Platform platform;
         public EnemyType enemy;
+        public EnemyGhost enemyGhost;
 
-       
         Vector2 PlayerPos;
         Vector2 EnemyPos;
         Vector2[] itemPos;
@@ -58,13 +58,6 @@ namespace Cyberpriest
                     inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200));
                 }
             }
-
-            /*--------------------Enemy------------------------*/
-
-            EnemyPos = ParsePos(stringList[6]);
-
-            enemy = new EnemyType(AssetManager.enemy1, EnemyPos, Game1.window);
-            objectList.Add(enemy);
             
             /*--------------------Map--------------------------*/
 
@@ -91,6 +84,13 @@ namespace Cyberpriest
 
             player = new Player(AssetManager.player, PlayerPos, Game1.window);
             objectList.Add(player);
+
+            /*--------------------Enemy------------------------*/
+
+            EnemyPos = ParsePos(stringList[6]);
+
+            enemyGhost = new EnemyGhost(AssetManager.enemy1, EnemyPos, Game1.window, player);
+            objectList.Add(enemyGhost);
 
         }
         /*--------------------PARSERS-------------------*/

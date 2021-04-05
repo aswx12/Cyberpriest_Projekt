@@ -12,6 +12,7 @@ namespace Cyberpriest
     {
         protected Vector2 pos;
         protected Texture2D tex;
+        protected Random rand;
         
         protected Rectangle srRect;
         protected Point tileSize;

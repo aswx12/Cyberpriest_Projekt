@@ -8,12 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
+    enum EnemyState { Chase, Patrol };
+
     class EnemyType : MovingObject
     {
-        public bool isHit;
-        public bool isActive;
-        public int healthPoints;
-  
+        protected bool isHit;
+        protected int healthPoints;
+        protected Vector2 moveDir;
+
         public EnemyType(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             healthPoints = 100;
