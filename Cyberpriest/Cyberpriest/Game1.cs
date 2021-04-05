@@ -227,7 +227,7 @@ namespace Cyberpriest
                                     //(go as Inventory).empty = false;
 
                                     //if(!((other as Item).isCollected))
-                                    go.HandleCollision(other); //?
+                                    //go.HandleCollision(other); //?
                                     //if ((map.inventoryArray[0, 0] as Inventory).empty)
                                     //{
 
