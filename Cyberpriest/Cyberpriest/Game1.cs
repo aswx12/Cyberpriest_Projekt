@@ -318,7 +318,7 @@ namespace Cyberpriest
                     {
                         emptySlot = item.GetPos;
 
-                        map.inventory.Remove(item);//item.isCollected = false;
+                        //map.inventory.Remove(item);//item.isCollected = false;
 
                         Console.WriteLine("empty: " + emptySlot);
                         Console.WriteLine("Mouse: " + mouseRect);
