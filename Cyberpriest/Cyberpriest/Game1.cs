@@ -234,12 +234,6 @@ namespace Cyberpriest
                             #region ItemToInventory
                             if (other is Item)
                             {
-                                if (go is Inventory)
-                                {
-
-                                    go.HandleCollision(other); //?
-
-                                }
 
                                 if (go is Player)
                                 {
@@ -250,7 +244,6 @@ namespace Cyberpriest
 
                                     if (go.PixelCollision(other))
                                     {
-
                                         (other as Item).row = row;
                                         (other as Item).column = column;
 
@@ -320,14 +313,13 @@ namespace Cyberpriest
                     {
                         inventory.empty = true;
                         row = 0;
-                        column=0;
+                        column = 0;
                     }
 
                     else if (KeyMouseReader.LeftClick())
                     {
                         inventory.empty = false;
                     }
-
                 }
             }
 
@@ -337,8 +329,8 @@ namespace Cyberpriest
                 {
                     if (KeyMouseReader.RightClick())
                     {
-                        map.inventory.Remove(item);//item.isCollected = false;
-
+                        item.inInventory = true;
+                        map.inventory.Remove(item);//item.isCollected = false;    
                     }
                     break;
                 }

@@ -30,10 +30,10 @@ namespace Cyberpriest
         public override void HandleCollision(GameObject other)
         {
             //Console.WriteLine(empty);
-            if (other is Item)
-            {
-                empty = false;
-            }
+            //if (other is Item)
+            //{
+            //    empty = false;
+            //}
             //if (other is Inventory)
             //    empty = true;
         }
