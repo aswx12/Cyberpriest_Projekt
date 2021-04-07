@@ -53,7 +53,7 @@ namespace Cyberpriest
                 for (int j = 0; j < inventoryArray.GetLength(1); j++)
                 {
                     slotNr++;
-                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 200, 64 * j+200),slotNr);
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 0, 64 * j+100),slotNr);
                     objectList.Add(inventoryArray[i, j]);
                 }
             }

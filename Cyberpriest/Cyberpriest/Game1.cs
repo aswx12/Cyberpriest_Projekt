@@ -105,6 +105,18 @@ namespace Cyberpriest
 
                     playerPos = map.player.GetPos;
 
+                    if (!(map.inventoryArray[row, column].empty))
+                    {
+                        row++;
+                        if (row > 2)
+                        {
+                            if (column < 2)
+                                column++;
+                            row = 0;
+                        }
+
+                    }
+
                     GamePlay(gameTime);
 
 
@@ -160,9 +172,8 @@ namespace Cyberpriest
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
                     DrawInventory(spriteBatch);
-                    foreach (Item item in map.inventory) //live inventory update
-                        if (item.isCollected)
-                            item.DrawInInventory(spriteBatch);//, item.row, item.column);
+                    foreach (Item item in map.inventory) //
+                        item.DrawInInventory(spriteBatch);//
 
                     break;
 
@@ -239,17 +250,9 @@ namespace Cyberpriest
 
                                     if (go.PixelCollision(other))
                                     {
-                                        if (!(map.inventoryArray[row, column].empty))
-                                        {
-                                            row++;
-                                            if (row >= 3)
-                                            {
-                                                column++;
-                                                row = 0;
-                                            }
-                                            (other as Item).row = row;
-                                            (other as Item).column = column;
-                                        }
+
+                                        (other as Item).row = row;
+                                        (other as Item).column = column;
 
                                         if (map.inventoryArray[row, column].empty)//
                                         {
@@ -308,6 +311,26 @@ namespace Cyberpriest
 
         public void ItemUse()
         {
+
+            foreach (Inventory inventory in map.inventoryArray)
+            {
+                if (inventory.getHitbox.Contains(mouseRect))
+                {
+                    if (KeyMouseReader.RightClick())
+                    {
+                        inventory.empty = true;
+                        row = 0;
+                        column=0;
+                    }
+
+                    else if (KeyMouseReader.LeftClick())
+                    {
+                        inventory.empty = false;
+                    }
+
+                }
+            }
+
             foreach (Item item in map.inventory)
             {
                 if (item.getHitbox.Contains(mouseRect) && item.isCollected)
@@ -316,23 +339,8 @@ namespace Cyberpriest
                     {
                         map.inventory.Remove(item);//item.isCollected = false;
 
-                        
-                        
                     }
                     break;
-                }
-            }
-
-            foreach (Inventory inventory in map.inventoryArray)
-            {
-                if (inventory.getHitbox.Contains(mouseRect))
-                {
-                    if (KeyMouseReader.RightClick())
-                    {
-
-                        
-                    }
-                    
                 }
             }
 

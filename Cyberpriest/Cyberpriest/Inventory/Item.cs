@@ -37,7 +37,12 @@ namespace Cyberpriest
 
         public override void Update(GameTime gameTime)
         {
-
+            if (isCollected)
+            {
+                pos = inventory[row, column].GetPos;
+                hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            }
+           
         }
 
         public override void HandleCollision(GameObject other)
@@ -87,10 +92,8 @@ namespace Cyberpriest
         public void DrawInInventory(SpriteBatch sb)//, int row, int column)//, Vector2 itemPos
         {
             //this.row = row;
-            //this.column = column;
-            pos = inventory[row, column].GetPos;
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            //if (isCollected)
+            //this.column = column;            
+            if (isCollected)
                 sb.Draw(tex, pos, srRect, Color.White);
         }
     }

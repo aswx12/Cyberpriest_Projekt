@@ -23,7 +23,7 @@ namespace Cyberpriest
         public override void Update(GameTime gt)
         {
             //empty = true;
-            //Console.WriteLine(empty);
+            Console.WriteLine(inventorySlotNr+ ":" +empty);
             //Console.WriteLine(inventorySlotNr);
         }
 
