@@ -42,7 +42,6 @@ namespace Cyberpriest
                 inventory[row, column].occupied = inInventory;
                 hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             }
-
         }
 
         public override void HandleCollision(GameObject other)
