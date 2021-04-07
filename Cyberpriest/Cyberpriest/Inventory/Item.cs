@@ -14,7 +14,6 @@ namespace Cyberpriest
         public int itemId;
         public Inventory[,] inventory;
         public int row, column;
-        public int invSlot;
         public bool inInventory;
 
         public Item(int itemId, Texture2D tex, Vector2 pos, Inventory[,] inventory) : base(tex, pos)
@@ -22,9 +21,7 @@ namespace Cyberpriest
             tileSize = new Point(64, 64);
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            invSlot = -1;
             isCollected = false;
-            inInventory = false;
             this.inventory = inventory;
             this.itemId = itemId;
 
@@ -42,7 +39,7 @@ namespace Cyberpriest
             if (isCollected)
             {
                 pos = inventory[row, column].GetPos;
-                inventory[row, column].empty = inInventory;
+                inventory[row, column].occupied = inInventory;
                 hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             }
 

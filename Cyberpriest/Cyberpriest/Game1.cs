@@ -105,7 +105,7 @@ namespace Cyberpriest
 
                     playerPos = map.player.GetPos;
 
-                    if (!(map.inventoryArray[row, column].empty))
+                    if (map.inventoryArray[row, column].occupied)
                     {
                         row++;
                         if (row > 2)
@@ -246,8 +246,9 @@ namespace Cyberpriest
                                     {
                                         (other as Item).row = row;
                                         (other as Item).column = column;
+                                        (other as Item).inInventory = true;
 
-                                        if (map.inventoryArray[row, column].empty)//
+                                        if (!map.inventoryArray[row, column].occupied)//
                                         {
                                             map.inventory.Add(other);
                                         }
@@ -311,14 +312,9 @@ namespace Cyberpriest
                 {
                     if (KeyMouseReader.RightClick())
                     {
-                        inventory.empty = true;
+                        inventory.occupied = false;
                         row = 0;
                         column = 0;
-                    }
-
-                    else if (KeyMouseReader.LeftClick())
-                    {
-                        inventory.empty = false;
                     }
                 }
             }
@@ -329,7 +325,7 @@ namespace Cyberpriest
                 {
                     if (KeyMouseReader.RightClick())
                     {
-                        item.inInventory = true;
+                        item.inInventory = false;
                         map.inventory.Remove(item);//item.isCollected = false;    
                     }
                     break;

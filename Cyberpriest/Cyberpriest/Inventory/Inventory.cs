@@ -11,19 +11,19 @@ namespace Cyberpriest
     class Inventory : StationaryObject
     {
 
-        public bool empty;
+        public bool occupied;
         int inventorySlotNr;
         public Inventory(Texture2D tex, Vector2 pos,int inventorySlotNr) : base(tex,pos)
         {
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            empty = true;
+            occupied = false;
             this.inventorySlotNr = inventorySlotNr;
         }
 
         public override void Update(GameTime gt)
         {
             //empty = true;
-            Console.WriteLine(inventorySlotNr+ ":" +empty);
+            Console.WriteLine(inventorySlotNr+ ":" +occupied);
             //Console.WriteLine(inventorySlotNr);
         }
 
