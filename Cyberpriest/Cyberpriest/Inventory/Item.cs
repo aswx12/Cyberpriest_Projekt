@@ -8,21 +8,20 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
-    class Item : Inventory
+    class Item : StationaryObject
     {
         public bool isCollected;
         public int itemId;
         public Inventory[,] inventory;
         public int row, column;
+        public bool inInventory;
 
         public Item(int itemId, Texture2D tex, Vector2 pos, Inventory[,] inventory) : base(tex, pos)
         {
             tileSize = new Point(64, 64);
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-
             isCollected = false;
-
             this.inventory = inventory;
             this.itemId = itemId;
 
@@ -37,9 +36,12 @@ namespace Cyberpriest
 
         public override void Update(GameTime gameTime)
         {
-            if (!isActive)
-                isCollected = true;
-
+            if (isCollected)
+            {
+                pos = inventory[row, column].GetPos;
+                inventory[row, column].occupied = inInventory;
+                hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            }
         }
 
         public override void HandleCollision(GameObject other)
@@ -60,6 +62,14 @@ namespace Cyberpriest
             }
         }
 
+        public override Rectangle getHitbox
+        {
+            get
+            {
+                return hitBox;
+            }
+        }
+
         public Texture2D GetTexture
         {
             get
@@ -74,11 +84,8 @@ namespace Cyberpriest
                 sb.Draw(tex, pos, srRect, Color.White);
         }
 
-        public void DrawInInventory(SpriteBatch sb, int row, int column)//, Vector2 itemPos
+        public void DrawInInventory(SpriteBatch sb)
         {
-            this.row = row;
-            this.column = column;
-            pos = inventory[row, column].GetSlotPos;
             if (isCollected)
                 sb.Draw(tex, pos, srRect, Color.White);
         }

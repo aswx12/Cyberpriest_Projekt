@@ -10,13 +10,43 @@ namespace Cyberpriest
 {
     class Inventory : StationaryObject
     {
-       
 
-        public Inventory(Texture2D tex, Vector2 pos) : base(tex,pos)
+        public bool occupied;
+        int inventorySlotNr;
+        public Inventory(Texture2D tex, Vector2 pos,int inventorySlotNr) : base(tex,pos)
         {
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            occupied = false;
+            this.inventorySlotNr = inventorySlotNr;
         }
 
-        public Vector2 GetSlotPos
+        public override void Update(GameTime gt)
+        {
+            Console.WriteLine(inventorySlotNr+ ":" +occupied);
+        }
+
+        public override void HandleCollision(GameObject other)
+        {
+            //Console.WriteLine(empty);
+            //if (other is Item)
+            //{
+            //    empty = false;
+            //}
+            //if (other is Inventory)
+            //    empty = true;
+        }
+
+        public override Rectangle getHitbox => base.getHitbox;
+
+        public int GetSlotNr
+        {
+            get
+            {
+                return inventorySlotNr;
+            }
+        }
+
+        public override Vector2 GetPos
         {
             get
             {
@@ -24,7 +54,7 @@ namespace Cyberpriest
             }
         }
 
-        public override void Draw(SpriteBatch sb)
+        public new void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, pos, Color.White);
         }

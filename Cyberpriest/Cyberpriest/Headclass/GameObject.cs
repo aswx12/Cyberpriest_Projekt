@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    abstract class GameObject 
+    public abstract class GameObject 
     {
         protected Vector2 pos;
         protected Texture2D tex;
@@ -38,6 +38,14 @@ namespace Cyberpriest
         public virtual bool IntersectCollision(GameObject other)
         {
             return hitBox.Intersects(other.hitBox);
+        }
+        
+        public virtual Rectangle getHitbox
+        {
+            get
+            {
+                return hitBox;
+            }
         }
 
         public bool PixelCollision(GameObject other)

@@ -24,12 +24,15 @@ namespace Cyberpriest
 
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
+        public Rectangle mouseRect;
+        Vector2 emptySlot;
+        //public MouseState mouseState, previousMouseState;
 
         int row = 0;
         int column = 0;
         public Game1()
         {
-            
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -46,7 +49,7 @@ namespace Cyberpriest
 
         protected override void LoadContent()
         {
-            
+
             IsMouseVisible = true;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
@@ -83,6 +86,12 @@ namespace Cyberpriest
             keyboardState = Keyboard.GetState();
             KeyMouseReader.Update();
 
+            //previousMouseState = mouseState;
+            //mouseState = Mouse.GetState();
+            mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
+
+
+
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
 
@@ -96,11 +105,29 @@ namespace Cyberpriest
 
                     playerPos = map.player.GetPos;
 
+                    if (map.inventoryArray[row, column].occupied)
+                    {
+                        row++;
+                        if (row > 2)
+                        {
+                            if (column < 2)
+                                column++;
+                            row = 0;
+                        }
+
+                    }
+
                     GamePlay(gameTime);
+
+
 
                     break;
 
                 case GameState.Inventory:
+
+                    //if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+                    //{
+                    ItemUse();
 
                     break;
 
@@ -115,7 +142,7 @@ namespace Cyberpriest
 
             base.Update(gameTime);
         }
-        
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -125,7 +152,7 @@ namespace Cyberpriest
             switch (gameState)
             {
                 case GameState.Start:
-                
+
                     menuComponent.Draw(spriteBatch);
 
                     break;
@@ -139,14 +166,14 @@ namespace Cyberpriest
                     //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
                     #endregion
 
+
                     break;
 
                 case GameState.Inventory:
                     spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
-
                     DrawInventory(spriteBatch);
-                    foreach (Item item in map.inventory) //live inventory update
-                        item.DrawInInventory(spriteBatch, item.row, item.column);
+                    foreach (Item item in map.inventory) //
+                        item.DrawInInventory(spriteBatch);//
 
                     break;
 
@@ -158,9 +185,9 @@ namespace Cyberpriest
                     menuComponent.Draw(spriteBatch);
                     break;
             }
-            
+
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
 
@@ -208,6 +235,7 @@ namespace Cyberpriest
 #region ItemToInventory
                             if (other is Item)
                             {
+
                                 if (go is Player)
                                 {
                                     if (!other.isActive)
@@ -217,18 +245,15 @@ namespace Cyberpriest
 
                                     if (go.PixelCollision(other))
                                     {
-                                        map.inventory.Add(other);
-                                        if (map.inventory.Count > 1)
+                                        (other as Item).row = row;
+                                        (other as Item).column = column;
+                                        (other as Item).inInventory = true;
+
+                                        if (!map.inventoryArray[row, column].occupied)//
                                         {
-                                            row++;
-                                            if (row >= 3)
-                                            {
-                                                column++;
-                                                row = 0;
-                                            }
-                                            (other as Item).row = row;
-                                            (other as Item).column = column;
+                                            map.inventory.Add(other);
                                         }
+
                                         go.HandleCollision(other);
 
                                     }
@@ -277,10 +302,43 @@ namespace Cyberpriest
                     map.inventoryArray[i, j].Draw(spriteBatch);
                 }
             }
+        }
+
+        public void ItemUse()
+        {
+
+            foreach (Inventory inventory in map.inventoryArray)
+            {
+                if (inventory.getHitbox.Contains(mouseRect))
+                {
+                    if (KeyMouseReader.RightClick())
+                    {
+                        inventory.occupied = false;
+                        row = 0;
+                        column = 0;
+                    }
+                }
+            }
+
+            foreach (Item item in map.inventory)
+            {
+                if (item.getHitbox.Contains(mouseRect) && item.isCollected)
+                {
+                    if (KeyMouseReader.RightClick())
+                    {
+                        item.inInventory = false;
+                        map.inventory.Remove(item);//item.isCollected = false;    
+                    }
+                    break;
+                }
+            }
+
+
 
         }
     }
 }
+
 
 
 /*------------------TRASH-----------------------------------------------------
