@@ -79,6 +79,9 @@
     <Content Include="Content\Font\normalFont.bmp" />
     <Content Include="Content\HeartSprite.png" />
     <Content Include="Content\hole.png" />
+    <Content Include="Content\level1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
     <Content Include="Content\Player1.png" />
