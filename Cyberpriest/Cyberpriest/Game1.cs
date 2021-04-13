@@ -55,7 +55,7 @@ namespace Cyberpriest
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
-            map = new MapParser("level1.txt");
+            map = new MapParser("Content/level1.txt");
 
             //renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             //openInventory = false;
