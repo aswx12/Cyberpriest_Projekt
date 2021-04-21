@@ -206,7 +206,7 @@ namespace Cyberpriest
                         {
                             if (other is Platform)
                             {
-                                if(other.PixelCollision(go))
+                                if (other.PixelCollision(go))
                                     go.HandleCollision(other);
                             }
 
@@ -232,7 +232,7 @@ namespace Cyberpriest
                                 //}
                             }
 
-#region ItemToInventory
+                            #region ItemToInventory
                             if (other is Item)
                             {
 
@@ -259,7 +259,7 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-#endregion
+                            #endregion
                         }
                     }
                 }

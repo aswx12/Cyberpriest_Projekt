@@ -41,12 +41,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ENEMY\EnemyGhost.cs" />
+    <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\Item.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\Camera.cs" />
-    <Compile Include="ENEMY\EnemyType.cs" />
+    <Compile Include="Enemy\EnemyType.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Headclass\GameObject.cs" />
     <Compile Include="Headclass\MovingObject.cs" />
