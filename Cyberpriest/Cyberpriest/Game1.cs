@@ -309,7 +309,7 @@ namespace Cyberpriest
 
             foreach (Inventory inventory in map.inventoryArray)
             {
-                if (inventory.getHitbox.Contains(mouseRect))
+                if (inventory.GetHitBox.Contains(mouseRect))
                 {
                     if (KeyMouseReader.RightClick())
                     {
@@ -322,7 +322,7 @@ namespace Cyberpriest
 
             foreach (Item item in map.inventory)
             {
-                if (item.getHitbox.Contains(mouseRect) && item.isCollected)
+                if (item.GetHitBox.Contains(mouseRect) && item.isCollected)
                 {
                     if (KeyMouseReader.RightClick())
                     {

@@ -13,16 +13,14 @@ namespace Cyberpriest
         protected Vector2 pos;
         protected Texture2D tex;
         protected Random rand;
-        
         protected Rectangle srRect;
         protected Point tileSize;
-
+       
         public Rectangle hitBox;
         public bool isActive = true;
 
         public GameObject(Texture2D tex, Vector2 pos)
         {
-            //tileSize = new Point(64, 64);
             this.tex = tex;
             this.pos = pos;
             tileSize = new Point(tex.Width, tex.Height);
@@ -38,15 +36,7 @@ namespace Cyberpriest
         public virtual bool IntersectCollision(GameObject other)
         {
             return hitBox.Intersects(other.hitBox);
-        }
-        
-        public virtual Rectangle getHitbox
-        {
-            get
-            {
-                return hitBox;
-            }
-        }
+        }       
 
         public bool PixelCollision(GameObject other)
         {
@@ -76,6 +66,14 @@ namespace Cyberpriest
             }
 
             return false;
+        }
+
+        public virtual Rectangle GetHitBox
+        {
+            get
+            {
+                return hitBox;
+            }
         }
 
         public virtual Vector2 GetPos
