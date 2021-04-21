@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
-
     class MapParser
     {
         Random rand = new Random();
@@ -123,7 +122,6 @@ namespace Cyberpriest
             }
         }
 
-        /*--------------------------------------------------*/
         #region Parsers
 
         public static int ParseInt(string str)
@@ -167,7 +165,6 @@ namespace Cyberpriest
         }
 
         #endregion
-        /*--------------------------------------------------*/
 
         public List<string> ReadFromFile(string fileName)
         {
@@ -186,7 +183,6 @@ namespace Cyberpriest
         public void Editor(string fileName)
         {
             //Provides access to local and remote processes and enables you to start and stop local system processes.
-
             var levelFile = fileName;
             var process = new Process();
             process.StartInfo = new ProcessStartInfo() { FileName = levelFile };
