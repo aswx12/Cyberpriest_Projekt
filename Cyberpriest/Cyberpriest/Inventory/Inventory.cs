@@ -36,7 +36,7 @@ namespace Cyberpriest
             //    empty = true;
         }
 
-        public override Rectangle getHitbox => base.getHitbox;
+        public override Rectangle GetHitBox => base.GetHitBox;
 
         public int GetSlotNr
         {

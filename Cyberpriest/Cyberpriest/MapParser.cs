@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
-
     class MapParser
     {
         Random rand = new Random();
         int random;
         int slotNr = 0;
+
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
@@ -33,9 +33,6 @@ namespace Cyberpriest
         Vector2[] itemPos;
         Vector2[] platformPos;
 
-        //public int row = 0;
-        //public int column = 0;
-
         public MapParser(string filename)
         {
             LoadMap(filename);
@@ -43,76 +40,89 @@ namespace Cyberpriest
 
         public void LoadMap(string fileName)
         {
-
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
             inventoryArray = new Inventory[3, 3];
 
             List<string> stringList = ReadFromFile(fileName);
 
-           
-            /*-----------------------Inventory slots-----------------*/
+            #region Inventory Slots
+
             for (int i = 0; i < inventoryArray.GetLength(0); i++)
             {
                 for (int j = 0; j < inventoryArray.GetLength(1); j++)
                 {
                     slotNr++;
-                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 0, 64 * j+100),slotNr);
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 0, 64 * j + 100), slotNr);
                     objectList.Add(inventoryArray[i, j]);
                 }
             }
-            
-            
-            /*--------------------Map--------------------------*/
+
+            #endregion
+
+            #region Platforms
 
             platformPos = ParseVectorArray(stringList[2]);
+
             //This is the first platform
-            for (int i = 0; i < platformPos.Length; i++)
-            {
-                platform = new Platform(AssetManager.longPlatform, platformPos[i]);
-                objectList.Add(platform);
-            }
+            CreatePlatform(AssetManager.longPlatform, platformPos);
 
             platformPos = ParseVectorArray(stringList[7]);
+
             //This is the taller version of the platform
-            for (int i = 0; i < platformPos.Length; i++)
-            {
-                platform = new Platform(AssetManager.tallPlatform, platformPos[i]);
-                objectList.Add(platform);
-            }
+            CreatePlatform(AssetManager.tallPlatform, platformPos);
 
             platformPos = ParseVectorArray(stringList[8]);
+
             //This is the smallest platform
-            for (int i = 0; i < platformPos.Length; i++)
-            {
-                platform = new Platform(AssetManager.smallPlatform, platformPos[i]);
-                objectList.Add(platform);
-            }
+            CreatePlatform(AssetManager.smallPlatform, platformPos);
+
+            #endregion
+
+            #region Item Spawn
 
             itemPos = ParseVectorArray(stringList[5]);
 
             for (int i = 0; i < itemPos.Length; i++)
             {
                 random = rand.Next(0, 3);
-                item = new Item(random,AssetManager.item, itemPos[i],inventoryArray);
+                item = new Item(random, AssetManager.item, itemPos[i], inventoryArray);
 
                 objectList.Add(item);
             }
+
+            #endregion
+
+            #region Player's Start Position
 
             PlayerPos = ParsePos(stringList[0]);
 
             player = new Player(AssetManager.player, PlayerPos, Game1.window);
             objectList.Add(player);
 
-            /*--------------------Enemy------------------------*/
+            #endregion
+
+            #region Enemy
 
             EnemyPos = ParsePos(stringList[6]);
 
             enemyGhost = new EnemyGhost(AssetManager.enemy1, EnemyPos, Game1.window, player);
             objectList.Add(enemyGhost);
 
+            #endregion
+
         }
-        /*--------------------PARSERS-------------------*/
+
+        public void CreatePlatform(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                platform = new Platform(texture, pos[i]);
+                objectList.Add(platform);
+            }
+        }
+
+        #region Parsers
 
         public static int ParseInt(string str)
         {
@@ -154,7 +164,7 @@ namespace Cyberpriest
             return new Vector2(intArray[0], intArray[1]);
         }
 
-        /*--------------------------------------------------*/
+        #endregion
 
         public List<string> ReadFromFile(string fileName)
         {
@@ -173,7 +183,6 @@ namespace Cyberpriest
         public void Editor(string fileName)
         {
             //Provides access to local and remote processes and enables you to start and stop local system processes.
-
             var levelFile = fileName;
             var process = new Process();
             process.StartInfo = new ProcessStartInfo() { FileName = levelFile };

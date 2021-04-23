@@ -55,7 +55,7 @@ namespace Cyberpriest
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
-            map = new MapParser("level1.txt");
+            map = new MapParser("Content/level1.txt");
 
             //renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
             //openInventory = false;
@@ -206,7 +206,7 @@ namespace Cyberpriest
                         {
                             if (other is Platform)
                             {
-                                if(other.PixelCollision(go))
+                                if (other.PixelCollision(go))
                                     go.HandleCollision(other);
                             }
 
@@ -232,7 +232,7 @@ namespace Cyberpriest
                                 //}
                             }
 
-#region ItemToInventory
+                            #region ItemToInventory
                             if (other is Item)
                             {
 
@@ -259,7 +259,7 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-#endregion
+                            #endregion
                         }
                     }
                 }
@@ -309,7 +309,7 @@ namespace Cyberpriest
 
             foreach (Inventory inventory in map.inventoryArray)
             {
-                if (inventory.getHitbox.Contains(mouseRect))
+                if (inventory.GetHitBox.Contains(mouseRect))
                 {
                     if (KeyMouseReader.RightClick())
                     {
@@ -322,7 +322,7 @@ namespace Cyberpriest
 
             foreach (Item item in map.inventory)
             {
-                if (item.getHitbox.Contains(mouseRect) && item.isCollected)
+                if (item.GetHitBox.Contains(mouseRect) && item.isCollected)
                 {
                     if (KeyMouseReader.RightClick())
                     {
