@@ -11,30 +11,27 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
-        private int live;
+        private int lives;
         public static int score;
         int bY;
+        int normalVel = 3;
+        int dashLength = 30;
+        int jumpHeight = 12;
+        float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
         bool downPlatform;
         Vector2 startPos;
 
-        //Item item;
-
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             isGrounded = true;
-            live = 3;
+            lives = 3;
             startPos = pos;
             vel = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
-            isGrounded = true;
-
             playerFacing = Facing.Idle;
-
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
-            //this.inventory = inventory;
-            //this.item = item;
         }
 
         public override void HandleCollision(GameObject other)
@@ -42,17 +39,10 @@ namespace Cyberpriest
             vel.Y = 0;
             isGrounded = true;
 
-            //if (other is Spike)
-            //{
-            //    live--;
-            //    pos = startPos;
-            //}
-
-            if(other is EnemyType)
+            if (other is EnemyType)
             {
-                //other.isActive = false;
-                live--;
-                Console.WriteLine(live);
+                lives--;
+                Console.WriteLine(lives);
                 return;
             }
 
@@ -73,19 +63,18 @@ namespace Cyberpriest
         public override void Update(GameTime gt)
         {
             if (isGrounded)
+            {
                 downPlatform = true;
+            }    
 
             vel.Y += gravity; //fall speed
-
             vel.X = 0;
 
             Control();
             pos += vel;
 
-            hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
-            hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
-
-            //Console.WriteLine(isGrounded);
+            hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
+            hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
         }
 
         public void Control()
@@ -94,14 +83,14 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Right))
             {
-                vel.X = 3;
+                vel.X = normalVel;
                 effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.Left))// && pos.X >= startPos.X
             {
-                vel.X = -3;
+                vel.X = -normalVel;
                 effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
@@ -111,23 +100,22 @@ namespace Cyberpriest
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Z)) //add dash cooldown
             {
                 if (playerFacing == Facing.Right)
-                    pos.X = pos.X + 30;
+                    pos.X = pos.X + dashLength;
                 if (playerFacing == Facing.Left)
-                    pos.X = pos.X - 30;
+                    pos.X = pos.X - dashLength;
             }
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Space) && isGrounded)
             {
-                vel.Y = -12; //jump height               
+                vel.Y = -jumpHeight; //jump height               
                 isGrounded = false;
                 playerFacing = Facing.Jump;
                 srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
-
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Down) && isGrounded)
             {
-                vel.Y = +12;
+                vel.Y = jumpHeight;
                 isGrounded = false;
                 downPlatform = false;
                 playerFacing = Facing.Jump;
@@ -149,3 +137,12 @@ namespace Cyberpriest
         }
     }
 }
+
+/* Reusabale code
+            //if (other is Spike)
+            //{
+            //    live--;
+            //    pos = startPos;
+            //}
+ 
+ */
