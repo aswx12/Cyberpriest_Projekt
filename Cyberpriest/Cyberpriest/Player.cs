@@ -15,8 +15,10 @@ namespace Cyberpriest
         public static int score;
         int bY;
         int normalVel = 3;
-        int dashLength = 30;
+        int dashLength = 150;
         int jumpHeight = 12;
+        int dashCount;
+        double dashCD;
         float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
@@ -32,6 +34,9 @@ namespace Cyberpriest
             bY = window.ClientBounds.Height;
             playerFacing = Facing.Idle;
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
+
+            dashCount = 1;
+            dashCD = 0;
         }
 
         public override void HandleCollision(GameObject other)
@@ -65,14 +70,15 @@ namespace Cyberpriest
             if (isGrounded)
             {
                 downPlatform = true;
-            }    
+            }
 
             velocity.Y += gravity; //fall speed
             velocity.X = 0;
 
             Control();
-            pos += velocity;
+            DashCooldown(gt);
 
+            pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
         }
@@ -99,10 +105,15 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Z)) //add dash cooldown
             {
-                if (playerFacing == Facing.Right)
-                    pos.X = pos.X + dashLength;
-                if (playerFacing == Facing.Left)
-                    pos.X = pos.X - dashLength;
+                if (dashCount > 0)
+                {
+                    if (playerFacing == Facing.Right)
+                        velocity.X += dashLength;
+                    if (playerFacing == Facing.Left)
+                        velocity.X -= dashLength;
+
+                    dashCount = 0;
+                }
             }
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Space) && isGrounded)
@@ -126,6 +137,21 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, pos, Color.White);
+        }
+
+        public void DashCooldown(GameTime gt)
+        {
+            if (dashCount <= 0)
+                dashCD += gt.ElapsedGameTime.TotalSeconds;
+
+            double cooldown = 1.5;
+
+            if (dashCD >= cooldown && dashCount == 0)
+            {
+                dashCount = 1;
+                if (dashCount == 1)
+                    dashCD = 0;
+            }
         }
 
         public override Vector2 GetPos
