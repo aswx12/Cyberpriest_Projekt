@@ -28,7 +28,7 @@ namespace Cyberpriest
             isGrounded = true;
             lives = 3;
             startPos = pos;
-            vel = new Vector2(0, 0);
+            velocity = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
             playerFacing = Facing.Idle;
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
@@ -36,7 +36,7 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
-            vel.Y = 0;
+            velocity.Y = 0;
             isGrounded = true;
 
             if (other is EnemyType)
@@ -67,11 +67,11 @@ namespace Cyberpriest
                 downPlatform = true;
             }    
 
-            vel.Y += gravity; //fall speed
-            vel.X = 0;
+            velocity.Y += gravity; //fall speed
+            velocity.X = 0;
 
             Control();
-            pos += vel;
+            pos += velocity;
 
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
@@ -83,14 +83,14 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Right))
             {
-                vel.X = normalVel;
+                velocity.X = normalVel;
                 effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.Left))// && pos.X >= startPos.X
             {
-                vel.X = -normalVel;
+                velocity.X = -normalVel;
                 effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
@@ -107,7 +107,7 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Space) && isGrounded)
             {
-                vel.Y = -jumpHeight; //jump height               
+                velocity.Y = -jumpHeight; //jump height               
                 isGrounded = false;
                 playerFacing = Facing.Jump;
                 srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
@@ -115,7 +115,7 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Down) && isGrounded)
             {
-                vel.Y = jumpHeight;
+                velocity.Y = jumpHeight;
                 isGrounded = false;
                 downPlatform = false;
                 playerFacing = Facing.Jump;

@@ -9,8 +9,8 @@ namespace Cyberpriest
 {
     class MenuChoice
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float posX { get; set; }
+        public float posY { get; set; }
 
         public string Text { get; set; }
         public bool Selected { get; set; }

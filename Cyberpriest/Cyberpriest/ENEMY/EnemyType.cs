@@ -19,7 +19,7 @@ namespace Cyberpriest
         public EnemyType(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             healthPoints = 100;
-            vel = new Vector2(1, 0);
+            velocity = new Vector2(1, 0);
             this.pos = pos;
             isActive = true;
             isHit = false;
@@ -27,12 +27,12 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
-            vel.Y = 0;
+            velocity.Y = 0;
             isGrounded = true;
 
             if (other is Platform)
             {
-                vel.Y = 0;
+                velocity.Y = 0;
                 isGrounded = true;
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
@@ -44,8 +44,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            pos += vel;
-            vel.Y += gravity;
+            pos += velocity;
+            velocity.Y += gravity;
 
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);

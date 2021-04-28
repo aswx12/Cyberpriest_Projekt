@@ -13,7 +13,7 @@ namespace Cyberpriest
     {
         Player player;
         EnemyState enemyState;
-        Vector2 startVel;
+        Vector2 startVelocity;
 
         private int chasingRange;
         private int distanceToPlayerY;
@@ -33,8 +33,8 @@ namespace Cyberpriest
 
             //Starting moveDir
             moveDir = new Vector2(50, 50); 
-            vel = new Vector2(1, 1);
-            startVel = vel;
+            velocity = new Vector2(1, 1);
+            startVelocity = velocity;
             chasingRange = 250;
 
             randomizationPeriod = 2;
@@ -63,7 +63,7 @@ namespace Cyberpriest
             Console.WriteLine("enemyState " + enemyState);
             Console.WriteLine("moveDir " + moveDir);
             Console.WriteLine("enemyState " + enemyState);
-            Console.WriteLine("vel " + vel);
+            Console.WriteLine("vel " + velocity);
         }
 
         private void Movement()
@@ -87,11 +87,11 @@ namespace Cyberpriest
             switch (enemyState)
             {
                 case Cyberpriest.EnemyState.Patrol:
-                    pos += vel * moveDir * 0.01f;
+                    pos += velocity * moveDir * 0.01f;
                     PatrolTimer(gt);
                     break;
                 case Cyberpriest.EnemyState.Chase:
-                    pos += startVel * moveDir * 0.01f;
+                    pos += startVelocity * moveDir * 0.01f;
                     if (distanceToPlayerX > chasingRange)
                         enemyState = Cyberpriest.EnemyState.Patrol;
                     break;
@@ -105,29 +105,29 @@ namespace Cyberpriest
             //Down right
             if (random == 0) 
             {
-                vel.X = 1f;
-                vel.Y = 2f;
+                velocity.X = 1f;
+                velocity.Y = 2f;
             }
 
             //Down left
             if (random == 1)
             {
-                vel.X = -1f; 
-                vel.Y = 2f;
+                velocity.X = -1f; 
+                velocity.Y = 2f;
             }
 
             //Up left
             if (random == 2) 
             {
-                vel.X = -1f;
-                vel.Y = -2f;
+                velocity.X = -1f;
+                velocity.Y = -2f;
             }
 
             //Up right
             if (random == 3) 
             {
-                vel.X = 1f;
-                vel.Y = -2f;
+                velocity.X = 1f;
+                velocity.Y = -2f;
             }
         }
 

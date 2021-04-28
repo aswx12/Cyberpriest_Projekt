@@ -12,7 +12,7 @@ namespace Cyberpriest
     class MovingObject : GameObject
     {
         protected bool isGrounded;
-        protected Vector2 vel;
+        protected Vector2 velocity;
         protected float gravity;
 
         protected int frame = 0;

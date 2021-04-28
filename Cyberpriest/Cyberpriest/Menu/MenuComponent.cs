@@ -89,9 +89,9 @@ namespace Cyberpriest
             foreach (var choice in choices)
             {
                 Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
-                choice.Y = startY;
-                choice.X = Game1.window.ClientBounds.Width / 2 - size.X / 2;
-                choice.HitBox = new Rectangle((int)choice.X, (int)choice.Y, (int)size.X, (int)size.Y);
+                choice.posY  = startY;
+                choice.posX = Game1.window.ClientBounds.Width / 2 - size.X / 2;
+                choice.HitBox = new Rectangle((int)choice.posX, (int)choice.posY, (int)size.X, (int)size.Y);
                 startY += choicesGap;
             }
 
@@ -142,7 +142,7 @@ namespace Cyberpriest
             foreach (var choice in choices)
             {
                 sb.DrawString(choice.Selected ? AssetManager.selectedFont : AssetManager.normalFont,
-                    choice.Text, new Vector2(choice.X, choice.Y), Color.White);
+                    choice.Text, new Vector2(choice.posX, choice.posY), Color.White);
             }
         }
     }

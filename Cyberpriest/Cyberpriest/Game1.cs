@@ -193,33 +193,33 @@ namespace Cyberpriest
 
         public void GamePlay(GameTime gameTime)
         {
-            foreach (GameObject go in map.objectList)
-                go.Update(gameTime);
+            foreach (GameObject obj in map.objectList)
+                obj.Update(gameTime);
 
-            foreach (GameObject go in map.objectList)
+            foreach (GameObject obj in map.objectList)
             {
-                foreach (GameObject other in map.objectList)
+                foreach (GameObject otherObj in map.objectList)
                 {
-                    if (other != go)
+                    if (otherObj != obj)
                     {
-                        if (go.IntersectCollision(other))
+                        if (obj.IntersectCollision(otherObj))
                         {
-                            if (other is Platform)
+                            if (otherObj is Platform)
                             {
-                                if (other.PixelCollision(go))
-                                    go.HandleCollision(other);
+                                if (otherObj.PixelCollision(obj))
+                                    obj.HandleCollision(otherObj);
                             }
 
-                            if (go is Player)
+                            if (obj is Player)
                             {
-                                if (other is EnemyType)
+                                if (otherObj is EnemyType)
                                 {
-                                    if (!other.isActive)
+                                    if (!otherObj.isActive)
                                         continue;
-                                    if (go.PixelCollision(other))
+                                    if (obj.PixelCollision(otherObj))
                                     {
-                                        go.HandleCollision(other);
-                                        other.HandleCollision(go);
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
                                     }
                                 }
 
@@ -233,28 +233,28 @@ namespace Cyberpriest
                             }
 
                             #region ItemToInventory
-                            if (other is Item)
+                            if (otherObj is Item)
                             {
 
-                                if (go is Player)
+                                if (obj is Player)
                                 {
-                                    if (!other.isActive)
+                                    if (!otherObj.isActive)
                                     {
                                         continue;
                                     }
 
-                                    if (go.PixelCollision(other))
+                                    if (obj.PixelCollision(otherObj))
                                     {
-                                        (other as Item).row = row;
-                                        (other as Item).column = column;
-                                        (other as Item).inInventory = true;
+                                        (otherObj as Item).row = row;
+                                        (otherObj as Item).column = column;
+                                        (otherObj as Item).inInventory = true;
 
                                         if (!map.inventoryArray[row, column].occupied)//
                                         {
-                                            map.inventory.Add(other);
+                                            map.inventory.Add(otherObj);
                                         }
 
-                                        go.HandleCollision(other);
+                                        obj.HandleCollision(otherObj);
 
                                     }
                                 }
