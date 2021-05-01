@@ -48,8 +48,8 @@
     <Compile Include="Managers\Camera.cs" />
     <Compile Include="Enemy\EnemyType.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Headclass\GameObject.cs" />
-    <Compile Include="Headclass\MovingObject.cs" />
+    <Compile Include="HeadArvClass\GameObject.cs" />
+    <Compile Include="HeadArvClass\MovingObject.cs" />
     <Compile Include="Managers\KeyMouseReader.cs" />
     <Compile Include="MapParser.cs" />
     <Compile Include="Menu\KeyboardComponent.cs" />
@@ -59,7 +59,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Headclass\StationaryObject.cs" />
+    <Compile Include="HeadArvClass\StationaryObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

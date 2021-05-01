@@ -139,7 +139,8 @@ namespace Cyberpriest
 
                     break;
             }
-
+            Console.WriteLine(mouseRect);
+            Console.WriteLine("Count: " + map.inventory.Count);
             base.Update(gameTime);
         }
 
@@ -233,11 +234,18 @@ namespace Cyberpriest
                             }
 
                             #region ItemToInventory
+
                             if (otherObj is Item)
                             {
-
                                 if (obj is Player)
                                 {
+                                    if (map.inventory.Count >= 9)
+                                    {
+                                        //replace later with text shows on screen instead of debug.
+                                        Console.WriteLine("Inventory is full!");
+                                        continue;
+                                    }
+                                       
                                     if (!otherObj.isActive)
                                     {
                                         continue;
@@ -259,6 +267,7 @@ namespace Cyberpriest
                                     }
                                 }
                             }
+
                             #endregion
                         }
                     }

@@ -59,11 +59,11 @@ namespace Cyberpriest
 
             EnemyState(gt);
 
-            Console.WriteLine("distanceToPlayerX " + distanceToPlayerX);
-            Console.WriteLine("enemyState " + enemyState);
-            Console.WriteLine("moveDir " + moveDir);
-            Console.WriteLine("enemyState " + enemyState);
-            Console.WriteLine("vel " + velocity);
+            //Console.WriteLine("distanceToPlayerX " + distanceToPlayerX);
+            //Console.WriteLine("enemyState " + enemyState);
+            //Console.WriteLine("moveDir " + moveDir);
+            //Console.WriteLine("enemyState " + enemyState);
+            //Console.WriteLine("vel " + velocity);
         }
 
         private void Movement()

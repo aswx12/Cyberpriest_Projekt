@@ -83,10 +83,10 @@ namespace Cyberpriest
 
             itemPos = ParseVectorArray(stringList[5]);
 
-            for (int i = 0; i < itemPos.Length; i++)
+            for (int i = 0; i <= 10; i++)
             {
                 random = rand.Next(0, 3);
-                item = new Item(random, AssetManager.item, itemPos[i], inventoryArray);
+                item = new Item(random, AssetManager.item, new Vector2(itemPos[0].X+64*i,itemPos[0].Y), inventoryArray);
 
                 objectList.Add(item);
             }

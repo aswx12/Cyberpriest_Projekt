@@ -22,7 +22,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine(inventorySlotNr+ ":" +occupied);
+           // Console.WriteLine(inventorySlotNr+ ":" +occupied);
         }
 
         public override void HandleCollision(GameObject other)
