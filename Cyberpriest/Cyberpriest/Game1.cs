@@ -20,19 +20,15 @@ namespace Cyberpriest
 
         public static GameWindow window;
         Vector2 playerPos;
-        //bool openInventory;
 
         MenuComponent menuComponent;
         public RenderTarget2D renderTarget;
         public Rectangle mouseRect;
-        Vector2 emptySlot;
-        //public MouseState mouseState, previousMouseState;
 
         int row = 0;
         int column = 0;
         public Game1()
         {
-
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -49,16 +45,12 @@ namespace Cyberpriest
 
         protected override void LoadContent()
         {
-
             IsMouseVisible = true;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
             map = new MapParser("Content/level1.txt");
-
-            //renderTarget = renderTarget = new RenderTarget2D(GraphicsDevice, window.ClientBounds.Width, window.ClientBounds.Height);
-            //openInventory = false;
 
             /*-----------------------------Window Size-------------------------------*/
             //graphics.PreferredBackBufferWidth = 1920;
@@ -86,11 +78,7 @@ namespace Cyberpriest
             keyboardState = Keyboard.GetState();
             KeyMouseReader.Update();
 
-            //previousMouseState = mouseState;
-            //mouseState = Mouse.GetState();
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
-
-
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
@@ -105,28 +93,13 @@ namespace Cyberpriest
 
                     playerPos = map.player.GetPos;
 
-                    if (map.inventoryArray[row, column].occupied)
-                    {
-                        row++;
-                        if (row > 2)
-                        {
-                            if (column < 2)
-                                column++;
-                            row = 0;
-                        }
-
-                    }
+                    InventorySlotCheck();
 
                     GamePlay(gameTime);
-
-
-
                     break;
 
                 case GameState.Inventory:
 
-                    //if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
-                    //{
                     ItemUse();
 
                     break;
@@ -161,12 +134,6 @@ namespace Cyberpriest
                 case GameState.Play:
                     map.Draw(spriteBatch);
                     spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
-
-                    #region Unpaused Invetory If Needed
-                    // if(openInventory)
-                    //spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
-                    #endregion
-
 
                     break;
 
@@ -245,7 +212,7 @@ namespace Cyberpriest
                                         Console.WriteLine("Inventory is full!");
                                         continue;
                                     }
-                                       
+
                                     if (!otherObj.isActive)
                                     {
                                         continue;
@@ -315,7 +282,6 @@ namespace Cyberpriest
 
         public void ItemUse()
         {
-
             foreach (Inventory inventory in map.inventoryArray)
             {
                 if (inventory.GetHitBox.Contains(mouseRect))
@@ -341,14 +307,24 @@ namespace Cyberpriest
                     break;
                 }
             }
-
-
-
         }
+
+        public void InventorySlotCheck()
+        {
+            if (map.inventoryArray[row, column].occupied)
+            {
+                row++;
+                if (row > 2)
+                {
+                    if (column < 2)
+                        column++;
+                    row = 0;
+                }
+            }
+        }
+
     }
 }
-
-
 
 /*------------------TRASH-----------------------------------------------------
 public void Menu()
