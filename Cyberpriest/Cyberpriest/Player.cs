@@ -11,6 +11,8 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
+        Bullet bullet;
+
         private int lives;
         public static int score;
         int bY;
@@ -132,6 +134,12 @@ namespace Cyberpriest
                 playerFacing = Facing.Jump;
                 srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
+
+            if (KeyMouseReader.LeftClick())
+            {
+
+            }
+
         }
 
         public override void Draw(SpriteBatch sb)

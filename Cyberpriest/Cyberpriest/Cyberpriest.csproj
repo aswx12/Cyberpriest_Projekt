@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Bullet.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\Item.cs" />

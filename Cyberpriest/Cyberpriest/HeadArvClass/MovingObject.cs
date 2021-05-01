@@ -11,6 +11,9 @@ namespace Cyberpriest
     enum Facing { Left, Right, Idle, Jump };
     class MovingObject : GameObject
     {
+        protected float lifeSpan;
+
+        protected bool isRemoved;
         protected bool isGrounded;
         protected Vector2 velocity;
         protected float gravity;
