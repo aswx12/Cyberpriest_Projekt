@@ -51,7 +51,7 @@ namespace Cyberpriest
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
             map = new MapParser("Content/level1.txt");
- 
+
             /*-----------------------------Window Size-------------------------------*/
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 1080;

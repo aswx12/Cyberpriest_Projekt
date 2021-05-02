@@ -22,7 +22,8 @@ namespace Cyberpriest
         float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
-        bool downPlatform;
+        bool onPlatform;
+        public bool test;
         Vector2 startPos;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
@@ -35,14 +36,25 @@ namespace Cyberpriest
             playerFacing = Facing.Idle;
             srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
 
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+
             dashCount = 1;
             dashCD = 0;
+
+            test = false;
         }
 
         public override void HandleCollision(GameObject other)
         {
-            velocity.Y = 0;
-            isGrounded = true;
+            if (other is Platform)
+            {
+                velocity.Y = 0;
+                isGrounded = true;
+                if (hitBox.Y >= other.GetPos.Y)
+                {
+                    test = true;
+                }
+            }
 
             if (other is EnemyType)
             {
@@ -58,21 +70,27 @@ namespace Cyberpriest
                 return;
             }
 
-            if (downPlatform == true)
+            if (onPlatform == true)
             {
+                if (test)
+                    return;
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
+
+           
         }
 
         public override void Update(GameTime gt)
         {
+            Console.WriteLine(pos);
             if (isGrounded)
             {
-                downPlatform = true;
+                onPlatform = true;
             }
 
-            velocity.Y += gravity; //fall speed
+            //fall speed
+            velocity.Y += gravity; 
             velocity.X = 0;
 
             Control();
@@ -80,6 +98,8 @@ namespace Cyberpriest
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
+
+            //the platform issue lays here?
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
         }
 
@@ -128,9 +148,10 @@ namespace Cyberpriest
             {
                 velocity.Y = jumpHeight;
                 isGrounded = false;
-                downPlatform = false;
+                onPlatform = false;
                 playerFacing = Facing.Jump;
                 srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
+                test = true;
             }
         }
 
