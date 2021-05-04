@@ -90,7 +90,7 @@ namespace Cyberpriest
             //mouseState = Mouse.GetState();
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
 
-
+            Console.WriteLine(map.objectList.Count);
 
             camera.SetPosition(playerPos, gameState);
             UIKeyBinds();
@@ -146,6 +146,7 @@ namespace Cyberpriest
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
@@ -194,6 +195,22 @@ namespace Cyberpriest
 
         public void GamePlay(GameTime gameTime)
         {
+            foreach(GameObject enemy in map.objectList)
+            {
+                if(enemy is Player)
+                {
+                    continue;
+                }
+
+                foreach(Bullet bullet in map.player.bulletList)
+                {
+                    if (bullet.IntersectCollision(enemy))
+                    {
+                        enemy.HandleCollision(bullet);
+                    }
+                }
+            }
+
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);
 
@@ -215,6 +232,8 @@ namespace Cyberpriest
                             {
                                 if (otherObj is EnemyType)
                                 {
+                                    obj.isHit = true;
+
                                     if (!otherObj.isActive)
                                         continue;
                                     if (obj.PixelCollision(otherObj))

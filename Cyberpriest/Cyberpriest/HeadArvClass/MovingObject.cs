@@ -13,7 +13,6 @@ namespace Cyberpriest
     {
         protected float lifeSpan;
 
-        protected bool isRemoved;
         protected bool isGrounded;
         protected Vector2 velocity;
         protected float gravity;
@@ -52,8 +51,5 @@ namespace Cyberpriest
         {
             sb.Draw(tex, pos, Color.White);
         }
-
-
-      
     }
 }

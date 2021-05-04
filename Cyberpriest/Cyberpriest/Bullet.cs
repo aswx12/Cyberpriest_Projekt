@@ -10,13 +10,14 @@ namespace Cyberpriest
 {
     class Bullet : MovingObject
     {
-        Bullet bullet;
         private float timer;
 
-        public Bullet(Texture2D tex, Vector2 pos, Player player) : base(tex, pos)
+        public Bullet(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
-            pos = player.GetPos;
-            //origin = new Vector2(tex.Width / 2, tex.Height / 2);
+            lifeSpan = 5f;
+            isActive = false;
+            velocity = new Vector2(6, 0);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
         }
 
         public override void HandleCollision(GameObject other)
@@ -31,15 +32,20 @@ namespace Cyberpriest
 
             if (timer > lifeSpan)
             {
-                isRemoved = true;
+                isActive = false;
             }
 
+            hitBox.X = (int)pos.X;
+            hitBox.Y = (int)pos.Y;
             pos += velocity;
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, pos, Color.White);
+            if(isActive == true)
+            {
+                sb.Draw(tex, pos, Color.White);
+            }
         }
 
         public override Vector2 GetPos
@@ -49,7 +55,5 @@ namespace Cyberpriest
                 return pos;
             }
         }
-
     }
-
 }
