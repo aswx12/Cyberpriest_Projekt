@@ -73,23 +73,13 @@
     <Content Include="Content\ball.png" />
     <Content Include="Content\BrickTilesetSprite.png" />
     <Content Include="Content\BrickTilesetSprite2.png" />
-    <Content Include="Content\CoinSprite.png" />
-    <Content Include="Content\Enemy1.png" />
-    <Content Include="Content\enemy2.png" />
     <Content Include="Content\Font\normalFont.bmp" />
-    <Content Include="Content\HeartSprite.png" />
     <Content Include="Content\hole.png" />
     <Content Include="Content\level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
-    <Content Include="Content\Player1.png" />
-    <Content Include="Content\PotionsSprite.png" />
-    <Content Include="Content\PurpleFireSprite.png" />
-    <Content Include="Content\RedFireSprite.png" />
-    <Content Include="Content\Shield1.png" />
-    <Content Include="Content\Shield2.png" />
     <Content Include="Content\walltile.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
