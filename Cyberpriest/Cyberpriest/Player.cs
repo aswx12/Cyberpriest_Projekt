@@ -25,8 +25,9 @@ namespace Cyberpriest
         int hitCount;
 
         float timer;
-        float iFrameTimer;
+        float iFrameTimer = -1;
 
+        double nextBlinkTime;
         double dashCD;
         double shootCD;
         double hitCD;
@@ -34,6 +35,7 @@ namespace Cyberpriest
 
         public static Facing playerFacing;
         bool downPlatform;
+        bool blinking;
         Vector2 startPos;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
@@ -93,9 +95,18 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if (lives <= 0)
+            Console.WriteLine(iFrameTimer);
+
+            if (lives <= 0) //Placeholder death "method".
             {
-                //Death();
+                pos = startPos;
+                lives = 3;
+            }
+
+            if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)
+            {
+                blinking = !blinking;
+                nextBlinkTime = gt.TotalGameTime.TotalMilliseconds + 400;
             }
 
             foreach (Bullet b in bulletList)
@@ -190,8 +201,16 @@ namespace Cyberpriest
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, pos, Color.White);
-
+            if (iFrameTimer >= 0)
+            {
+                if (blinking)
+                    sb.Draw(tex, pos, Color.White);
+            }
+            else
+            {
+                sb.Draw(tex, pos, Color.White);
+            }
+                
             foreach (Bullet b in bulletList)
             {
                 b.Draw(sb);
@@ -215,15 +234,11 @@ namespace Cyberpriest
 
         public void IFrame(GameTime gameTime)
         {
-            if (isHit == true)
+            if (iFrameTimer <= 0 && isHit == true)
             {
-                iFrameTimer = 10;
                 isHit = false;
+                iFrameTimer = 3;
             }
-                
-
-            //if (iFrameTimer == 10)
-                
 
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             iFrameTimer -= (int)timer;
@@ -232,10 +247,6 @@ namespace Cyberpriest
             {
                 timer = 0F;
             }
-
-            Console.WriteLine("Iframetimer: " + iFrameTimer);
-            Console.WriteLine(timer);
-            Console.WriteLine(isHit);
         }
 
         public void DashCooldown(GameTime gt)
