@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    public abstract class GameObject 
+    public abstract class GameObject
     {
         protected Vector2 pos;
         protected Texture2D tex;
@@ -18,6 +18,7 @@ namespace Cyberpriest
        
         public Rectangle hitBox;
         public bool isActive = true;
+        public bool isHit = false;
 
         public GameObject(Texture2D tex, Vector2 pos)
         {
