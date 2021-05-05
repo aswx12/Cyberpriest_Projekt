@@ -11,6 +11,9 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
+        Bullet bullet;
+        public List<Bullet> bulletList = new List<Bullet>();
+
         private int lives;
         public static int score;
         int bY;
@@ -18,11 +21,21 @@ namespace Cyberpriest
         int dashLength = 150;
         int jumpHeight = 12;
         int dashCount;
+        int shotCount;
+        int hitCount;
+
+        float timer;
+        float iFrameTimer = -1;
+
+        double nextBlinkTime;
         double dashCD;
+        double shootCD;
+        double hitCD;
         float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
         bool downPlatform;
+        bool blinking;
         Vector2 startPos;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
@@ -37,6 +50,11 @@ namespace Cyberpriest
 
             dashCount = 1;
             dashCD = 0;
+
+            shotCount = 1;
+            shootCD = 0;
+
+            isHit = false;
         }
 
         public override void HandleCollision(GameObject other)
@@ -44,9 +62,19 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
+
+            if (other is Bullet)
+            {
+                return;
+            }
+
             if (other is EnemyType)
             {
-                lives--;
+                isHit = true;
+                if (iFrameTimer <= 0 && lives >= 0)
+                {
+                    lives--;
+                }
                 Console.WriteLine(lives);
                 return;
             }
@@ -67,6 +95,25 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            Console.WriteLine(iFrameTimer);
+
+            if (lives <= 0) //Placeholder death "method".
+            {
+                pos = startPos;
+                lives = 3;
+            }
+
+            if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)
+            {
+                blinking = !blinking;
+                nextBlinkTime = gt.TotalGameTime.TotalMilliseconds + 400;
+            }
+
+            foreach (Bullet b in bulletList)
+            {
+                b.Update(gt);
+            }
+
             if (isGrounded)
             {
                 downPlatform = true;
@@ -76,7 +123,9 @@ namespace Cyberpriest
             velocity.X = 0;
 
             Control();
+            ShootCooldown(gt);
             DashCooldown(gt);
+            IFrame(gt);
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
@@ -132,11 +181,72 @@ namespace Cyberpriest
                 playerFacing = Facing.Jump;
                 srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
+
+            //Fråga vid frågestund angående mouseclicks.
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.F))
+            {
+                if (shotCount > 0)
+                {
+                    bullet = new Bullet(AssetManager.bomb, pos);
+                    bulletList.Add(bullet);
+                    Console.WriteLine("CREATED");
+                    bullet.isActive = true;
+
+                    shotCount = 0;
+                }
+
+            }
+
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, pos, Color.White);
+            if (iFrameTimer >= 0)
+            {
+                if (blinking)
+                    sb.Draw(tex, pos, Color.White);
+            }
+            else
+            {
+                sb.Draw(tex, pos, Color.White);
+            }
+                
+            foreach (Bullet b in bulletList)
+            {
+                b.Draw(sb);
+            }
+        }
+
+        public void ShootCooldown(GameTime gt)
+        {
+            if (shotCount <= 0)
+                shootCD += gt.ElapsedGameTime.TotalSeconds;
+
+            double cooldown = 1;
+
+            if (shootCD >= cooldown && shotCount == 0)
+            {
+                shotCount = 1;
+                if (shotCount == 1)
+                    shootCD = 0;
+            }
+        }
+
+        public void IFrame(GameTime gameTime)
+        {
+            if (iFrameTimer <= 0 && isHit == true)
+            {
+                isHit = false;
+                iFrameTimer = 3;
+            }
+
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            iFrameTimer -= (int)timer;
+
+            if (timer >= 1.0F)
+            {
+                timer = 0F;
+            }
         }
 
         public void DashCooldown(GameTime gt)

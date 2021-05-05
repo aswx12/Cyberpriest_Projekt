@@ -38,12 +38,23 @@ namespace Cyberpriest
                 pos.Y = hitBox.Y;
             }
 
+            if(other is Bullet)
+            {
+                healthPoints -= 50;
+                other.isActive = false;
+            }
+
             if (other is Player)
                 isHit = true;
         }
 
         public override void Update(GameTime gt)
         {
+            if (healthPoints <= 0)
+            {
+                isActive = false;
+            }
+
             pos += velocity;
             velocity.Y += gravity;
 

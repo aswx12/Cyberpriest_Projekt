@@ -22,10 +22,13 @@ namespace Cyberpriest
         private float randomizationTime;
         private float randomizationPeriod;
 
+        private double hitTimer;
+
         public EnemyGhost(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
         {
             this.player = player;
             isActive = true;
+            isHit = false;
             tileSize.X = 128;
             healthPoints = 200;
 
@@ -39,24 +42,46 @@ namespace Cyberpriest
 
             randomizationPeriod = 2;
             rand = new Random();
-
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
         }
 
         public override void HandleCollision(GameObject other)
         {
+            velocity.Y = 0;
+            isGrounded = true;
+
+            if (other is Platform)
+            {
+                velocity.Y = 0;
+                isGrounded = true;
+                hitBox.Y = other.hitBox.Y - hitBox.Height;
+                pos.Y = hitBox.Y;
+            }
+
+            if (other is Bullet && other.isActive == true && isActive == true)
+            {
+                healthPoints -= 50;
+                other.isActive = false;
+            }
+
+            if (other is Player)
+                isHit = true;
         }
 
         public override void Update(GameTime gt)
         {
+            if(healthPoints <= 0)
+            {
+                isActive = false;
+            }
+
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
             distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
             distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
-            
-            Movement();
 
+            Movement();
             EnemyState(gt);
 
             //Console.WriteLine("distanceToPlayerX " + distanceToPlayerX);
@@ -97,6 +122,21 @@ namespace Cyberpriest
                     break;
             }
         }
+
+        //void HitTimer(GameTime gt)
+        //{
+        //    if (isHit == true)
+        //    {
+        //        hitTimer += gt.ElapsedGameTime.TotalSeconds;
+        //    }
+
+        //    double cooldown = 2;
+
+        //    if (hitTimer >= cooldown && isHit == true)
+        //    {
+        //        isHit = false;
+        //    }
+        //}
 
         void RandomDirection()
         {
