@@ -29,7 +29,6 @@ namespace Cyberpriest
             this.player = player;
             isActive = true;
             isHit = false;
-            tileSize.X = 128;
             healthPoints = 200;
 
             enemyState = Cyberpriest.EnemyState.Patrol;

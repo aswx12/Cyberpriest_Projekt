@@ -10,7 +10,6 @@ namespace Cyberpriest
 {
     class Inventory : StationaryObject
     {
-
         public bool occupied;
 
         public Inventory(Texture2D tex, Vector2 pos) : base(tex, pos)

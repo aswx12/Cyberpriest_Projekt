@@ -14,7 +14,7 @@ namespace Cyberpriest
         public static Texture2D player;
         public static Texture2D platform;
         public static Texture2D bg;
-        public static Texture2D inventory;
+        public static Texture2D inventoryBG;
         public static Texture2D item;
         public static Texture2D walltile;
         public static Texture2D enemy1;
@@ -30,7 +30,6 @@ namespace Cyberpriest
         public static Texture2D coinSprite;
         public static Texture2D tilesetSprite;
         public static Texture2D tilesetSprite2;
-        public static Texture2D enemy;
         public static Texture2D smallVTile;
         public static Texture2D largeVTile;
         public static Texture2D smallPlatform;
@@ -83,11 +82,11 @@ namespace Cyberpriest
             player= content.Load<Texture2D>("player1");
             platform= content.Load<Texture2D>("plattform");
             bg= content.Load<Texture2D>("background");
-            inventory= content.Load<Texture2D>("hole");
-            item= content.Load<Texture2D>("PotionsSprite");
-            walltile= content.Load<Texture2D>("walltile");
+            inventoryBG= content.Load<Texture2D>("hole");
+            item= content.Load<Texture2D>("PotionsSprite");          
             enemy1 = content.Load<Texture2D>("Enemy1");
             enemy2 = content.Load<Texture2D>("enemy2");
+            enemy3 = content.Load<Texture2D>("enemy3");
             purpleFire = content.Load<Texture2D>("PurpleFireSprite");
             redFire = content.Load<Texture2D>("RedFireSprite");
             shield1 = content.Load<Texture2D>("Shield1");

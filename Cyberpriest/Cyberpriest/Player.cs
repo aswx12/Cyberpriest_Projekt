@@ -46,7 +46,7 @@ namespace Cyberpriest
             velocity = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
             playerFacing = Facing.Idle;
-            srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
+            //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
 
             dashCount = 1;
             dashCD = 0;
@@ -134,7 +134,6 @@ namespace Cyberpriest
 
         public void Control()
         {
-            KeyMouseReader.Update();
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Right))
             {
@@ -170,7 +169,7 @@ namespace Cyberpriest
                 velocity.Y = -jumpHeight; //jump height               
                 isGrounded = false;
                 playerFacing = Facing.Jump;
-                srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
+                //srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.Down) && isGrounded)
@@ -179,11 +178,11 @@ namespace Cyberpriest
                 isGrounded = false;
                 downPlatform = false;
                 playerFacing = Facing.Jump;
-                srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
+                //srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
             //Fråga vid frågestund angående mouseclicks.
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.F))
+            if (KeyMouseReader.LeftClick())
             {
                 if (shotCount > 0)
                 {

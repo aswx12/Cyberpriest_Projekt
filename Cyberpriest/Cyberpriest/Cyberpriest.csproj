@@ -81,6 +81,7 @@
     </Content>
     <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
+    <Content Include="Content\PotionsSprite.png" />
     <Content Include="Content\walltile.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

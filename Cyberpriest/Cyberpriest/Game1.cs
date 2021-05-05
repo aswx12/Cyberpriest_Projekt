@@ -73,10 +73,9 @@ namespace Cyberpriest
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            keyboardState = Keyboard.GetState();
             KeyMouseReader.Update();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();           
 
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
 
@@ -112,8 +111,7 @@ namespace Cyberpriest
 
                     break;
             }
-            Console.WriteLine(mouseRect);
-            Console.WriteLine("Count: " + map.inventory.Count);
+
             base.Update(gameTime);
         }
 
@@ -139,7 +137,7 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Inventory:
-                    spriteBatch.Draw(AssetManager.inventory, Vector2.Zero, Color.White);
+                    spriteBatch.Draw(AssetManager.inventoryBG, Vector2.Zero, Color.White);
                     DrawInventory(spriteBatch);
                     foreach (Item item in map.inventory) //
                         item.DrawInInventory(spriteBatch);//
