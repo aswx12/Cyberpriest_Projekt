@@ -62,6 +62,7 @@ namespace Cyberpriest
         public static Texture2D rubyEye;
         public static Texture2D diamond;
         public static Texture2D diamond2;
+
         public static Texture2D silverBoots;
         public static Texture2D silverChestplate;
         public static Texture2D silverHelmet;
@@ -80,7 +81,9 @@ namespace Cyberpriest
 
         public static void LoadAssets(ContentManager content)
         {
-            player= content.Load<Texture2D>("player1");
+            
+            gunVer1 = content.Load<Texture2D>("Gun_Ver1");
+            player = content.Load<Texture2D>("player1");
             platform= content.Load<Texture2D>("plattform");
             bg= content.Load<Texture2D>("background");
             inventory= content.Load<Texture2D>("hole");
@@ -127,6 +130,7 @@ namespace Cyberpriest
             rubyEye = content.Load<Texture2D>("l0_sprite_22");
             diamond = content.Load<Texture2D>("l0_sprite_23");
             diamond2 = content.Load<Texture2D>("l0_sprite_24");
+
             silverBoots = content.Load<Texture2D>("Armor_Boots");
             silverChestplate = content.Load<Texture2D>("Armor_Chestplate");
             silverHelmet = content.Load<Texture2D>("Armor_Helmet");
