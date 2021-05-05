@@ -14,7 +14,6 @@ namespace Cyberpriest
     {
         Random rand = new Random();
         int random;
-        int slotNr = 0;
 
         public List<GameObject> objectList;
         public List<GameObject> inventory;
@@ -25,7 +24,7 @@ namespace Cyberpriest
         public Player player;
         public Item item;
         public Platform platform;
-        public EnemyType enemy;
+        //public EnemyType enemy;
         public EnemyGhost enemyGhost;
 
         Vector2 PlayerPos;
@@ -52,8 +51,7 @@ namespace Cyberpriest
             {
                 for (int j = 0; j < inventoryArray.GetLength(1); j++)
                 {
-                    slotNr++;
-                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i + 0, 64 * j + 100), slotNr);
+                    inventoryArray[i, j] = new Inventory(AssetManager.walltile, new Vector2(64 * i, 64 * j));
                     objectList.Add(inventoryArray[i, j]);
                 }
             }
@@ -83,10 +81,10 @@ namespace Cyberpriest
 
             itemPos = ParseVectorArray(stringList[5]);
 
-            for (int i = 0; i <= 10; i++)
+            for (int i = 0; i < itemPos.Length; i++)
             {
                 random = rand.Next(0, 3);
-                item = new Item(random, AssetManager.item, new Vector2(itemPos[0].X+64*i,itemPos[0].Y), inventoryArray);
+                item = new Item(random, AssetManager.item, itemPos[i], inventoryArray);
 
                 objectList.Add(item);
             }
