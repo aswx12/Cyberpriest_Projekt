@@ -59,13 +59,29 @@ namespace Cyberpriest
         public static Texture2D rubyEye;
         public static Texture2D diamond;
         public static Texture2D diamond2;
+        public static Texture2D armorBoots;
+        public static Texture2D armorChestplate;
+        public static Texture2D armorHelmet;
+        public static Texture2D armorPants;
+        public static Texture2D bloodySword;
+        public static Texture2D blueSword;
+        public static Texture2D gunVer1;
+        public static Texture2D gunVer2;
+        public static Texture2D gunVer3;
+        public static Texture2D knife;
+        public static Texture2D redSword;
+        public static Texture2D bgLVL1;
+        //public static Texture2D 
+        //public static Texture2D
 
         public static SpriteFont normalFont;
         public static SpriteFont selectedFont;
 
         public static void LoadAssets(ContentManager content)
         {
-            player= content.Load<Texture2D>("player1");
+            
+            gunVer1 = content.Load<Texture2D>("Gun_Ver1");
+            player = content.Load<Texture2D>("player1");
             platform= content.Load<Texture2D>("plattform");
             bg= content.Load<Texture2D>("background");
             inventory= content.Load<Texture2D>("hole");
@@ -112,6 +128,18 @@ namespace Cyberpriest
             rubyEye = content.Load<Texture2D>("l0_sprite_22");
             diamond = content.Load<Texture2D>("l0_sprite_23");
             diamond2 = content.Load<Texture2D>("l0_sprite_24");
+            armorBoots = content.Load<Texture2D>("Armor_Boots");
+            armorChestplate = content.Load<Texture2D>("Armor_Chestplate");
+            armorHelmet = content.Load<Texture2D>("Armor_Hemlet");
+            armorPants = content.Load<Texture2D>("Armor_Pants.png");
+            bloodySword = content.Load<Texture2D>("Bloody_Sword");
+            blueSword = content.Load<Texture2D>("Blue_Sword");
+            gunVer1 = content.Load<Texture2D>("Gun_Ver1");
+            gunVer2 = content.Load<Texture2D>("Gun_Ver2");
+            gunVer3 = content.Load<Texture2D>("Gun_Ver3");
+            knife = content.Load<Texture2D>("knife");
+            redSword = content.Load<Texture2D>("Red_Sword");
+            bgLVL1 = content.Load<Texture2D>("BG_Lvl_1");
 
             normalFont = content.Load<SpriteFont>(@"Font\normalFont");
             selectedFont= content.Load<SpriteFont>(@"Font\selectedFont");
