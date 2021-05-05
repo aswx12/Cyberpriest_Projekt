@@ -37,6 +37,7 @@
 /processorParam:TextureFormat=Color
 /build:Armor_Chestplate.png
 
+
 #begin Armor_Helmet.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -47,6 +48,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+
 /build:Armor_Helmet.png
 
 #begin Armor_Pants.png
@@ -59,6 +61,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+
 /build:Armor_Pants.png
 
 #begin background.png
@@ -133,6 +136,7 @@
 /processorParam:TextureFormat=Color
 /build:Blue_Sword.png
 
+
 #begin Boss_Gluttony.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -180,6 +184,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BrickTilesetSprite2.png
+
+#begin C:/Users/Kristian/OneDrive/Skrivbord/Sprites_Cyberpriest/Shield1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:C:/Users/Kristian/OneDrive/Skrivbord/Sprites_Cyberpriest/Shield1.png;Shield1.png
+
+#begin C:/Users/Kristian/OneDrive/Skrivbord/Sprites_Cyberpriest/Shield2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:C:/Users/Kristian/OneDrive/Skrivbord/Sprites_Cyberpriest/Shield2.png;Shield2.png
 
 #begin CoinSprite.png
 /importer:TextureImporter
@@ -304,6 +332,7 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:hole.png
+
 
 #begin InventorySlot.png
 /importer:TextureImporter
