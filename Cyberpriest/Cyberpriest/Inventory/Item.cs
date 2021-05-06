@@ -20,7 +20,6 @@ namespace Cyberpriest
         {
             tileSize = new Point(64, 64);
             isActive = true;
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             isCollected = false;
             this.inventory = inventory;
             this.itemId = itemId;
@@ -46,7 +45,11 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
-
+            if(other is Player)
+            {
+                isActive = false;
+                isCollected = true;
+            }
         }
 
         public Vector2 SetSlotPos

@@ -111,7 +111,6 @@ namespace Cyberpriest
 
                     break;
             }
-
             base.Update(gameTime);
         }
 
@@ -189,8 +188,12 @@ namespace Cyberpriest
                         {
                             if (otherObj is Platform)
                             {
-                                if (otherObj.PixelCollision(obj))
-                                    obj.HandleCollision(otherObj);
+                                if(!(obj is EnemyType))
+                                {
+                                    if (otherObj.PixelCollision(obj))
+                                        obj.HandleCollision(otherObj);
+                                }
+                                
                             }
 
                             if (obj is Player)
@@ -247,6 +250,7 @@ namespace Cyberpriest
                                         }
 
                                         obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
 
                                     }
                                 }

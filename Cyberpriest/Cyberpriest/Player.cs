@@ -47,7 +47,7 @@ namespace Cyberpriest
             bY = window.ClientBounds.Height;
             playerFacing = Facing.Idle;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
-
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
             dashCD = 0;
 
@@ -81,8 +81,7 @@ namespace Cyberpriest
 
             if (other is Item)
             {
-                other.isActive = false;
-                (other as Item).isCollected = true;
+                
                 return;
             }
 
@@ -95,8 +94,6 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine(iFrameTimer);
-
             if (lives <= 0) //Placeholder death "method".
             {
                 pos = startPos;
