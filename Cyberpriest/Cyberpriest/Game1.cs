@@ -51,11 +51,12 @@ namespace Cyberpriest
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
             map = new MapParser("Content/level1.txt");
- 
+
             /*-----------------------------Window Size-------------------------------*/
             //graphics.PreferredBackBufferWidth = 1920;
             //graphics.PreferredBackBufferHeight = 1080;
             //graphics.ApplyChanges();
+
         }
 
         public static GameState GetState
@@ -75,7 +76,7 @@ namespace Cyberpriest
         {
             KeyMouseReader.Update();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();           
+                Exit();
 
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
 
@@ -159,14 +160,14 @@ namespace Cyberpriest
 
         public void GamePlay(GameTime gameTime)
         {
-            foreach(GameObject enemy in map.objectList)
+            foreach (GameObject enemy in map.objectList)
             {
-                if(enemy is Player)
+                if (enemy is Player)
                 {
                     continue;
                 }
 
-                foreach(Bullet bullet in map.player.bulletList)
+                foreach (Bullet bullet in map.player.bulletList)
                 {
                     if (bullet.IntersectCollision(enemy))
                     {
@@ -188,12 +189,17 @@ namespace Cyberpriest
                         {
                             if (otherObj is Platform)
                             {
-                                if(!(obj is EnemyType))
+                                if (otherObj.PixelCollision(obj))
                                 {
-                                    if (otherObj.PixelCollision(obj))
-                                        obj.HandleCollision(otherObj);
+                                    if (obj is Player)
+                                    {
+                                        //Hardcoded offsets
+                                        if (otherObj.GetPos.X > (obj.GetPos.X + 35) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - 25) < obj.GetPos.X)
+                                            continue;
+                                    }
+                                    obj.HandleCollision(otherObj);
                                 }
-                                
+
                             }
 
                             if (obj is Player)
@@ -238,7 +244,7 @@ namespace Cyberpriest
                                         continue;
                                     }
 
-                                    if (obj.PixelCollision(otherObj))
+                                    if (otherObj.PixelCollision(obj))
                                     {
                                         (otherObj as Item).row = row;
                                         (otherObj as Item).column = column;

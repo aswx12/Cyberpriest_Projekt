@@ -47,7 +47,7 @@ namespace Cyberpriest
             bY = window.ClientBounds.Height;
             playerFacing = Facing.Idle;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
             dashCD = 0;
 
@@ -148,7 +148,7 @@ namespace Cyberpriest
             else
                 playerFacing = Facing.Idle;
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Z)) //add dash cooldown
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.Z))
             {
                 if (dashCount > 0)
                 {
@@ -178,7 +178,6 @@ namespace Cyberpriest
                 //srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
-            //Fråga vid frågestund angående mouseclicks.
             if (KeyMouseReader.LeftClick())
             {
                 if (shotCount > 0)

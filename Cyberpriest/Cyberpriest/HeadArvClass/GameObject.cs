@@ -15,10 +15,11 @@ namespace Cyberpriest
         protected Random rand;
         protected Rectangle srRect;
         protected Point tileSize;
-       
+        protected int offset;
         public Rectangle hitBox;
         public bool isActive = true;
         public bool isHit = false;
+
 
         public GameObject(Texture2D tex, Vector2 pos)
         {
@@ -37,7 +38,7 @@ namespace Cyberpriest
         public virtual bool IntersectCollision(GameObject other)
         {
             return hitBox.Intersects(other.hitBox);
-        }       
+        }
 
         public bool PixelCollision(GameObject other)
         {
@@ -59,13 +60,12 @@ namespace Cyberpriest
                     Color colorA = dataA[(x - hitBox.Left) + (y - hitBox.Top) * hitBox.Width];
                     Color colorB = dataB[(x - other.hitBox.Left) + (y - other.hitBox.Top) * other.hitBox.Width];
 
-                    if (colorA.A != 0 && colorB.A != 0)//(colorA.A + colorB.A > 200)
+                    if (colorA.A != 0 && colorB.A != 0)
                     {
                         return true;
                     }
                 }
             }
-
             return false;
         }
 
@@ -82,6 +82,14 @@ namespace Cyberpriest
             get
             {
                 return pos;
+            }
+        }
+
+        public virtual int GetTexLength
+        {
+            get
+            {
+                return tex.Width;
             }
         }
     }
