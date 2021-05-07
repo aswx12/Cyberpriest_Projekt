@@ -12,9 +12,23 @@ namespace Cyberpriest
 
     class EnemyType : MovingObject
     {
-        protected bool isHit;
+        protected Vector2 startVelocity;
+
+        protected Player player;
+
+        protected EnemyState enemyState;
+
         protected int healthPoints;
         protected Vector2 moveDir;
+
+        protected int chasingRange;
+        protected int distanceToPlayerY;
+        protected int distanceToPlayerX;
+
+        protected float randomizationTime;
+        protected float randomizationPeriod;
+
+        protected double hitTimer;
 
         public EnemyType(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {

@@ -1,29 +1,28 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    class EnemyGhost : EnemyType
+    class EnemySkeleton : EnemyType
     {
-        public EnemyGhost(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
+        public EnemySkeleton(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
         {
             this.player = player;
             isActive = true;
             isHit = false;
-            healthPoints = 200;
+            healthPoints = 100;
 
             enemyState = Cyberpriest.EnemyState.Patrol;
 
-            moveDir = new Vector2(50, 50); 
-            velocity = new Vector2(1, 1);
+            moveDir = new Vector2(50, 50);
+            velocity = new Vector2(1, 0);
             startVelocity = velocity;
-            chasingRange = 250;
+            chasingRange = 200;
 
             randomizationPeriod = 2;
             rand = new Random();
@@ -32,6 +31,7 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
+            velocity.Y = 0;
             isGrounded = true;
 
             if (other is Platform)
@@ -54,7 +54,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if(healthPoints <= 0)
+
+            if (healthPoints <= 0)
             {
                 isActive = false;
             }
@@ -64,6 +65,8 @@ namespace Cyberpriest
 
             distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
             distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
+
+            velocity.Y += gravity;
 
             Movement();
             EnemyState(gt);
@@ -77,6 +80,12 @@ namespace Cyberpriest
 
         private void Movement()
         {
+            if (isGrounded == false)
+            {
+                pos.Y += gravity;
+            }
+
+
             if (distanceToPlayerX < 0)
                 distanceToPlayerX = distanceToPlayerX * -1;
 
@@ -96,62 +105,39 @@ namespace Cyberpriest
             switch (enemyState)
             {
                 case Cyberpriest.EnemyState.Patrol:
-                    pos += velocity * moveDir * 0.01f;
+                    pos += velocity;
                     PatrolTimer(gt);
                     break;
                 case Cyberpriest.EnemyState.Chase:
-                    pos += startVelocity * moveDir * 0.01f;
+                    if (player.GetPos.X > pos.X)
+                    {
+                        pos.X += velocity.X;
+                    }
+                    else if (player.GetPos.X < pos.X)
+                    {
+                        pos.X -= velocity.X;
+                    }
+                    //pos += velocity * moveDir * 0.01f;
                     if (distanceToPlayerX > chasingRange)
                         enemyState = Cyberpriest.EnemyState.Patrol;
                     break;
             }
         }
 
-        //void HitTimer(GameTime gt)
-        //{
-        //    if (isHit == true)
-        //    {
-        //        hitTimer += gt.ElapsedGameTime.TotalSeconds;
-        //    }
-
-        //    double cooldown = 2;
-
-        //    if (hitTimer >= cooldown && isHit == true)
-        //    {
-        //        isHit = false;
-        //    }
-        //}
-
         void RandomDirection()
         {
-            int random = rand.Next(0, 4);
+            int random = rand.Next(0, 2);
 
-            //Down right
-            if (random == 0) 
-            {
-                velocity.X = 1f;
-                velocity.Y = 2f;
-            }
-
-            //Down left
-            if (random == 1)
-            {
-                velocity.X = -1f; 
-                velocity.Y = 2f;
-            }
-
-            //Up left
-            if (random == 2) 
+            //Left
+            if (random == 0)
             {
                 velocity.X = -1f;
-                velocity.Y = -2f;
             }
 
-            //Up right
-            if (random == 3) 
+            //Right
+            if (random == 1)
             {
                 velocity.X = 1f;
-                velocity.Y = -2f;
             }
         }
 
@@ -159,7 +145,7 @@ namespace Cyberpriest
         {
             randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
 
-            if(randomizationTime >= randomizationPeriod)
+            if (randomizationTime >= randomizationPeriod)
             {
                 RandomDirection();
                 randomizationTime = 0.0f;
@@ -169,7 +155,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
-                if(moveDir.X < 0)
+                if (moveDir.X < 0)
                     sb.Draw(tex, pos, null, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
                 else
                     sb.Draw(tex, pos, Color.Red);
@@ -177,3 +163,4 @@ namespace Cyberpriest
 
     }
 }
+

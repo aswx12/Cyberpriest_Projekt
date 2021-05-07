@@ -26,6 +26,7 @@ namespace Cyberpriest
         public Platform platform;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public EnemySkeleton enemySkeleton;
 
         Vector2 PlayerPos;
         Vector2 EnemyPos;
@@ -100,7 +101,7 @@ namespace Cyberpriest
 
             #endregion
 
-            #region Enemy
+            #region EnemyGhost
 
             EnemyPos = ParsePos(stringList[6]);
 
@@ -109,6 +110,14 @@ namespace Cyberpriest
 
             #endregion
 
+            #region EnemySkeleton
+
+            EnemyPos = ParsePos(stringList[9]);
+
+            enemySkeleton = new EnemySkeleton(AssetManager.enemy3, EnemyPos, Game1.window, player);
+            objectList.Add(enemySkeleton);
+
+            #endregion
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)

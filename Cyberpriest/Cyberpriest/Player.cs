@@ -68,7 +68,7 @@ namespace Cyberpriest
                 return;
             }
 
-            if (other is EnemyType)
+            if (other is EnemyType && other.isActive == true)
             {
                 isHit = true;
                 if (iFrameTimer <= 0 && lives >= 0)
@@ -196,7 +196,7 @@ namespace Cyberpriest
 
         public override void Draw(SpriteBatch sb)
         {
-            if (iFrameTimer >= 0)
+            if (iFrameTimer > 0)
             {
                 if (blinking)
                     sb.Draw(tex, pos, Color.White);
