@@ -63,10 +63,10 @@ namespace Cyberpriest
             isGrounded = true;
 
 
-            if (other is Bullet)
-            {
-                return;
-            }
+            //if (other is Bullet)
+            //{
+            //    return;
+            //}
 
             if (other is EnemyType)
             {
