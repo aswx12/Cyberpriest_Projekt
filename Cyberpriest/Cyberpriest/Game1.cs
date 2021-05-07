@@ -12,21 +12,20 @@ namespace Cyberpriest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         MapParser map;
         Camera camera;
+        Vector2 playerPos;
+        Rectangle mouseRect;
+        MenuComponent menuComponent;
+        KeyboardComponent keyboardComponent;
 
         static GameState gameState;
-        KeyboardState keyboardState;
-
         public static GameWindow window;
-        Vector2 playerPos;
-
-        MenuComponent menuComponent;
-        public RenderTarget2D renderTarget;
-        public Rectangle mouseRect;
-
+        
         int row = 0;
         int column = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,9 +35,12 @@ namespace Cyberpriest
         protected override void Initialize()
         {
             window = Window;
+
             menuComponent = new MenuComponent(this);
+            keyboardComponent = new KeyboardComponent(this);
+
             Components.Add(menuComponent);
-            Components.Add(new KeyboardComponent(this));
+            Components.Add(keyboardComponent);
 
             base.Initialize();
         }
@@ -46,17 +48,13 @@ namespace Cyberpriest
         protected override void LoadContent()
         {
             IsMouseVisible = true;
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
+
             AssetManager.LoadAssets(Content);
             window.AllowUserResizing = true;
             map = new MapParser("Content/level1.txt");
-
-            /*-----------------------------Window Size-------------------------------*/
-            //graphics.PreferredBackBufferWidth = 1920;
-            //graphics.PreferredBackBufferHeight = 1080;
-            //graphics.ApplyChanges();
-
         }
 
         public static GameState GetState
@@ -75,12 +73,14 @@ namespace Cyberpriest
         protected override void Update(GameTime gameTime)
         {
             KeyMouseReader.Update();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            mouseRect = new Rectangle(KeyMouseReader.mouseState.X - 8, KeyMouseReader.mouseState.Y - 8, 8, 8);
+            mouseRect = new Rectangle(KeyMouseReader.mouseState.X, KeyMouseReader.mouseState.Y, 8, 8);
 
             camera.SetPosition(playerPos, gameState);
+
             UIKeyBinds();
 
             switch (gameState)
@@ -96,6 +96,7 @@ namespace Cyberpriest
                     InventorySlotCheck();
 
                     GamePlay(gameTime);
+
                     break;
 
                 case GameState.Inventory:
@@ -117,7 +118,6 @@ namespace Cyberpriest
 
         protected override void Draw(GameTime gameTime)
         {
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.Transform);
@@ -131,16 +131,20 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Play:
+
                     map.Draw(spriteBatch);
+
                     spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
 
                     break;
 
                 case GameState.Inventory:
+
                     spriteBatch.Draw(AssetManager.inventoryBG, Vector2.Zero, Color.White);
                     DrawInventory(spriteBatch);
-                    foreach (Item item in map.inventory) //
-                        item.DrawInInventory(spriteBatch);//
+
+                    foreach (Item item in map.inventory) 
+                        item.DrawInInventory(spriteBatch);
 
                     break;
 
@@ -149,7 +153,9 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Menu:
+
                     menuComponent.Draw(spriteBatch);
+
                     break;
             }
 
@@ -158,20 +164,20 @@ namespace Cyberpriest
             base.Draw(gameTime);
         }
 
-        public void GamePlay(GameTime gameTime)
+        public void GamePlay(GameTime gameTime) //skapa en egen klass för gameplay
         {
-            foreach (GameObject enemy in map.objectList)
+            foreach (GameObject movingObj in map.objectList)
             {
-                if (enemy is Player)
+                if (movingObj is Player)
                 {
                     continue;
                 }
 
                 foreach (Bullet bullet in map.player.bulletList)
                 {
-                    if (bullet.IntersectCollision(enemy))
+                    if (bullet.IntersectCollision(movingObj))
                     {
-                        enemy.HandleCollision(bullet);
+                        movingObj.HandleCollision(bullet);
                     }
                 }
             }
@@ -193,13 +199,14 @@ namespace Cyberpriest
                                 {
                                     if (obj is Player)
                                     {
-                                        //Hardcoded offsets
-                                        if (otherObj.GetPos.X > (obj.GetPos.X + 35) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - 25) < obj.GetPos.X)
+                                        int leftSideOffset = 35;
+                                        int rightSideOffset = 25;
+
+                                        if (otherObj.GetPos.X > (obj.GetPos.X + leftSideOffset) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - rightSideOffset) < obj.GetPos.X)
                                             continue;
                                     }
                                     obj.HandleCollision(otherObj);
                                 }
-
                             }
 
                             if (obj is Player)
@@ -210,20 +217,13 @@ namespace Cyberpriest
 
                                     if (!otherObj.isActive)
                                         continue;
+
                                     if (obj.PixelCollision(otherObj))
                                     {
                                         obj.HandleCollision(otherObj);
                                         otherObj.HandleCollision(obj);
                                     }
                                 }
-
-                                //if (other is Spike)
-                                //{
-                                //    if (go.PixelCollision(other))
-                                //    {
-                                //        go.HandleCollision(other);
-                                //    }
-                                //}
                             }
 
                             #region ItemToInventory
@@ -250,28 +250,29 @@ namespace Cyberpriest
                                         (otherObj as Item).column = column;
                                         (otherObj as Item).inInventory = true;
 
-                                        if (!map.inventoryArray[row, column].occupied)//
+                                        if (!map.inventoryArray[row, column].occupied)
                                         {
                                             map.inventory.Add(otherObj);
                                         }
 
                                         obj.HandleCollision(otherObj);
                                         otherObj.HandleCollision(obj);
-
                                     }
                                 }
                             }
 
                             #endregion
+
                         }
                     }
                 }
             }
         }
 
-        /*--------------------------METHODS--------------------------*/
+        #region Methods
 
-        public void UIKeyBinds()
+        //Keybinds for userinterface
+        public void UIKeyBinds()//förklaring kommentar
         {
             if (gameState == GameState.Play)
             {
@@ -307,6 +308,7 @@ namespace Cyberpriest
             }
         }
 
+        //Usage of items with mouseclicks.
         public void ItemUse()
         {
             foreach (Inventory inventory in map.inventoryArray)
@@ -329,13 +331,14 @@ namespace Cyberpriest
                     if (KeyMouseReader.RightClick())
                     {
                         item.inInventory = false;
-                        map.inventory.Remove(item);//item.isCollected = false;    
+                        map.inventory.Remove(item);  
                     }
                     break;
                 }
             }
         }
 
+        //Check for empty slots in inventory
         public void InventorySlotCheck()
         {
             if (map.inventoryArray[row, column].occupied)
@@ -350,10 +353,14 @@ namespace Cyberpriest
             }
         }
 
+        #endregion
+
     }
 }
 
-/*------------------TRASH-----------------------------------------------------
+#region Reusable Code
+
+/*
 public void Menu()
 {
     if (keyboardState.IsKeyDown(Keys.C))
@@ -362,7 +369,13 @@ public void Menu()
     }
 }
 
-       public void UnpauseInvent()
+    
+            /*-----------------------------Window Size-------------------------------
+graphics.PreferredBackBufferWidth = 1920;
+graphics.PreferredBackBufferHeight = 1080;
+graphics.ApplyChanges();
+
+public void UnpauseInvent()
         {
 
             //    gameState = GameState.Inventory;
@@ -400,6 +413,14 @@ public void Menu()
              device.SetRenderTarget(null);
          }
 
+                                    //if (other is Spike)
+                                //{
+                                //    if (go.PixelCollision(other))
+                                //    {
+                                //        go.HandleCollision(other);
+                                //    }
+                                //}
+
 
 
 
@@ -417,4 +438,5 @@ public void Menu()
 
     */
 
+#endregion
 
