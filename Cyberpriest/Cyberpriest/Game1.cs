@@ -213,7 +213,6 @@ namespace Cyberpriest
                             {
                                 if (otherObj is EnemyType)
                                 {
-                                    obj.isHit = true;
 
                                     if (!otherObj.isActive)
                                         continue;
