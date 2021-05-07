@@ -16,6 +16,7 @@ namespace Cyberpriest
         protected Rectangle srRect;
         protected Point tileSize;
         protected int offset;
+        protected int spriteOffset;
         public Rectangle hitBox;
         public bool isActive = true;
         public bool isHit = false;
