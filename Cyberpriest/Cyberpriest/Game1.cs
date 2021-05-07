@@ -191,7 +191,7 @@ namespace Cyberpriest
                             {
                                 if (otherObj.PixelCollision(obj))
                                 {
-                                    if (obj is Player)
+                                    if (obj is Player || obj is EnemyType)
                                     {
                                         //Hardcoded offsets
                                         if (otherObj.GetPos.X > (obj.GetPos.X + 35) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - 25) < obj.GetPos.X)
@@ -206,8 +206,6 @@ namespace Cyberpriest
                             {
                                 if (otherObj is EnemyType)
                                 {
-                                    obj.isHit = true;
-
                                     if (!otherObj.isActive)
                                         continue;
                                     if (obj.PixelCollision(otherObj))

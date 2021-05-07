@@ -11,7 +11,6 @@ namespace Cyberpriest
     class Bullet : MovingObject
     {
         private float timer;
-        Player player;
 
         public Bullet(Texture2D tex, Vector2 pos) : base(tex, pos)
         {

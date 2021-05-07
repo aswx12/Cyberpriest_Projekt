@@ -34,14 +34,6 @@ namespace Cyberpriest
         {
             isGrounded = true;
 
-            if (other is Platform)
-            {
-                velocity.Y = 0;
-                isGrounded = true;
-                hitBox.Y = other.hitBox.Y - hitBox.Height;
-                pos.Y = hitBox.Y;
-            }
-
             if (other is Bullet && other.isActive == true && isActive == true)
             {
                 healthPoints -= 50;
@@ -67,12 +59,6 @@ namespace Cyberpriest
 
             Movement();
             EnemyState(gt);
-
-            //Console.WriteLine("distanceToPlayerX " + distanceToPlayerX);
-            //Console.WriteLine("enemyState " + enemyState);
-            //Console.WriteLine("moveDir " + moveDir);
-            //Console.WriteLine("enemyState " + enemyState);
-            //Console.WriteLine("vel " + velocity);
         }
 
         private void Movement()
@@ -96,7 +82,7 @@ namespace Cyberpriest
             switch (enemyState)
             {
                 case Cyberpriest.EnemyState.Patrol:
-                    pos += velocity * moveDir * 0.01f;
+                    pos += velocity;
                     PatrolTimer(gt);
                     break;
                 case Cyberpriest.EnemyState.Chase:
@@ -106,21 +92,6 @@ namespace Cyberpriest
                     break;
             }
         }
-
-        //void HitTimer(GameTime gt)
-        //{
-        //    if (isHit == true)
-        //    {
-        //        hitTimer += gt.ElapsedGameTime.TotalSeconds;
-        //    }
-
-        //    double cooldown = 2;
-
-        //    if (hitTimer >= cooldown && isHit == true)
-        //    {
-        //        isHit = false;
-        //    }
-        //}
 
         void RandomDirection()
         {
@@ -170,9 +141,9 @@ namespace Cyberpriest
         {
             if (isActive == true)
                 if(moveDir.X < 0)
-                    sb.Draw(tex, pos, null, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
                 else
-                    sb.Draw(tex, pos, Color.Red);
+                    sb.Draw(tex, pos, Color.White);
         }
 
     }

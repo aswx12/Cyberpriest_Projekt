@@ -16,9 +16,7 @@ namespace Cyberpriest
             isActive = true;
             isHit = false;
             healthPoints = 100;
-
             enemyState = Cyberpriest.EnemyState.Patrol;
-
             moveDir = new Vector2(50, 50);
             velocity = new Vector2(1, 0);
             startVelocity = velocity;
@@ -36,8 +34,6 @@ namespace Cyberpriest
 
             if (other is Platform)
             {
-                velocity.Y = 0;
-                isGrounded = true;
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
             }
@@ -54,6 +50,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            pos.Y += gravity;
 
             if (healthPoints <= 0)
             {
@@ -66,26 +63,12 @@ namespace Cyberpriest
             distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
             distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
 
-            velocity.Y += gravity;
-
             Movement();
             EnemyState(gt);
-
-            //Console.WriteLine("distanceToPlayerX " + distanceToPlayerX);
-            //Console.WriteLine("enemyState " + enemyState);
-            //Console.WriteLine("moveDir " + moveDir);
-            //Console.WriteLine("enemyState " + enemyState);
-            //Console.WriteLine("vel " + velocity);
         }
 
         private void Movement()
         {
-            if (isGrounded == false)
-            {
-                pos.Y += gravity;
-            }
-
-
             if (distanceToPlayerX < 0)
                 distanceToPlayerX = distanceToPlayerX * -1;
 
@@ -111,11 +94,11 @@ namespace Cyberpriest
                 case Cyberpriest.EnemyState.Chase:
                     if (player.GetPos.X > pos.X)
                     {
-                        pos.X += velocity.X;
+                        pos.X += startVelocity.X;
                     }
                     else if (player.GetPos.X < pos.X)
                     {
-                        pos.X -= velocity.X;
+                        pos.X -= startVelocity.X;
                     }
 
                     if (distanceToPlayerX > chasingRange)
@@ -156,9 +139,9 @@ namespace Cyberpriest
         {
             if (isActive == true)
                 if (moveDir.X < 0)
-                    sb.Draw(tex, pos, null, Color.Red, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
                 else
-                    sb.Draw(tex, pos, Color.Red);
+                    sb.Draw(tex, pos, Color.White);
         }
 
     }
