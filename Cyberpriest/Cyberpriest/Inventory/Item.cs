@@ -16,7 +16,6 @@ namespace Cyberpriest
         public int row, column;
         public bool inInventory;
 
-
         public Item(int itemId, Texture2D tex, Vector2 pos, Inventory[,] inventory) : base(tex, pos)
         {
             tileSize = new Point(64, 64);
@@ -24,7 +23,7 @@ namespace Cyberpriest
             isCollected = false;
             this.inventory = inventory;
             this.itemId = itemId;
-            offset = 20;
+            spriteOffset = 20;
             if (itemId == 0)
                 srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 0, tileSize.X, tileSize.Y);
             else if (itemId == 1)
@@ -32,8 +31,7 @@ namespace Cyberpriest
             else if (itemId == 2)
                 srRect = new Rectangle(tileSize.X * 2, tileSize.Y * 2, tileSize.X, tileSize.Y);
 
-
-            hitBox = new Rectangle((int)pos.X, ((int)pos.Y-offset), tileSize.X, tileSize.Y);
+            hitBox = new Rectangle((int)pos.X, ((int)pos.Y- spriteOffset), tileSize.X, tileSize.Y);
         }
 
         public override void Update(GameTime gameTime)
