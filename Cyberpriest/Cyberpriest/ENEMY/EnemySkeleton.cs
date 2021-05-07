@@ -117,7 +117,7 @@ namespace Cyberpriest
                     {
                         pos.X -= velocity.X;
                     }
-                    //pos += velocity * moveDir * 0.01f;
+
                     if (distanceToPlayerX > chasingRange)
                         enemyState = Cyberpriest.EnemyState.Patrol;
                     break;
