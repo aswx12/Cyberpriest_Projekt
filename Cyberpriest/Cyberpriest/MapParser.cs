@@ -104,7 +104,7 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[6]);
 
-            enemyGhost = new EnemyGhost(AssetManager.enemy1, EnemyPos, Game1.window, player);
+            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos, Game1.window, player);
             objectList.Add(enemyGhost);
 
             #endregion

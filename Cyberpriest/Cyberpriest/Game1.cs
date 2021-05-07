@@ -134,13 +134,13 @@ namespace Cyberpriest
 
                     map.Draw(spriteBatch);
 
-                    spriteBatch.Draw(AssetManager.bg, new Vector2(-100, -200), Color.White);
+                    spriteBatch.Draw(AssetManager.backgroundLvl1, new Vector2(-100, -200), Color.White);
 
                     break;
 
                 case GameState.Inventory:
 
-                    spriteBatch.Draw(AssetManager.inventoryBG, Vector2.Zero, Color.White);
+                    //spriteBatch.Draw(AssetManager.inventoryBG, Vector2.Zero, Color.White);
                     DrawInventory(spriteBatch);
 
                     foreach (Item item in map.inventory) 

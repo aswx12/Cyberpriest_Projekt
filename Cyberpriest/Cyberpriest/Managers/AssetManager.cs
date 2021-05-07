@@ -211,7 +211,7 @@ namespace Cyberpriest
 
             #region Background
 
-            //inventoryBG = content.Load<Texture2D>("hole");
+            inventoryBG = content.Load<Texture2D>("hole");
             backgroundLvl1 = content.Load<Texture2D>("BG_Lvl_1");
             inventorySlot = content.Load<Texture2D>("InventorySlot");
 
