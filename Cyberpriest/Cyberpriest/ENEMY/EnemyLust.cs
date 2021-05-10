@@ -1,38 +1,42 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    class EnemyGhost : EnemyType
+    class EnemyLust : EnemyType
     {
-        public EnemyGhost(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
+        public EnemyLust(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
         {
             this.player = player;
             isActive = true;
             isHit = false;
-            healthPoints = 200;
-
             enemyState = Cyberpriest.EnemyState.Patrol;
-
-            moveDir = new Vector2(50, 50); 
-            velocity = new Vector2(1, 1);
+            velocity = new Vector2(1, 0);
             startVelocity = velocity;
-            chasingRange = 250;
+            chasingRange = 200;
 
             randomizationPeriod = 2;
             rand = new Random();
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            healthPoints = 1000;
+            velocity = new Vector2(2, 0);
         }
 
         public override void HandleCollision(GameObject other)
         {
+            velocity.Y = 0;
             isGrounded = true;
+
+            if (other is Platform)
+            {
+                hitBox.Y = other.hitBox.Y - hitBox.Height;
+                pos.Y = hitBox.Y;
+            }
 
             if (other is Bullet && other.isActive == true && isActive == true)
             {
@@ -46,7 +50,9 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if(healthPoints <= 0)
+            pos.Y += gravity;
+
+            if (healthPoints <= 0)
             {
                 isActive = false;
             }
@@ -86,7 +92,15 @@ namespace Cyberpriest
                     PatrolTimer(gt);
                     break;
                 case Cyberpriest.EnemyState.Chase:
-                    pos += startVelocity * moveDir * 0.01f;
+                    if (player.GetPos.X > pos.X)
+                    {
+                        pos.X += startVelocity.X;
+                    }
+                    else if (player.GetPos.X < pos.X)
+                    {
+                        pos.X -= startVelocity.X;
+                    }
+
                     if (distanceToPlayerX > chasingRange)
                         enemyState = Cyberpriest.EnemyState.Patrol;
                     break;
@@ -95,34 +109,18 @@ namespace Cyberpriest
 
         void RandomDirection()
         {
-            int random = rand.Next(0, 4);
+            int random = rand.Next(0, 2);
 
-            //Down right
-            if (random == 0) 
-            {
-                velocity.X = 1f;
-                velocity.Y = 2f;
-            }
-
-            //Down left
-            if (random == 1)
-            {
-                velocity.X = -1f; 
-                velocity.Y = 2f;
-            }
-
-            //Up left
-            if (random == 2) 
+            //Left
+            if (random == 0)
             {
                 velocity.X = -1f;
-                velocity.Y = -2f;
             }
 
-            //Up right
-            if (random == 3) 
+            //Right
+            if (random == 1)
             {
                 velocity.X = 1f;
-                velocity.Y = -2f;
             }
         }
 
@@ -130,7 +128,7 @@ namespace Cyberpriest
         {
             randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
 
-            if(randomizationTime >= randomizationPeriod)
+            if (randomizationTime >= randomizationPeriod)
             {
                 RandomDirection();
                 randomizationTime = 0.0f;
@@ -140,10 +138,9 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
-                if(moveDir.X < 0)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
-                else
-                    sb.Draw(tex, pos, Color.White);
+            {
+                sb.Draw(tex, pos, Color.White);
+            }
         }
 
     }

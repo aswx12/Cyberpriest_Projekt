@@ -11,6 +11,7 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
+        public bool flyingPowerup = false;
         Bullet bullet;
         public List<Bullet> bulletList = new List<Bullet>();
 
@@ -22,7 +23,7 @@ namespace Cyberpriest
         int jumpHeight = 12;
         int dashCount;
         int shotCount;
-        int hitCount;
+        int maxFallDistance = 2500;
 
         float timer;
         float iFrameTimer = -1;
@@ -30,7 +31,6 @@ namespace Cyberpriest
         double nextBlinkTime;
         double dashCD;
         double shootCD;
-        double hitCD;
         float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
@@ -62,26 +62,26 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-
-            //if (other is Bullet)
-            //{
-            //    return;
-            //}
-
-            if (other is EnemyType)
+            if (other is Bullet)
             {
-                isHit = true;
+                return;
+            }
+
+
+            if (other is EnemyType && other.isActive == true)
+            {
                 if (iFrameTimer <= 0 && lives >= 0)
                 {
                     lives--;
                 }
+
+                isHit = true;
                 Console.WriteLine(lives);
                 return;
             }
 
             if (other is Item)
             {
-                
                 return;
             }
 
@@ -94,7 +94,10 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if (lives <= 0) //Placeholder death "method".
+            Console.WriteLine("Iframetimer: " + iFrameTimer);
+            Console.WriteLine("IsHit status: " + isHit);
+
+            if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
                 pos = startPos;
                 lives = 3;
@@ -132,14 +135,14 @@ namespace Cyberpriest
         public void Control()
         {
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Right))
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
                 effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
-            else if (KeyMouseReader.keyState.IsKeyDown(Keys.Left))// && pos.X >= startPos.X
+            else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
                 effect = SpriteEffects.FlipHorizontally;
@@ -148,7 +151,7 @@ namespace Cyberpriest
             else
                 playerFacing = Facing.Idle;
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Z))
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.LeftShift))
             {
                 if (dashCount > 0)
                 {
@@ -169,7 +172,7 @@ namespace Cyberpriest
                 //srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Down) && isGrounded)
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.S) && isGrounded)
             {
                 velocity.Y = jumpHeight;
                 isGrounded = false;
@@ -184,28 +187,25 @@ namespace Cyberpriest
                 {
                     bullet = new Bullet(AssetManager.bomb, pos);
                     bulletList.Add(bullet);
-                    Console.WriteLine("CREATED");
                     bullet.isActive = true;
 
                     shotCount = 0;
                 }
-
             }
-
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            if (iFrameTimer >= 0)
+            if (iFrameTimer > 0)
             {
                 if (blinking)
-                    sb.Draw(tex, pos, Color.White);
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else
             {
-                sb.Draw(tex, pos, Color.White);
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
-                
+
             foreach (Bullet b in bulletList)
             {
                 b.Draw(sb);
@@ -229,11 +229,13 @@ namespace Cyberpriest
 
         public void IFrame(GameTime gameTime)
         {
+
             if (iFrameTimer <= 0 && isHit == true)
             {
-                isHit = false;
                 iFrameTimer = 3;
             }
+
+            isHit = false;
 
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             iFrameTimer -= (int)timer;

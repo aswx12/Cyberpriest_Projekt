@@ -160,7 +160,117 @@ namespace Cyberpriest
             base.Draw(gameTime);
         }
 
+        public void GamePlay(GameTime gameTime)
+        {
+            foreach (GameObject enemy in map.objectList)
+            {
+                if (enemy is Player)
+                {
+                    continue;
+                }
+
+                foreach (Bullet bullet in map.player.bulletList)
+                {
+                    if (bullet.IntersectCollision(enemy))
+                    {
+                        enemy.HandleCollision(bullet);
+                    }
+                }
+            }
+
+            foreach (GameObject obj in map.objectList)
+                obj.Update(gameTime);
+
+            foreach (GameObject obj in map.objectList)
+            {
+                foreach (GameObject otherObj in map.objectList)
+                {
+                    if (otherObj != obj)
+                    {
+                        if (obj.IntersectCollision(otherObj))
+                        {
+                            if (otherObj is Platform)
+                            {
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    if (obj is Player || obj is EnemyType)
+                                    {
+                                        //Hardcoded offsets
+                                        if (otherObj.GetPos.X > (obj.GetPos.X + 35) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - 25) < obj.GetPos.X)
+                                            continue;
+                                    }
+                                    obj.HandleCollision(otherObj);
+                                }
+
+                            }
+
+                            if (obj is Player)
+                            {
+                                if (otherObj is EnemyType)
+                                {
+                                    if (!otherObj.isActive)
+                                        continue;
+                                    if (obj.PixelCollision(otherObj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+
+                                //if (other is Spike)
+                                //{
+                                //    if (go.PixelCollision(other))
+                                //    {
+                                //        go.HandleCollision(other);
+                                //    }
+                                //}
+                            }
+
+                            #region ItemToInventory
+
+                            if (otherObj is Item)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (map.inventory.Count >= 9)
+                                    {
+                                        //replace later with text shows on screen instead of debug.
+                                        Console.WriteLine("Inventory is full!");
+                                        continue;
+                                    }
+
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
+                                        (otherObj as Item).row = row;
+                                        (otherObj as Item).column = column;
+                                        (otherObj as Item).inInventory = true;
+
+                                        if (!map.inventoryArray[row, column].occupied)//
+                                        {
+                                            map.inventory.Add(otherObj);
+                                        }
+
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+
+                                    }
+                                }
+                            }
+
+                            #endregion
+                        }
+                    }
+                }
+            }
+        }
+
         #region Methods
+
 
         //Keybinds for userinterface
         public void UIKeyBinds()//förklaring kommentar
