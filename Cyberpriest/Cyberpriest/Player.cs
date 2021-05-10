@@ -38,6 +38,8 @@ namespace Cyberpriest
         bool blinking;
         Vector2 startPos;
 
+        int flyHeight = 5;
+
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
             isGrounded = true;
@@ -119,7 +121,8 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
-            velocity.Y += gravity; //fall speed
+            float i = 0.75f;
+            velocity.Y += gravity * i; //falling faster and faster
             velocity.X = 0;
 
             Control();
@@ -127,6 +130,14 @@ namespace Cyberpriest
             DashCooldown(gt);
             IFrame(gt);
 
+            if (WingsPowerUp.wingsPUActivated)
+                FlyingPowerUp();
+
+            if (BootsPowerUp.bootsPUActive)
+                JumpingPowerUp();
+            else
+                jumpHeight = 12;
+            
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
@@ -259,6 +270,39 @@ namespace Cyberpriest
                 if (dashCount == 1)
                     dashCD = 0;
             }
+        }
+      
+        public void FlyingPowerUp()
+        {
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.W))
+            {
+                velocity.Y = -flyHeight;
+                isGrounded = false;
+
+                if (!isGrounded)
+                    gravity = 0.1f;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.S) && !isGrounded)
+            {
+                velocity.Y = flyHeight;
+                isGrounded = false;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.D) && !isGrounded)
+            {
+                velocity.X = flyHeight;
+                isGrounded = false;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.A) && !isGrounded)
+            {
+                velocity.X = -flyHeight;
+                isGrounded = false;
+            }
+        }
+       
+        public void JumpingPowerUp()
+        {
+            jumpHeight = 20;
+            //jumpHeight *= 2; not working like it should
         }
 
         public override Vector2 GetPos

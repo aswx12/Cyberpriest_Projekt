@@ -264,6 +264,48 @@ namespace Cyberpriest
                             }
 
                             #endregion
+
+                            #region WingsPowerUp
+
+                            if (otherObj is WingsPowerUp)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
+                            #endregion
+
+                            #region BootsPowerUp
+
+                            if (otherObj is BootsPowerUp)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
+                            #endregion
                         }
                     }
                 }
