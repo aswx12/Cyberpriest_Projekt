@@ -12,6 +12,7 @@ namespace Cyberpriest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        MapParser map;
 
         Camera camera;
         Vector2 playerPos;

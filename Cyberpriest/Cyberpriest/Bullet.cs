@@ -11,9 +11,11 @@ namespace Cyberpriest
     class Bullet : MovingObject
     {
         private float timer;
+        private bool bulletTravelRight = true;
 
         public Bullet(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
+            
             lifeSpan = 5f;
             isActive = false;
             velocity = new Vector2(6, 0);
@@ -37,7 +39,22 @@ namespace Cyberpriest
 
             hitBox.X = (int)pos.X;
             hitBox.Y = (int)pos.Y;
-            pos += velocity;
+
+            if (Player.playerFacing == Facing.Right)
+                bulletTravelRight = true;
+
+            if (Player.playerFacing == Facing.Left)
+                bulletTravelRight = false;
+
+            if(bulletTravelRight == true)
+            {
+                pos += velocity;
+            }
+            
+            if(bulletTravelRight == false)
+            {
+                pos -= velocity;
+            }
         }
 
         public override void Draw(SpriteBatch sb)
