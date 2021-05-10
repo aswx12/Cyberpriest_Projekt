@@ -53,6 +53,7 @@
     <Compile Include="HeadArvClass\MovingObject.cs" />
     <Compile Include="Managers\KeyMouseReader.cs" />
     <Compile Include="MapParser.cs" />
+    <Compile Include="Managers\Background.cs" />
     <Compile Include="Menu\KeyboardComponent.cs" />
     <Compile Include="Menu\MenuChoice.cs" />
     <Compile Include="Menu\MenuComponent.cs" />
