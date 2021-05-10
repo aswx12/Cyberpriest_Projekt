@@ -19,6 +19,9 @@ namespace Cyberpriest
         MenuComponent menuComponent;
         KeyboardComponent keyboardComponent;
         Background[,] bgArray;
+        Background[,] bgArray2;
+        Background[,] bgArray3;
+        Background[,] bgArray4;
 
         static GameState gameState;
         public static GameWindow window;
@@ -57,7 +60,12 @@ namespace Cyberpriest
 
             GamePlayManager.map = new MapParser("Content/level1.txt");
 
+            #region Background (MÅSTE FIXAS)
             bgArray = new Background[9, 9];
+            bgArray2 = new Background[9, 9];
+            bgArray3 = new Background[9, 9];
+            bgArray4 = new Background[9, 9];
+
             for (int i = 0; i < bgArray.GetLength(0); i++)
             {
                 for (int j = 0; j < bgArray.GetLength(1); j++)
@@ -68,6 +76,36 @@ namespace Cyberpriest
                 }
             }
 
+            for (int i = 0; i < bgArray2.GetLength(0); i++)
+            {
+                for (int j = 0; j < bgArray2.GetLength(1); j++)
+                {
+                    int posX = -(j * AssetManager.backgroundLvl1.Width);
+                    int posY = -(i * AssetManager.backgroundLvl1.Height);
+                    bgArray2[i, j] = new Background(AssetManager.backgroundLvl1, posX, posY);
+                }
+            }
+
+            for (int i = 0; i < bgArray3.GetLength(0); i++)
+            {
+                for (int j = 0; j < bgArray3.GetLength(1); j++)
+                {
+                    int posX = -(j * AssetManager.backgroundLvl1.Width);
+                    int posY = i * AssetManager.backgroundLvl1.Height;
+                    bgArray3[i, j] = new Background(AssetManager.backgroundLvl1, posX, posY);
+                }
+            }
+
+            for (int i = 0; i < bgArray4.GetLength(0); i++)
+            {
+                for (int j = 0; j < bgArray4.GetLength(1); j++)
+                {
+                    int posX = j * AssetManager.backgroundLvl1.Width;
+                    int posY = -(i * AssetManager.backgroundLvl1.Height);
+                    bgArray4[i, j] = new Background(AssetManager.backgroundLvl1, posX, posY);
+                }
+            }
+            #endregion
         }
 
         public static GameState GetState
@@ -144,11 +182,24 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Play:
-
+                    #region BackgroundDraw (MÅSTE FIXAS)
                     foreach (Background background in bgArray)
                     {
                         background.Draw(spriteBatch);
                     }
+                    foreach (Background background in bgArray2)
+                    {
+                        background.Draw(spriteBatch);
+                    }
+                    foreach (Background background in bgArray3)
+                    {
+                        background.Draw(spriteBatch);
+                    }
+                    foreach (Background background in bgArray4)
+                    {
+                        background.Draw(spriteBatch);
+                    }
+                    #endregion
 
                     GamePlayManager.Draw(spriteBatch);
                     
