@@ -44,6 +44,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
+    <Compile Include="Managers\GamePlayManager.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\Item.cs" />
@@ -72,19 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\background.png" />
-    <Content Include="Content\ball.png" />
-    <Content Include="Content\BrickTilesetSprite.png" />
-    <Content Include="Content\BrickTilesetSprite2.png" />
     <Content Include="Content\Font\normalFont.bmp" />
-    <Content Include="Content\hole.png" />
     <Content Include="Content\level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\plattform.bmp" />
     <Content Include="Content\Font\selectedFont.bmp" />
     <Content Include="Content\PotionsSprite.png" />
-    <Content Include="Content\walltile.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

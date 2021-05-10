@@ -67,6 +67,7 @@ namespace Cyberpriest
                 return;
             }
 
+
             if (other is EnemyType && other.isActive == true)
             {
                 if (iFrameTimer <= 0 && lives >= 0)
