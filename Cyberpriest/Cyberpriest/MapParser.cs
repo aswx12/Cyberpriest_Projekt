@@ -26,9 +26,13 @@ namespace Cyberpriest
         public Platform platform;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public WingsPowerUp wingsPowerUp;
+        public BootsPowerUp bootsPowerUp;
 
         Vector2 PlayerPos;
         Vector2 EnemyPos;
+        Vector2 WingsPos;
+        Vector2 BootsPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
 
@@ -109,6 +113,23 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Wings PowerUp
+
+            WingsPos = ParsePos(stringList[9]);
+
+            wingsPowerUp = new WingsPowerUp(AssetManager.wing, WingsPos);
+            objectList.Add(wingsPowerUp);
+
+            #endregion
+
+            #region Boots PowerUp
+
+            BootsPos = ParsePos(stringList[10]);
+
+            bootsPowerUp = new BootsPowerUp(AssetManager.boots, BootsPos);
+            objectList.Add(bootsPowerUp);
+
+            #endregion
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
