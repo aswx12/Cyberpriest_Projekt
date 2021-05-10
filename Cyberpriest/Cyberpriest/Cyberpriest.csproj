@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Bullet.cs" />
+    <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
