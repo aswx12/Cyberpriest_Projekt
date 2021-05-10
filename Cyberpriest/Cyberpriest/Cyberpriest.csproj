@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="Inventory\BootsPowerUp.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="Enemy\EnemyLust.cs" />
+    <Compile Include="Enemy\EnemySkeleton.cs" />
+    <Compile Include="Managers\GamePlayManager.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\Item.cs" />
