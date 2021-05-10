@@ -16,15 +16,14 @@ namespace Cyberpriest
             isActive = true;
             isHit = false;
             enemyState = Cyberpriest.EnemyState.Patrol;
-            velocity = new Vector2(1, 0);
+            velocity = new Vector2(3, 0);
             startVelocity = velocity;
-            chasingRange = 200;
+            chasingRange = 400;
 
             randomizationPeriod = 2;
             rand = new Random();
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             healthPoints = 1000;
-            velocity = new Vector2(2, 0);
         }
 
         public override void HandleCollision(GameObject other)
@@ -55,6 +54,11 @@ namespace Cyberpriest
             if (healthPoints <= 0)
             {
                 isActive = false;
+            }
+
+            if(pos.X >= 4550 || pos.X <= 3500)
+            {
+                velocity *= -1;
             }
 
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
