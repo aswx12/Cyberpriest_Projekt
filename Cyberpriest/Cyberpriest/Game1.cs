@@ -13,11 +13,10 @@ namespace Cyberpriest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         MapParser map;
+
         Camera camera;
         Vector2 playerPos;
-        Rectangle mouseRect;
         MenuComponent menuComponent;
         KeyboardComponent keyboardComponent;
         Background[,] bgArray;
@@ -54,8 +53,12 @@ namespace Cyberpriest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
 
+            GamePlayManager.Initializer();
+
             AssetManager.LoadAssets(Content);
+
             window.AllowUserResizing = true;
+
             map = new MapParser("Content/level1.txt");
 
             bgArray = new Background[9, 9];
@@ -68,6 +71,7 @@ namespace Cyberpriest
                     bgArray[i, j] = new Background(AssetManager.backgroundLvl1, posX, posY);
                 }
             }
+
         }
 
         public static GameState GetState
@@ -90,7 +94,7 @@ namespace Cyberpriest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            mouseRect = new Rectangle(KeyMouseReader.mouseState.X, KeyMouseReader.mouseState.Y, 8, 8);
+            GamePlayManager.Update(gameTime);
 
             camera.SetPosition(playerPos, gameState);
 
@@ -104,17 +108,17 @@ namespace Cyberpriest
 
                 case GameState.Play:
 
-                    playerPos = map.player.GetPos;
+                    playerPos = GamePlayManager.map.player.GetPos;
 
-                    InventorySlotCheck();
+                    GamePlayManager.InventorySlotCheck();
 
-                    GamePlay(gameTime);
+                    GamePlayManager.CollisionHandler(gameTime);
 
                     break;
 
                 case GameState.Inventory:
 
-                    ItemUse();
+                    GamePlayManager.ItemUse();
 
                     break;
 
@@ -145,10 +149,14 @@ namespace Cyberpriest
 
                 case GameState.Play:
 
+
                     foreach (Background background in bgArray)
                     {
                         background.Draw(spriteBatch);
                     }
+
+                    GamePlayManager.Draw(spriteBatch);
+
 
                     map.Draw(spriteBatch);
 
@@ -158,11 +166,7 @@ namespace Cyberpriest
 
                 case GameState.Inventory:
 
-                    //spriteBatch.Draw(AssetManager.inventoryBG, Vector2.Zero, Color.White);
-                    DrawInventory(spriteBatch);
-
-                    foreach (Item item in map.inventory) 
-                        item.DrawInInventory(spriteBatch);
+                    GamePlayManager.InventoryDraw(spriteBatch);
 
                     break;
 
@@ -182,20 +186,20 @@ namespace Cyberpriest
             base.Draw(gameTime);
         }
 
-        public void GamePlay(GameTime gameTime) //skapa en egen klass för gameplay
+        public void GamePlay(GameTime gameTime)
         {
-            foreach (GameObject movingObj in map.objectList)
+            foreach (GameObject enemy in map.objectList)
             {
-                if (movingObj is Player)
+                if (enemy is Player)
                 {
                     continue;
                 }
 
                 foreach (Bullet bullet in map.player.bulletList)
                 {
-                    if (bullet.IntersectCollision(movingObj))
+                    if (bullet.IntersectCollision(enemy))
                     {
-                        movingObj.HandleCollision(bullet);
+                        enemy.HandleCollision(bullet);
                     }
                 }
             }
@@ -215,33 +219,37 @@ namespace Cyberpriest
                             {
                                 if (otherObj.PixelCollision(obj))
                                 {
-                                    if (obj is Player)
+                                    if (obj is Player || obj is EnemyType)
                                     {
-                                        int leftSideOffset = 35;
-                                        int rightSideOffset = 25;
-
-                                        if (otherObj.GetPos.X > (obj.GetPos.X + leftSideOffset) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - rightSideOffset) < obj.GetPos.X)
+                                        //Hardcoded offsets
+                                        if (otherObj.GetPos.X > (obj.GetPos.X + 35) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - 25) < obj.GetPos.X)
                                             continue;
                                     }
                                     obj.HandleCollision(otherObj);
                                 }
+
                             }
 
                             if (obj is Player)
                             {
                                 if (otherObj is EnemyType)
                                 {
-                                    obj.isHit = true;
-
                                     if (!otherObj.isActive)
                                         continue;
-
                                     if (obj.PixelCollision(otherObj))
                                     {
                                         obj.HandleCollision(otherObj);
                                         otherObj.HandleCollision(obj);
                                     }
                                 }
+
+                                //if (other is Spike)
+                                //{
+                                //    if (go.PixelCollision(other))
+                                //    {
+                                //        go.HandleCollision(other);
+                                //    }
+                                //}
                             }
 
                             #region ItemToInventory
@@ -268,11 +276,33 @@ namespace Cyberpriest
                                         (otherObj as Item).column = column;
                                         (otherObj as Item).inInventory = true;
 
-                                        if (!map.inventoryArray[row, column].occupied)
+                                        if (!map.inventoryArray[row, column].occupied)//
                                         {
                                             map.inventory.Add(otherObj);
                                         }
 
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+
+                                    }
+                                }
+                            }
+
+                            #endregion
+
+                            #region WingsPowerUp
+
+                            if (otherObj is WingsPowerUp)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
                                         obj.HandleCollision(otherObj);
                                         otherObj.HandleCollision(obj);
                                     }
@@ -281,6 +311,26 @@ namespace Cyberpriest
 
                             #endregion
 
+                            #region BootsPowerUp
+
+                            if (otherObj is BootsPowerUp)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
+                            #endregion
                         }
                     }
                 }
@@ -288,6 +338,7 @@ namespace Cyberpriest
         }
 
         #region Methods
+
 
         //Keybinds for userinterface
         public void UIKeyBinds()//förklaring kommentar
@@ -312,62 +363,6 @@ namespace Cyberpriest
             {
                 if (KeyMouseReader.KeyPressed(Keys.M))
                     gameState = GameState.Play;
-            }
-        }
-
-        public void DrawInventory(SpriteBatch sb)
-        {
-            for (int i = 0; i < map.inventoryArray.GetLength(0); i++)
-            {
-                for (int j = 0; j < map.inventoryArray.GetLength(1); j++)
-                {
-                    map.inventoryArray[i, j].Draw(spriteBatch);
-                }
-            }
-        }
-
-        //Usage of items with mouseclicks.
-        public void ItemUse()
-        {
-            foreach (Inventory inventory in map.inventoryArray)
-            {
-                if (inventory.GetHitBox.Contains(mouseRect))
-                {
-                    if (KeyMouseReader.RightClick())
-                    {
-                        inventory.occupied = false;
-                        row = 0;
-                        column = 0;
-                    }
-                }
-            }
-
-            foreach (Item item in map.inventory)
-            {
-                if (item.GetHitBox.Contains(mouseRect) && item.isCollected)
-                {
-                    if (KeyMouseReader.RightClick())
-                    {
-                        item.inInventory = false;
-                        map.inventory.Remove(item);  
-                    }
-                    break;
-                }
-            }
-        }
-
-        //Check for empty slots in inventory
-        public void InventorySlotCheck()
-        {
-            if (map.inventoryArray[row, column].occupied)
-            {
-                row++;
-                if (row > 2)
-                {
-                    if (column < 2)
-                        column++;
-                    row = 0;
-                }
             }
         }
 

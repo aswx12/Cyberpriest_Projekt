@@ -28,8 +28,15 @@ namespace Cyberpriest
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
 
+        public WingsPowerUp wingsPowerUp;
+        public BootsPowerUp bootsPowerUp;
+        public EnemySkeleton enemySkeleton;
+        public EnemyLust enemyLust;
+
         Vector2 PlayerPos;
         Vector2 EnemyPos;
+        Vector2 WingsPos;
+        Vector2 BootsPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
 
@@ -101,7 +108,7 @@ namespace Cyberpriest
 
             #endregion
 
-            #region Enemy
+            #region EnemyGhost
 
             EnemyPos = ParsePos(stringList[6]);
 
@@ -110,6 +117,39 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Wings PowerUp
+
+            WingsPos = ParsePos(stringList[9]);
+
+            wingsPowerUp = new WingsPowerUp(AssetManager.wing, WingsPos);
+            objectList.Add(wingsPowerUp);
+
+            #endregion
+
+            #region Boots PowerUp
+
+            BootsPos = ParsePos(stringList[10]);
+
+            bootsPowerUp = new BootsPowerUp(AssetManager.boots, BootsPos);
+            objectList.Add(bootsPowerUp);
+
+            #region EnemySkeleton
+
+            EnemyPos = ParsePos(stringList[9]);
+
+            enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos, Game1.window, player);
+            objectList.Add(enemySkeleton);
+
+            #endregion
+
+            #region EnemyLust
+
+            EnemyPos = ParsePos(stringList[10]);
+
+            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos, Game1.window, player);
+            objectList.Add(enemyLust);
+
+            #endregion
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)

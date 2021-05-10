@@ -11,6 +11,7 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
+        public bool flyingPowerup = false;
         Bullet bullet;
         public List<Bullet> bulletList = new List<Bullet>();
 
@@ -22,7 +23,7 @@ namespace Cyberpriest
         int jumpHeight = 12;
         int dashCount;
         int shotCount;
-        int hitCount;
+        int maxFallDistance = 2500;
 
         float timer;
         float iFrameTimer = -1;
@@ -30,13 +31,14 @@ namespace Cyberpriest
         double nextBlinkTime;
         double dashCD;
         double shootCD;
-        double hitCD;
         float hitBoxOffset = 0.5f;
 
         public static Facing playerFacing;
         bool downPlatform;
         bool blinking;
         Vector2 startPos;
+
+        int flyHeight = 5;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
         {
@@ -62,26 +64,26 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-
-            //if (other is Bullet)
-            //{
-            //    return;
-            //}
-
-            if (other is EnemyType)
+            if (other is Bullet)
             {
-                isHit = true;
+                return;
+            }
+
+
+            if (other is EnemyType && other.isActive == true)
+            {
                 if (iFrameTimer <= 0 && lives >= 0)
                 {
                     lives--;
                 }
+
+                isHit = true;
                 Console.WriteLine(lives);
                 return;
             }
 
             if (other is Item)
             {
-                
                 return;
             }
 
@@ -94,7 +96,10 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if (lives <= 0) //Placeholder death "method".
+            Console.WriteLine("Iframetimer: " + iFrameTimer);
+            Console.WriteLine("IsHit status: " + isHit);
+
+            if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
                 pos = startPos;
                 lives = 3;
@@ -116,7 +121,8 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
-            velocity.Y += gravity; //fall speed
+            float i = 0.75f;
+            velocity.Y += gravity * i; //falling faster and faster
             velocity.X = 0;
 
             Control();
@@ -124,6 +130,14 @@ namespace Cyberpriest
             DashCooldown(gt);
             IFrame(gt);
 
+            if (WingsPowerUp.wingsPUActivated)
+                FlyingPowerUp();
+
+            if (BootsPowerUp.bootsPUActive)
+                JumpingPowerUp();
+            else
+                jumpHeight = 12;
+            
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
@@ -132,14 +146,14 @@ namespace Cyberpriest
         public void Control()
         {
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Right))
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
                 effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
-            else if (KeyMouseReader.keyState.IsKeyDown(Keys.Left))// && pos.X >= startPos.X
+            else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
                 effect = SpriteEffects.FlipHorizontally;
@@ -148,7 +162,7 @@ namespace Cyberpriest
             else
                 playerFacing = Facing.Idle;
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Z))
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.LeftShift))
             {
                 if (dashCount > 0)
                 {
@@ -169,7 +183,7 @@ namespace Cyberpriest
                 //srRect = new Rectangle(tileSize.X * 3, tileSize.Y * 0, tileSize.X, tileSize.Y);
             }
 
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.Down) && isGrounded)
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.S) && isGrounded)
             {
                 velocity.Y = jumpHeight;
                 isGrounded = false;
@@ -184,28 +198,25 @@ namespace Cyberpriest
                 {
                     bullet = new Bullet(AssetManager.bomb, pos);
                     bulletList.Add(bullet);
-                    Console.WriteLine("CREATED");
                     bullet.isActive = true;
 
                     shotCount = 0;
                 }
-
             }
-
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            if (iFrameTimer >= 0)
+            if (iFrameTimer > 0)
             {
                 if (blinking)
-                    sb.Draw(tex, pos, Color.White);
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else
             {
-                sb.Draw(tex, pos, Color.White);
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
-                
+
             foreach (Bullet b in bulletList)
             {
                 b.Draw(sb);
@@ -229,11 +240,13 @@ namespace Cyberpriest
 
         public void IFrame(GameTime gameTime)
         {
+
             if (iFrameTimer <= 0 && isHit == true)
             {
-                isHit = false;
                 iFrameTimer = 3;
             }
+
+            isHit = false;
 
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             iFrameTimer -= (int)timer;
@@ -257,6 +270,39 @@ namespace Cyberpriest
                 if (dashCount == 1)
                     dashCD = 0;
             }
+        }
+      
+        public void FlyingPowerUp()
+        {
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.W))
+            {
+                velocity.Y = -flyHeight;
+                isGrounded = false;
+
+                if (!isGrounded)
+                    gravity = 0.1f;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.S) && !isGrounded)
+            {
+                velocity.Y = flyHeight;
+                isGrounded = false;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.D) && !isGrounded)
+            {
+                velocity.X = flyHeight;
+                isGrounded = false;
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.A) && !isGrounded)
+            {
+                velocity.X = -flyHeight;
+                isGrounded = false;
+            }
+        }
+       
+        public void JumpingPowerUp()
+        {
+            jumpHeight = 20;
+            //jumpHeight *= 2; not working like it should
         }
 
         public override Vector2 GetPos
