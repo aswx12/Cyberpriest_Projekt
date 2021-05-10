@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Cyberpriest.Menu;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -17,6 +18,7 @@ namespace Cyberpriest
         Vector2 playerPos;
         MenuComponent menuComponent;
         KeyboardComponent keyboardComponent;
+        Background[,] bgArray;
 
         static GameState gameState;
         public static GameWindow window;
@@ -52,6 +54,20 @@ namespace Cyberpriest
             AssetManager.LoadAssets(Content);
 
             window.AllowUserResizing = true;
+
+            map = new MapParser("Content/level1.txt");
+
+            bgArray = new Background[9, 9];
+            for (int i = 0; i < bgArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < bgArray.GetLength(1); j++)
+                {
+                    int posX = j * AssetManager.backgroundLvl1.Width;
+                    int posY = i * AssetManager.backgroundLvl1.Height;
+                    bgArray[i, j] = new Background(AssetManager.backgroundLvl1, posX, posY);
+                }
+            }
+
         }
 
         public static GameState GetState
@@ -129,10 +145,19 @@ namespace Cyberpriest
 
                 case GameState.Play:
 
+
+                    foreach (Background background in bgArray)
+                    {
+                        background.Draw(spriteBatch);
+                    }
+
                     GamePlayManager.Draw(spriteBatch);
 
-                    spriteBatch.Draw(AssetManager.backgroundLvl1, new Vector2(-100, -200), Color.White);
 
+                    map.Draw(spriteBatch);
+
+                    //spriteBatch.Draw(AssetManager.backgroundLvl1, new Vector2(0, 0), Color.White);
+                    
                     break;
 
                 case GameState.Inventory:
