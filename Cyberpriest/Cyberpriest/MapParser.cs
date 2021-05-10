@@ -18,6 +18,7 @@ namespace Cyberpriest
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
+        List<PowerUp> powerUpList;
 
         public Point tileSize = new Point(64, 64);
 
@@ -27,8 +28,7 @@ namespace Cyberpriest
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
 
-        public WingsPowerUp wingsPowerUp;
-        public BootsPowerUp bootsPowerUp;
+        public PowerUp wingsPowerUp;
         public EnemySkeleton enemySkeleton;
         public EnemyLust enemyLust;
 
@@ -49,6 +49,7 @@ namespace Cyberpriest
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
             inventoryArray = new Inventory[3, 3];
+            powerUpList = new List<PowerUp>();
 
             List<string> stringList = ReadFromFile(fileName);
 
@@ -98,11 +99,31 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Wings PowerUp
+
+            WingsPos = ParsePos(stringList[9]);
+
+            wingsPowerUp = new PowerUp(AssetManager.wing, WingsPos);
+            powerUpList.Add(wingsPowerUp);
+            objectList.Add(wingsPowerUp);
+
+            #endregion
+
+            #region Boots PowerUp
+
+            BootsPos = ParsePos(stringList[10]);
+
+            wingsPowerUp = new PowerUp(AssetManager.boots, BootsPos);
+            powerUpList.Add(wingsPowerUp);
+            objectList.Add(wingsPowerUp);
+
+            #endregion
+
             #region Player's Start Position
 
             PlayerPos = ParsePos(stringList[0]);
 
-            player = new Player(AssetManager.player, PlayerPos, Game1.window);
+            player = new Player(AssetManager.player, PlayerPos, Game1.window, powerUpList);
             objectList.Add(player);
 
             #endregion
@@ -115,22 +136,6 @@ namespace Cyberpriest
             objectList.Add(enemyGhost);
 
             #endregion
-
-            #region Wings PowerUp
-
-            WingsPos = ParsePos(stringList[9]);
-
-            wingsPowerUp = new WingsPowerUp(AssetManager.wing, WingsPos);
-            objectList.Add(wingsPowerUp);
-
-            #endregion
-
-            #region Boots PowerUp
-
-            BootsPos = ParsePos(stringList[10]);
-
-            bootsPowerUp = new BootsPowerUp(AssetManager.boots, BootsPos);
-            objectList.Add(bootsPowerUp);
 
             #region EnemySkeleton
 
@@ -149,6 +154,8 @@ namespace Cyberpriest
             objectList.Add(enemyLust);
 
             #endregion
+
+
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)

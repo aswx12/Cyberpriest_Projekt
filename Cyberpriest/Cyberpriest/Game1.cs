@@ -12,7 +12,6 @@ namespace Cyberpriest
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        MapParser map;
 
         Camera camera;
         Vector2 playerPos;
@@ -21,9 +20,6 @@ namespace Cyberpriest
 
         static GameState gameState;
         public static GameWindow window;
-        
-        int row = 0;
-        int column = 0;
 
         public Game1()
         {

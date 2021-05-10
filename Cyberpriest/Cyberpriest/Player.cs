@@ -11,36 +11,37 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
-        public bool flyingPowerup = false;
-        Bullet bullet;
+        
         public List<Bullet> bulletList = new List<Bullet>();
+        List<PowerUp> powerUpList;
+        Vector2 startPos;
+        Bullet bullet;
+
+        public Facing playerFacing;
 
         private int lives;
-        public static int score;
-        int bY,bX;
+        int bY, bX;
         int normalVel = 3;
         int dashLength = 150;
         int jumpHeight = 12;
         int dashCount;
         int shotCount;
         int maxFallDistance = 2500;
+        int flyHeight = 5;
 
         float timer;
         float iFrameTimer = -1;
+        float hitBoxOffset = 0.5f;
 
         double nextBlinkTime;
         double dashCD;
         double shootCD;
-        float hitBoxOffset = 0.5f;
 
-        public static Facing playerFacing;
         bool downPlatform;
         bool blinking;
-        Vector2 startPos;
 
-        int flyHeight = 5;
-
-        public Player(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
+    
+        public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
             isGrounded = true;
             lives = 3;
@@ -49,6 +50,7 @@ namespace Cyberpriest
             bY = window.ClientBounds.Height;
             bX = window.ClientBounds.Width;
             playerFacing = Facing.Right;
+            this.powerUpList = powerUpList;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
@@ -83,6 +85,11 @@ namespace Cyberpriest
             }
 
             if (other is Item)
+            {
+                return;
+            }
+
+            if (other is PowerUp)
             {
                 return;
             }
@@ -130,14 +137,20 @@ namespace Cyberpriest
             DashCooldown(gt);
             IFrame(gt);
 
-            if (WingsPowerUp.wingsPUActivated)
-                FlyingPowerUp();
 
-            if (BootsPowerUp.bootsPUActive)
-                JumpingPowerUp();
-            else
-                jumpHeight = 12;
-            
+            foreach (PowerUp powerUp in powerUpList)
+            {
+                if (powerUp.poweredUp)
+                {
+                    if (powerUp.GetTexture == AssetManager.wing)
+                        FlyingPowerUp();
+                    else if (powerUp.GetTexture == AssetManager.boots)
+                        JumpingPowerUp();
+                }
+                else
+                    jumpHeight = 12;
+            }
+
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
@@ -160,18 +173,18 @@ namespace Cyberpriest
                 playerFacing = Facing.Left;
             }
 
-            if(KeyMouseReader.mouseState.X >= (bX / 2))
+            if (KeyMouseReader.mouseState.X >= (bX / 2))
             {
                 effect = SpriteEffects.None;
                 playerFacing = Facing.Right;
             }
-                
+
             else if (KeyMouseReader.mouseState.X <= (bX / 2))
             {
                 effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
-                
+
             //else
             //    playerFacing = Facing.Idle;
 
@@ -179,9 +192,9 @@ namespace Cyberpriest
             {
                 if (dashCount > 0)
                 {
-                    if (playerFacing == Facing.Right)
+                    if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
                         velocity.X += dashLength;
-                    if (playerFacing == Facing.Left)
+                    if (KeyMouseReader.keyState.IsKeyDown(Keys.A))
                         velocity.X -= dashLength;
 
                     dashCount = 0;
@@ -209,7 +222,7 @@ namespace Cyberpriest
             {
                 if (shotCount > 0)
                 {
-                    bullet = new Bullet(AssetManager.bomb, pos,playerFacing);
+                    bullet = new Bullet(AssetManager.bomb, pos, playerFacing);
                     bulletList.Add(bullet);
                     bullet.isActive = true;
 
@@ -284,7 +297,7 @@ namespace Cyberpriest
                     dashCD = 0;
             }
         }
-      
+
         public void FlyingPowerUp()
         {
             if (KeyMouseReader.keyState.IsKeyDown(Keys.W))
@@ -311,7 +324,7 @@ namespace Cyberpriest
                 isGrounded = false;
             }
         }
-       
+
         public void JumpingPowerUp()
         {
             jumpHeight = 20;

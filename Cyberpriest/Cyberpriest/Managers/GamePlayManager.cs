@@ -144,9 +144,9 @@ namespace Cyberpriest
 
                             #endregion
 
-                            #region WingsPowerUp
+                            #region PowerUp
 
-                            if (otherObj is WingsPowerUp)
+                            if (otherObj is PowerUp)
                             {
                                 if (obj is Player)
                                 {
@@ -164,28 +164,6 @@ namespace Cyberpriest
                             }
 
                             #endregion
-
-                            #region BootsPowerUp
-
-                            if (otherObj is BootsPowerUp)
-                            {
-                                if (obj is Player)
-                                {
-                                    if (!otherObj.isActive)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (otherObj.PixelCollision(obj))
-                                    {
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-
-                            #endregion
-
                         }
                     }
                 }

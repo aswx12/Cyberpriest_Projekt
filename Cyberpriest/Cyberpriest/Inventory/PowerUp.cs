@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,40 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
-    class BootsPowerUp : StationaryObject
+    class PowerUp : StationaryObject
     {
-        public static bool bootsPUActive;
-
+        public bool poweredUp;
         private double activeTimer;
         private double countdown;
 
-        public BootsPowerUp(Texture2D tex, Vector2 pos) : base(tex, pos)
+        public PowerUp(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-           
             isActive = true;
-
+            poweredUp = false;
             activeTimer = 10; //how long the power up is active
             countdown = 0;
         }
 
+        public Texture2D GetTexture
+        {
+            get
+            {
+                return tex;
+            }
+        }
+
         public override void Update(GameTime gameTime)
         {
-            if (bootsPUActive)
+            if (poweredUp)
             {
                 countdown -= gameTime.ElapsedGameTime.TotalSeconds;
             }
-
+           
             if (countdown <= 0f)
             {
-                bootsPUActive = false;
+                poweredUp = false;
             }
-
-            Console.WriteLine(countdown);
         }
 
         public override void HandleCollision(GameObject other)
@@ -45,8 +50,8 @@ namespace Cyberpriest
             if (other is Player)
             {
                 isActive = false;
-                bootsPUActive = true;
-                countdown = activeTimer;
+                poweredUp = true;
+                countdown = activeTimer;              
             }
         }
 

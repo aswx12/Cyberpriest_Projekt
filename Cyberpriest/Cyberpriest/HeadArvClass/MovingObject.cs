@@ -19,13 +19,11 @@ namespace Cyberpriest
 
         protected int frame = 0;
         protected float frameRate;
-        protected double frameTimer;
 
-        protected Rectangle aniRect;
+        //protected double frameTimer;
+        //protected Rectangle aniRect;
 
         protected SpriteEffects effect;
-
-        protected Facing enemyFacing;
 
         public MovingObject(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
