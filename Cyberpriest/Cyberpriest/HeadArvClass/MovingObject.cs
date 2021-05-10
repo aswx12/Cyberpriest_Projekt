@@ -15,6 +15,7 @@ namespace Cyberpriest
 
         protected bool isGrounded;
         protected Vector2 velocity;
+        protected Vector2 startPos;
         protected float gravity;
 
         protected int frame = 0;

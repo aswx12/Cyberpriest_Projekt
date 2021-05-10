@@ -10,9 +10,10 @@ namespace Cyberpriest
 {
     class EnemySkeleton : EnemyType
     {
-        public EnemySkeleton(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
+        public EnemySkeleton(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
         {
             this.player = player;
+            startPos = pos;
             isActive = true;
             isHit = false;
             healthPoints = 100;
@@ -75,7 +76,7 @@ namespace Cyberpriest
             if (distanceToPlayerX < chasingRange)
             {
                 moveDir = player.GetPos - pos;
-                enemyState = Cyberpriest.EnemyState.Chase;
+                //enemyState = Cyberpriest.EnemyState.Chase;
             }
             else
             {
@@ -89,8 +90,18 @@ namespace Cyberpriest
             {
                 case Cyberpriest.EnemyState.Patrol:
                     pos += velocity;
-                    PatrolTimer(gt);
+
+                    if(pos.X == startPos.X + 75)
+                    {
+                        velocity *= -1;
+                    }
+                    else if(pos.X == startPos.X - 75)
+                    {
+                        velocity *= -1;
+                    }
+                    //PatrolTimer(gt);
                     break;
+
                 case Cyberpriest.EnemyState.Chase:
                     if (player.GetPos.X > pos.X)
                     {

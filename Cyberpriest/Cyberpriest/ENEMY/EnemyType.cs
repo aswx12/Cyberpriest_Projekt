@@ -28,7 +28,7 @@ namespace Cyberpriest
         protected float randomizationTime;
         protected float randomizationPeriod;
 
-        public EnemyType(Texture2D tex, Vector2 pos, GameWindow window) : base(tex, pos)
+        public EnemyType(Texture2D tex, Vector2 pos/*, GameWindow window*/) : base(tex, pos)
         {
 
         }

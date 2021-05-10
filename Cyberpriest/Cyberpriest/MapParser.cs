@@ -37,6 +37,7 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
+        Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
 
@@ -133,17 +134,21 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[6]);
 
-            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos, Game1.window, player);
+            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos/*, Game1.window*/, player);
             objectList.Add(enemyGhost);
 
             #endregion
 
             #region EnemySkeleton
 
-            EnemyPos = ParsePos(stringList[9]);
+            enemySkeletonPos = ParseVectorArray(stringList[9]);
 
-            enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos, Game1.window, player);
-            objectList.Add(enemySkeleton);
+            CreateEnemySkeleton(AssetManager.enemySkeleton, enemySkeletonPos);
+
+            //EnemyPos = ParsePos(stringList[9]);
+
+            //enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos/*, Game1.window*/, player);
+            //objectList.Add(enemySkeleton);
 
             #endregion
 
@@ -151,7 +156,7 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[10]);
 
-            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos, Game1.window, player);
+            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos/*, Game1.window*/, player);
             objectList.Add(enemyLust);
 
             #endregion
@@ -164,6 +169,15 @@ namespace Cyberpriest
             {
                 platform = new Platform(texture, pos[i]);
                 objectList.Add(platform);
+            }
+        }
+
+        public void CreateEnemySkeleton(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player);
+                objectList.Add(enemySkeleton);
             }
         }
 

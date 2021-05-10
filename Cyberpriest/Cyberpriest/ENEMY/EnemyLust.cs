@@ -10,7 +10,7 @@ namespace Cyberpriest
 {
     class EnemyLust : EnemyType
     {
-        public EnemyLust(Texture2D tex, Vector2 pos, GameWindow window, Player player) : base(tex, pos, window)
+        public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
         {
             this.player = player;
             isActive = true;
