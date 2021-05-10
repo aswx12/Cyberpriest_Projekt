@@ -11,12 +11,13 @@ namespace Cyberpriest
     class Bullet : MovingObject
     {
         private float timer;
-
-        public Bullet(Texture2D tex, Vector2 pos) : base(tex, pos)
+        Facing facing;
+        public Bullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos)
         {
             lifeSpan = 5f;
             isActive = false;
             velocity = new Vector2(6, 0);
+            this.facing = facing;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
         }
 
@@ -37,12 +38,25 @@ namespace Cyberpriest
 
             hitBox.X = (int)pos.X;
             hitBox.Y = (int)pos.Y;
-            pos += velocity;
+            //if(
+            //{
+
+            //}
+
+            if (facing == Facing.Right )
+            {
+                pos += velocity;
+            }
+            else if(facing == Facing.Left)
+            {
+                pos -= velocity;
+            }
+            
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            if(isActive == true)
+            if (isActive == true)
             {
                 sb.Draw(tex, pos, Color.White);
             }

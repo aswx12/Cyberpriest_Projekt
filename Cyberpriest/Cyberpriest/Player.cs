@@ -17,7 +17,7 @@ namespace Cyberpriest
 
         private int lives;
         public static int score;
-        int bY;
+        int bY,bX;
         int normalVel = 3;
         int dashLength = 150;
         int jumpHeight = 12;
@@ -45,7 +45,8 @@ namespace Cyberpriest
             startPos = pos;
             velocity = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
-            playerFacing = Facing.Idle;
+            bX = window.ClientBounds.Width;
+            playerFacing = Facing.Right;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
@@ -66,7 +67,6 @@ namespace Cyberpriest
             {
                 return;
             }
-
 
             if (other is EnemyType && other.isActive == true)
             {
@@ -148,8 +148,21 @@ namespace Cyberpriest
                 effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
-            else
-                playerFacing = Facing.Idle;
+
+            if(KeyMouseReader.mouseState.X >= (bX / 2))
+            {
+                effect = SpriteEffects.None;
+                playerFacing = Facing.Right;
+            }
+                
+            else if (KeyMouseReader.mouseState.X <= (bX / 2))
+            {
+                effect = SpriteEffects.FlipHorizontally;
+                playerFacing = Facing.Left;
+            }
+                
+            //else
+            //    playerFacing = Facing.Idle;
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.LeftShift))
             {
@@ -185,7 +198,7 @@ namespace Cyberpriest
             {
                 if (shotCount > 0)
                 {
-                    bullet = new Bullet(AssetManager.bomb, pos);
+                    bullet = new Bullet(AssetManager.bomb, pos,playerFacing);
                     bulletList.Add(bullet);
                     bullet.isActive = true;
 

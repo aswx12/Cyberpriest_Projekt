@@ -115,7 +115,7 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[9]);
 
-            enemySkeleton = new EnemySkeleton(AssetManager.enemy3, EnemyPos, Game1.window, player);
+            enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos, Game1.window, player);
             objectList.Add(enemySkeleton);
 
             #endregion
@@ -124,7 +124,7 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[10]);
 
-            enemyLust = new EnemyLust(AssetManager.boss1, EnemyPos, Game1.window, player);
+            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos, Game1.window, player);
             objectList.Add(enemyLust);
 
             #endregion
