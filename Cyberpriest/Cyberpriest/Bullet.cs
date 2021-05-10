@@ -12,8 +12,10 @@ namespace Cyberpriest
     {
         private float timer;
         Facing facing;
+
         public Bullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos)
         {
+
             lifeSpan = 5f;
             isActive = false;
             velocity = new Vector2(6, 0);
@@ -38,21 +40,16 @@ namespace Cyberpriest
 
             hitBox.X = (int)pos.X;
             hitBox.Y = (int)pos.Y;
-            //if(
-            //{
 
-            //}
-
-            if (facing == Facing.Right )
+            if (facing == Facing.Right)
             {
                 pos += velocity;
             }
-            else if(facing == Facing.Left)
+            else if (facing == Facing.Left)
             {
                 pos -= velocity;
             }
-            
-        }
+    }
 
         public override void Draw(SpriteBatch sb)
         {

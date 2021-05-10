@@ -41,6 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Inventory\BootsPowerUp.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HeadArvClass\StationaryObject.cs" />
+    <Compile Include="Inventory\WingsPowerUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
