@@ -75,6 +75,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\BG_Lvl_1.jpg" />
     <Content Include="Content\Font\normalFont.bmp" />
     <Content Include="Content\level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

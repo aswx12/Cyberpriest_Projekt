@@ -11,7 +11,7 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
-        
+
         public List<Bullet> bulletList = new List<Bullet>();
         List<PowerUp> powerUpList;
         Vector2 startPos;
@@ -40,7 +40,7 @@ namespace Cyberpriest
         bool downPlatform;
         bool blinking;
 
-    
+
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
             isGrounded = true;
@@ -103,9 +103,6 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine("Iframetimer: " + iFrameTimer);
-            Console.WriteLine("IsHit status: " + isHit);
-
             if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
                 pos = startPos;
@@ -133,11 +130,18 @@ namespace Cyberpriest
             velocity.X = 0;
 
             Control();
+            PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);
             IFrame(gt);
 
+            pos += velocity;
+            hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
+            hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+        }
 
+        void PowerUp()
+        {
             foreach (PowerUp powerUp in powerUpList)
             {
                 if (powerUp.poweredUp)
@@ -147,13 +151,14 @@ namespace Cyberpriest
                     else if (powerUp.GetTexture == AssetManager.boots)
                         JumpingPowerUp();
                 }
-                else
-                    jumpHeight = 12;
-            }
 
-            pos += velocity;
-            hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
-            hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+                if (!powerUp.poweredUp)
+                {
+                    jumpHeight = 12;
+                    if (powerUp.GetTexture == AssetManager.wing)
+                        gravity = 1f;
+                }
+            }
         }
 
         public void Control()
@@ -266,7 +271,6 @@ namespace Cyberpriest
 
         public void IFrame(GameTime gameTime)
         {
-
             if (iFrameTimer <= 0 && isHit == true)
             {
                 iFrameTimer = 3;

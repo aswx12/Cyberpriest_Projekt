@@ -55,7 +55,7 @@ namespace Cyberpriest
 
             window.AllowUserResizing = true;
 
-            map = new MapParser("Content/level1.txt");
+            GamePlayManager.map = new MapParser("Content/level1.txt");
 
             bgArray = new Background[9, 9];
             for (int i = 0; i < bgArray.GetLength(0); i++)
@@ -145,18 +145,12 @@ namespace Cyberpriest
 
                 case GameState.Play:
 
-
                     foreach (Background background in bgArray)
                     {
                         background.Draw(spriteBatch);
                     }
 
                     GamePlayManager.Draw(spriteBatch);
-
-
-                    map.Draw(spriteBatch);
-
-                    //spriteBatch.Draw(AssetManager.backgroundLvl1, new Vector2(0, 0), Color.White);
                     
                     break;
 

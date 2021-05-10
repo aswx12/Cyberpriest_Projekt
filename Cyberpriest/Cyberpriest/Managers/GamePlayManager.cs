@@ -73,7 +73,7 @@ namespace Cyberpriest
                             {
                                 if (otherObj.PixelCollision(obj))
                                 {
-                                    if (obj is Player)
+                                    if (obj is Player || obj is EnemyType)
                                     {
                                         int leftSideOffset = 35;
                                         int rightSideOffset = 25;

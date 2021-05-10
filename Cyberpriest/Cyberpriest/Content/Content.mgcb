@@ -61,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:Armor_Pants.png
 
-#begin BG_Lvl_1.png
+#begin BG_Lvl_1.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,7 +71,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:BG_Lvl_1.png
+/build:BG_Lvl_1.jpg
 
 #begin BigSquare.png
 /importer:TextureImporter

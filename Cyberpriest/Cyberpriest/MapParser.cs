@@ -29,7 +29,7 @@ namespace Cyberpriest
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
 
-        public PowerUp wingsPowerUp;
+        public PowerUp powerUp;
         public EnemySkeleton enemySkeleton;
         public EnemyLust enemyLust;
 
@@ -102,21 +102,21 @@ namespace Cyberpriest
 
             #region Wings PowerUp
 
-            WingsPos = ParsePos(stringList[9]);
+            WingsPos = ParsePos(stringList[11]);
 
-            wingsPowerUp = new PowerUp(AssetManager.wing, WingsPos);
-            powerUpList.Add(wingsPowerUp);
-            objectList.Add(wingsPowerUp);
+            powerUp = new PowerUp(AssetManager.wing, WingsPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
 
             #endregion
 
             #region Boots PowerUp
 
-            BootsPos = ParsePos(stringList[10]);
+            BootsPos = ParsePos(stringList[12]);
 
-            wingsPowerUp = new PowerUp(AssetManager.boots, BootsPos);
-            powerUpList.Add(wingsPowerUp);
-            objectList.Add(wingsPowerUp);
+            powerUp = new PowerUp(AssetManager.boots, BootsPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
 
             #endregion
 
@@ -155,7 +155,6 @@ namespace Cyberpriest
             objectList.Add(enemyLust);
 
             #endregion
-
 
         }
 
