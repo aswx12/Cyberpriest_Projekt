@@ -242,6 +242,7 @@ namespace Cyberpriest
                     if (KeyMouseReader.keyState.IsKeyDown(Keys.A))
                         velocity.X -= dashLength;
 
+                    //save dash snapshot here
                     dashCount = 0;
                 }
             }
@@ -322,9 +323,10 @@ namespace Cyberpriest
             if (dashTimer >= cooldown && dashCount == 0)
             {
                 dashCount = 1;
-                if (dashCount == 1)
-                    dashTimer = 0;
+                dashTimer = 0;
             }
+
+            Console.WriteLine(dashTimer);
         }
 
         public void Charmed(GameTime gt)
@@ -416,7 +418,7 @@ namespace Cyberpriest
 
 /* Reusabale code
  
-        //public void Cooldown(GameTime gt, double cooldown)
+            //public void Cooldown(GameTime gt, int count, double cooldown, double cooldownTimer)
         //{
         //    if (count <= 0)
         //        cooldownTimer += gt.ElapsedGameTime.TotalSeconds;
@@ -430,5 +432,9 @@ namespace Cyberpriest
 
         //    Console.WriteLine(count);
         //}
+
+    // public void Cooldown2(GameTime gt, int count, double cooldown)
+    // When we dash: dashUsedSnapshot = gt.TotalGameTime.TotalSeconds;
+    // 
  
  */
