@@ -11,7 +11,7 @@ namespace Cyberpriest
     class EnemyLust : EnemyType
     {
         Bullet bullet;
-        List<Bullet> bulletList = new List<Bullet>();
+        public List<Bullet> bulletList = new List<Bullet>();
 
         int shotCount;
         double shootCD;
@@ -72,11 +72,31 @@ namespace Cyberpriest
             distanceToPlayerX = (int)player.Position.X - (int)pos.X;
             distanceToPlayerY = (int)player.Position.Y - (int)pos.Y;
 
+            PlayerCharmed();
             ShootCooldown(gt);
             Movement();
             CurrentEnemyState(gt);
             EnemyFacing();
             Combat(gt);
+        }
+
+        void PlayerCharmed()
+        {
+            if (player.charmed == true)
+            {
+                if (player.Position.X < pos.X)
+                {
+                    player.playerFacing = Facing.Right;
+                    player.Velocity = 2f;
+
+
+                }
+                else if (player.Position.X > pos.X)
+                {
+                    player.playerFacing = Facing.Left;
+                    player.Velocity = -2f;
+                }
+            }
         }
 
         private void Movement()
@@ -97,11 +117,11 @@ namespace Cyberpriest
 
         void Combat(GameTime gt)
         {
-            if(shotCount > 0)
+            if (shotCount > 0)
             {
                 bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
                 bulletList.Add(bullet);
-                bullet.isActive = true;
+                //bullet.isActive = true;
 
                 shotCount--;
             }
@@ -137,12 +157,9 @@ namespace Cyberpriest
 
             foreach (EnemyBullet bullet in bulletList)
             {
-                if(bullet.isActive == true)
-                {
-                    bullet.Draw(sb);
-                }
-                
+                bullet.Draw(sb);
             }
         }
+
     }
 }

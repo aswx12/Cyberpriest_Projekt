@@ -51,10 +51,26 @@ namespace Cyberpriest
                     {
                         movingObj.HandleCollision(bullet);
                     }
-                }
+                }            
             }
 
             #endregion
+
+            foreach (GameObject obj in map.objectList)
+            {              
+                foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
+                {
+                    if (eBullet.IntersectCollision(obj))
+                    {
+                        if (obj is Player && eBullet.isActive)
+                        {                           
+                            obj.HandleCollision(eBullet);                          
+                        }
+                        else
+                            continue;
+                    }
+                }
+            }
 
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);

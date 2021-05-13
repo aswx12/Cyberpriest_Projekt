@@ -29,8 +29,6 @@ namespace Cyberpriest
         int maxFallDistance = 2500;
         int flyHeight = 5;
 
-        int count;
-
         float timer;
         float iFrameTimer = -1;
         float hitBoxOffset = 0.5f;
@@ -43,14 +41,14 @@ namespace Cyberpriest
 
         double cooldownTimer = 0;
 
+        double affectedTimer;
+
         bool downPlatform;
         bool blinking;
-        bool charmed;
+        public bool charmed;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
-            count = 0;
-
             charmed = false;
             isGrounded = true;
             lives = 3;
@@ -62,13 +60,15 @@ namespace Cyberpriest
             this.powerUpList = powerUpList;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            dashCount = count;
+            dashCount = 1;
             dashTimer = 0;
             dashCD = 1.5;
 
-            shotCount = count;
+            shotCount = 1;
             shotTimer = 0;
             shotCD = 2;
+
+            affectedTimer = 0;
 
             isHit = false;
         }
@@ -78,17 +78,15 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-            if (other is Bullet)
+            if (other is EnemyBullet)
             {
+
+                other.isActive = false;
+                charmed = true;
+
+
                 return;
             }
-
-            //if (other is EnemyBullet)
-            //{
-            //    charmed = true;
-
-            //    return;
-            //}
 
             if (other is EnemyType && other.isActive == true)
             {
@@ -112,6 +110,11 @@ namespace Cyberpriest
                 return;
             }
 
+            if (other is Bullet)
+            {
+                return;
+            }
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
@@ -121,7 +124,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine(cooldownTimer);
+            Console.WriteLine("vel from player" + velocity);
 
             if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
@@ -146,22 +149,21 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
-            if(charmed == false)
-            {
-                
-            }
-
-            
             float i = 0.75f;
             velocity.Y += gravity * i; //falling faster and faster
-            velocity.X = 0;
 
-            Control();
+            PlayerFacing();
+            Charmed(gt);
+            if (charmed == false)
+            {
+                Control();
+            }
+
             PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);
-            IFrame(gt);
 
+            IFrame(gt);
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
@@ -189,31 +191,42 @@ namespace Cyberpriest
             }
         }
 
+        public void PlayerFacing()
+        {
+            if (playerFacing == Facing.Right)
+            {
+                effect = SpriteEffects.None;
+            }
+            else if (playerFacing == Facing.Left)
+            {
+                effect = SpriteEffects.FlipHorizontally;
+            }
+        }
+
         public void Control()
         {
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
-                effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
-                effect = SpriteEffects.FlipHorizontally;
+
                 playerFacing = Facing.Left;
             }
+            else
+                velocity.X = 0;
 
             if (KeyMouseReader.mouseState.X >= (bX / 2))
             {
-                effect = SpriteEffects.None;
                 playerFacing = Facing.Right;
             }
 
             else if (KeyMouseReader.mouseState.X <= (bX / 2))
             {
-                effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
 
@@ -314,6 +327,19 @@ namespace Cyberpriest
             }
         }
 
+        public void Charmed(GameTime gt)
+        {
+            if (charmed == true)
+                affectedTimer += gt.ElapsedGameTime.TotalSeconds;
+
+            if (affectedTimer >= 5 && charmed == true)
+            {
+                charmed = false;
+                if (charmed == false)
+                    affectedTimer = 0;
+            }
+        }
+
         public void ShootCooldown(GameTime gt)
         {
             if (shotCount <= 0)
@@ -371,6 +397,18 @@ namespace Cyberpriest
             set
             {
                 pos = value;
+            }
+        }
+
+        public float Velocity
+        {
+            get
+            {
+                return velocity.X;
+            }
+            set
+            {
+                velocity.X = value;
             }
         }
     }
