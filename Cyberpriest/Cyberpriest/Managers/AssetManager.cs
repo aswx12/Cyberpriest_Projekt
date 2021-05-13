@@ -39,7 +39,7 @@ namespace Cyberpriest
 
         #endregion
 
-        #region Stationary Enemy
+        #region Trap
 
         public static Texture2D purpleFire;
         public static Texture2D redFire;
@@ -150,7 +150,7 @@ namespace Cyberpriest
 
             #endregion
 
-            #region Stationary Enemy
+            #region Trap
 
             purpleFire = content.Load<Texture2D>("PurpleFireSprite");
             redFire = content.Load<Texture2D>("RedFireSprite");
