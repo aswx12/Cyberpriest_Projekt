@@ -30,7 +30,7 @@ namespace Cyberpriest
 
         public override Rectangle GetHitBox => base.GetHitBox;
 
-        public override Vector2 GetPos
+        public override Vector2 Position
         {
             get
             {

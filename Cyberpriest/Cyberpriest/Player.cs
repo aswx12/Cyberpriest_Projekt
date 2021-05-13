@@ -29,20 +29,29 @@ namespace Cyberpriest
         int maxFallDistance = 2500;
         int flyHeight = 5;
 
+        int count;
+
         float timer;
         float iFrameTimer = -1;
         float hitBoxOffset = 0.5f;
 
         double nextBlinkTime;
+        double dashTimer;
         double dashCD;
-        double shootCD;
+        double shotTimer;
+        double shotCD;
+
+        double cooldownTimer = 0;
 
         bool downPlatform;
         bool blinking;
-
+        bool charmed;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
+            count = 0;
+
+            charmed = false;
             isGrounded = true;
             lives = 3;
             startPos = pos;
@@ -53,11 +62,13 @@ namespace Cyberpriest
             this.powerUpList = powerUpList;
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            dashCount = 1;
-            dashCD = 0;
+            dashCount = count;
+            dashTimer = 0;
+            dashCD = 1.5;
 
-            shotCount = 1;
-            shootCD = 0;
+            shotCount = count;
+            shotTimer = 0;
+            shotCD = 2;
 
             isHit = false;
         }
@@ -71,6 +82,13 @@ namespace Cyberpriest
             {
                 return;
             }
+
+            //if (other is EnemyBullet)
+            //{
+            //    charmed = true;
+
+            //    return;
+            //}
 
             if (other is EnemyType && other.isActive == true)
             {
@@ -103,6 +121,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            Console.WriteLine(cooldownTimer);
+
             if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
                 pos = startPos;
@@ -118,6 +138,7 @@ namespace Cyberpriest
             foreach (Bullet b in bulletList)
             {
                 b.Update(gt);
+                b.Movement();
             }
 
             if (isGrounded)
@@ -125,6 +146,12 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
+            if(charmed == false)
+            {
+                
+            }
+
+            
             float i = 0.75f;
             velocity.Y += gravity * i; //falling faster and faster
             velocity.X = 0;
@@ -134,6 +161,7 @@ namespace Cyberpriest
             ShootCooldown(gt);
             DashCooldown(gt);
             IFrame(gt);
+
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
@@ -163,7 +191,6 @@ namespace Cyberpriest
 
         public void Control()
         {
-
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
@@ -254,21 +281,6 @@ namespace Cyberpriest
             }
         }
 
-        public void ShootCooldown(GameTime gt)
-        {
-            if (shotCount <= 0)
-                shootCD += gt.ElapsedGameTime.TotalSeconds;
-
-            double cooldown = 1;
-
-            if (shootCD >= cooldown && shotCount == 0)
-            {
-                shotCount = 1;
-                if (shotCount == 1)
-                    shootCD = 0;
-            }
-        }
-
         public void IFrame(GameTime gameTime)
         {
             if (iFrameTimer <= 0 && isHit == true)
@@ -290,15 +302,30 @@ namespace Cyberpriest
         public void DashCooldown(GameTime gt)
         {
             if (dashCount <= 0)
-                dashCD += gt.ElapsedGameTime.TotalSeconds;
+                dashTimer += gt.ElapsedGameTime.TotalSeconds;
 
             double cooldown = 1.5;
 
-            if (dashCD >= cooldown && dashCount == 0)
+            if (dashTimer >= cooldown && dashCount == 0)
             {
                 dashCount = 1;
                 if (dashCount == 1)
-                    dashCD = 0;
+                    dashTimer = 0;
+            }
+        }
+
+        public void ShootCooldown(GameTime gt)
+        {
+            if (shotCount <= 0)
+                shotTimer += gt.ElapsedGameTime.TotalSeconds;
+
+            double cooldown = 1;
+
+            if (shotTimer >= cooldown && shotCount == 0)
+            {
+                shotCount = 1;
+                if (shotCount == 1)
+                    shotTimer = 0;
             }
         }
 
@@ -335,21 +362,35 @@ namespace Cyberpriest
             //jumpHeight *= 2; not working like it should
         }
 
-        public override Vector2 GetPos
+        public override Vector2 Position
         {
             get
             {
                 return pos;
+            }
+            set
+            {
+                pos = value;
             }
         }
     }
 }
 
 /* Reusabale code
-            //if (other is Spike)
-            //{
-            //    live--;
-            //    pos = startPos;
-            //}
+ 
+        //public void Cooldown(GameTime gt, double cooldown)
+        //{
+        //    if (count <= 0)
+        //        cooldownTimer += gt.ElapsedGameTime.TotalSeconds;
+
+        //    if (cooldownTimer >= cooldown && count == 0)
+        //    {
+        //        count = 1;
+        //        if (count == 1)
+        //            cooldownTimer = 0;
+        //    }
+
+        //    Console.WriteLine(count);
+        //}
  
  */

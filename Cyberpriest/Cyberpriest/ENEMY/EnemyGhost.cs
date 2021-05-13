@@ -17,10 +17,10 @@ namespace Cyberpriest
             isActive = true;
             isHit = false;
             healthPoints = 200;
+            effect = SpriteEffects.None;
+            enemyState = EnemyState.Patrol;
 
-            enemyState = Cyberpriest.EnemyState.Patrol;
-
-            moveDir = new Vector2(50, 50); 
+            moveDir = new Vector2(50, 50);
             velocity = new Vector2(1, 1);
             startVelocity = velocity;
             chasingRange = 250;
@@ -46,7 +46,9 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if(healthPoints <= 0)
+            Console.WriteLine(enemyFacing);
+
+            if (healthPoints <= 0)
             {
                 isActive = false;
             }
@@ -54,11 +56,12 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
-            distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
-            distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
+            distanceToPlayerX = (int)player.Position.X - (int)pos.X;
+            distanceToPlayerY = (int)player.Position.Y - (int)pos.Y;
 
             Movement();
-            EnemyState(gt);
+            CurrentEnemyState(gt);
+            EnemyFacing();
         }
 
         private void Movement()
@@ -68,83 +71,84 @@ namespace Cyberpriest
 
             if (distanceToPlayerX < chasingRange)
             {
-                moveDir = player.GetPos - pos;
-                enemyState = Cyberpriest.EnemyState.Chase;
+                moveDir = player.Position - pos;
+                enemyState = EnemyState.Chase;
             }
             else
             {
-                enemyState = Cyberpriest.EnemyState.Patrol;
+                enemyState = EnemyState.Patrol;
             }
         }
 
-        private void EnemyState(GameTime gt)
+        protected override void CurrentEnemyState(GameTime gt)
         {
             switch (enemyState)
             {
-                case Cyberpriest.EnemyState.Patrol:
+                case EnemyState.Patrol:
                     pos += velocity;
                     PatrolTimer(gt);
                     break;
-                case Cyberpriest.EnemyState.Chase:
+                case EnemyState.Chase:
                     pos += startVelocity * moveDir * 0.01f;
+
+                    if (pos.X > player.Position.X)
+                        enemyFacing = Facing.Left;
+                    else if (pos.X < player.Position.X)
+                        enemyFacing = Facing.Right;
+
                     if (distanceToPlayerX > chasingRange)
-                        enemyState = Cyberpriest.EnemyState.Patrol;
+                        enemyState = EnemyState.Patrol;
                     break;
             }
         }
 
-        void RandomDirection()
-        {
-            int random = rand.Next(0, 4);
-
-            //Down right
-            if (random == 0) 
-            {
-                velocity.X = 1f;
-                velocity.Y = 2f;
-            }
-
-            //Down left
-            if (random == 1)
-            {
-                velocity.X = -1f; 
-                velocity.Y = 2f;
-            }
-
-            //Up left
-            if (random == 2) 
-            {
-                velocity.X = -1f;
-                velocity.Y = -2f;
-            }
-
-            //Up right
-            if (random == 3) 
-            {
-                velocity.X = 1f;
-                velocity.Y = -2f;
-            }
-        }
-
-        void PatrolTimer(GameTime gt)
+        protected override void PatrolTimer(GameTime gt)
         {
             randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
 
-            if(randomizationTime >= randomizationPeriod)
+            if (randomizationTime >= randomizationPeriod)
             {
                 RandomDirection();
                 randomizationTime = 0.0f;
             }
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            if (isActive == true)
-                if(moveDir.X < 0)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
-                else
-                    sb.Draw(tex, pos, Color.White);
-        }
 
+        protected override void RandomDirection()
+        {
+            int random = rand.Next(0, 4);
+
+            //Down right
+            if (random == 0)
+            {
+                velocity.X = 1f;
+                velocity.Y = 2f;
+                enemyFacing = Facing.Right;
+            }
+
+            //Down left
+            if (random == 1)
+            {
+                velocity.X = -1f;
+                velocity.Y = 2f;
+                enemyFacing = Facing.Left;
+            }
+
+            //Up left
+            if (random == 2)
+            {
+                velocity.X = -1f;
+                velocity.Y = -2f;
+                enemyFacing = Facing.Left;
+            }
+
+            //Up right
+            if (random == 3)
+            {
+                velocity.X = 1f;
+                velocity.Y = -2f;
+                enemyFacing = Facing.Right;
+            }
+        }
     }
 }
