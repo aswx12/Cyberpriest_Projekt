@@ -78,7 +78,7 @@ namespace Cyberpriest
                                         int leftSideOffset = 35;
                                         int rightSideOffset = 25;
 
-                                        if (otherObj.GetPos.X > (obj.GetPos.X + leftSideOffset) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - rightSideOffset) < obj.GetPos.X)
+                                        if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
                                             continue;
                                     }
                                     obj.HandleCollision(otherObj);
