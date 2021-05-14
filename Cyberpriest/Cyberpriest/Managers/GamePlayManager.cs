@@ -53,10 +53,26 @@ namespace Cyberpriest
                     {
                         movingObj.HandleCollision(bullet);
                     }
-                }
+                }            
             }
 
             #endregion
+
+            foreach (GameObject obj in map.objectList)
+            {              
+                foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
+                {
+                    if (eBullet.IntersectCollision(obj))
+                    {
+                        if (obj is Player && eBullet.isActive)
+                        {                           
+                            obj.HandleCollision(eBullet);                          
+                        }
+                        else
+                            continue;
+                    }
+                }
+            }
 
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);
@@ -80,7 +96,7 @@ namespace Cyberpriest
                                         int leftSideOffset = 35;
                                         int rightSideOffset = 25;
 
-                                        if (otherObj.GetPos.X > (obj.GetPos.X + leftSideOffset) || otherObj.GetPos.Y < obj.GetPos.Y || (otherObj.GetPos.X + otherObj.GetTexLength - rightSideOffset) < obj.GetPos.X)
+                                        if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
                                             continue;
                                     }
                                     obj.HandleCollision(otherObj);

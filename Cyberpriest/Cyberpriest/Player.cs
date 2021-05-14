@@ -34,15 +34,22 @@ namespace Cyberpriest
         float hitBoxOffset = 0.5f;
 
         double nextBlinkTime;
+        double dashTimer;
         double dashCD;
-        double shootCD;
+        double shotTimer;
+        double shotCD;
+
+        double cooldownTimer = 0;
+
+        double affectedTimer;
 
         bool downPlatform;
         bool blinking;
-
+        public bool charmed;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
+            charmed = false;
             isGrounded = true;
             //lives = 3;
             startPos = pos;
@@ -54,10 +61,14 @@ namespace Cyberpriest
             //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
-            dashCD = 0;
+            dashTimer = 0;
+            dashCD = 1.5;
 
             shotCount = 1;
-            shootCD = 0;
+            shotTimer = 0;
+            shotCD = 2;
+
+            affectedTimer = 0;
 
             isHit = false;
         }
@@ -67,8 +78,13 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-            if (other is Bullet)
+            if (other is EnemyBullet)
             {
+
+                other.isActive = false;
+                charmed = true;
+
+
                 return;
             }
 
@@ -94,6 +110,11 @@ namespace Cyberpriest
                 return;
             }
 
+            if (other is Bullet)
+            {
+                return;
+            }
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
@@ -103,7 +124,13 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+
             if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+
+            Console.WriteLine("vel from player" + velocity);
+
+            if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+
             {
                 pos = startPos;
                 GamePlayManager.health.hitBox.Width = AssetManager.fullHealthbar.Width;
@@ -118,6 +145,7 @@ namespace Cyberpriest
             foreach (Bullet b in bulletList)
             {
                 b.Update(gt);
+                b.Movement();
             }
 
             if (isGrounded)
@@ -127,12 +155,18 @@ namespace Cyberpriest
 
             float i = 0.75f;
             velocity.Y += gravity * i; //falling faster and faster
-            velocity.X = 0;
 
-            Control();
+            PlayerFacing();
+            Charmed(gt);
+            if (charmed == false)
+            {
+                Control();
+            }
+
             PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);
+
             IFrame(gt);
 
             pos += velocity;
@@ -161,32 +195,42 @@ namespace Cyberpriest
             }
         }
 
+        public void PlayerFacing()
+        {
+            if (playerFacing == Facing.Right)
+            {
+                effect = SpriteEffects.None;
+            }
+            else if (playerFacing == Facing.Left)
+            {
+                effect = SpriteEffects.FlipHorizontally;
+            }
+        }
+
         public void Control()
         {
-
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
-                effect = SpriteEffects.None;
 
                 playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
-                effect = SpriteEffects.FlipHorizontally;
+
                 playerFacing = Facing.Left;
             }
+            else
+                velocity.X = 0;
 
             if (KeyMouseReader.mouseState.X >= (bX / 2))
             {
-                effect = SpriteEffects.None;
                 playerFacing = Facing.Right;
             }
 
             else if (KeyMouseReader.mouseState.X <= (bX / 2))
             {
-                effect = SpriteEffects.FlipHorizontally;
                 playerFacing = Facing.Left;
             }
 
@@ -202,6 +246,7 @@ namespace Cyberpriest
                     if (KeyMouseReader.keyState.IsKeyDown(Keys.A))
                         velocity.X -= dashLength;
 
+                    //save dash snapshot here
                     dashCount = 0;
                 }
             }
@@ -254,21 +299,6 @@ namespace Cyberpriest
             }
         }
 
-        public void ShootCooldown(GameTime gt)
-        {
-            if (shotCount <= 0)
-                shootCD += gt.ElapsedGameTime.TotalSeconds;
-
-            double cooldown = 1;
-
-            if (shootCD >= cooldown && shotCount == 0)
-            {
-                shotCount = 1;
-                if (shotCount == 1)
-                    shootCD = 0;
-            }
-        }
-
         public void IFrame(GameTime gameTime)
         {
             if (iFrameTimer <= 0 && isHit == true)
@@ -290,15 +320,44 @@ namespace Cyberpriest
         public void DashCooldown(GameTime gt)
         {
             if (dashCount <= 0)
-                dashCD += gt.ElapsedGameTime.TotalSeconds;
+                dashTimer += gt.ElapsedGameTime.TotalSeconds;
 
             double cooldown = 1.5;
 
-            if (dashCD >= cooldown && dashCount == 0)
+            if (dashTimer >= cooldown && dashCount == 0)
             {
                 dashCount = 1;
-                if (dashCount == 1)
-                    dashCD = 0;
+                dashTimer = 0;
+            }
+
+            Console.WriteLine(dashTimer);
+        }
+
+        public void Charmed(GameTime gt)
+        {
+            if (charmed == true)
+                affectedTimer += gt.ElapsedGameTime.TotalSeconds;
+
+            if (affectedTimer >= 5 && charmed == true)
+            {
+                charmed = false;
+                if (charmed == false)
+                    affectedTimer = 0;
+            }
+        }
+
+        public void ShootCooldown(GameTime gt)
+        {
+            if (shotCount <= 0)
+                shotTimer += gt.ElapsedGameTime.TotalSeconds;
+
+            double cooldown = 1;
+
+            if (shotTimer >= cooldown && shotCount == 0)
+            {
+                shotCount = 1;
+                if (shotCount == 1)
+                    shotTimer = 0;
             }
         }
 
@@ -335,21 +394,51 @@ namespace Cyberpriest
             //jumpHeight *= 2; not working like it should
         }
 
-        public override Vector2 GetPos
+        public override Vector2 Position
         {
             get
             {
                 return pos;
+            }
+            set
+            {
+                pos = value;
+            }
+        }
+
+        public float Velocity
+        {
+            get
+            {
+                return velocity.X;
+            }
+            set
+            {
+                velocity.X = value;
             }
         }
     }
 }
 
 /* Reusabale code
-            //if (other is Spike)
-            //{
-            //    live--;
-            //    pos = startPos;
-            //}
+ 
+            //public void Cooldown(GameTime gt, int count, double cooldown, double cooldownTimer)
+        //{
+        //    if (count <= 0)
+        //        cooldownTimer += gt.ElapsedGameTime.TotalSeconds;
+
+        //    if (cooldownTimer >= cooldown && count == 0)
+        //    {
+        //        count = 1;
+        //        if (count == 1)
+        //            cooldownTimer = 0;
+        //    }
+
+        //    Console.WriteLine(count);
+        //}
+
+    // public void Cooldown2(GameTime gt, int count, double cooldown)
+    // When we dash: dashUsedSnapshot = gt.TotalGameTime.TotalSeconds;
+    // 
  
  */

@@ -10,12 +10,25 @@ namespace Cyberpriest
 {
     class EnemyLust : EnemyType
     {
+        Bullet bullet;
+        public List<Bullet> bulletList = new List<Bullet>();
+
+        int shotCount;
+        double shootCD;
+
         public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
         {
             this.player = player;
             isActive = true;
             isHit = false;
-            enemyState = Cyberpriest.EnemyState.Patrol;
+
+            shotCount = 1;
+            shootCD = 0;
+
+            effect = SpriteEffects.None;
+            moveDir = new Vector2(50, 50);
+
+            enemyState = EnemyState.Patrol;
             velocity = new Vector2(3, 0);
             startVelocity = velocity;
             chasingRange = 400;
@@ -31,12 +44,6 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-            if (other is Platform)
-            {
-                hitBox.Y = other.hitBox.Y - hitBox.Height;
-                pos.Y = hitBox.Y;
-            }
-
             if (other is Bullet && other.isActive == true && isActive == true)
             {
                 healthPoints -= 50;
@@ -49,14 +56,12 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            pos.Y += gravity;
-
             if (healthPoints <= 0)
             {
                 isActive = false;
             }
 
-            if(pos.X >= 4550 || pos.X <= 3500)
+            if (pos.X >= 4550 || pos.X <= 3500)
             {
                 velocity *= -1;
             }
@@ -64,11 +69,34 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
-            distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
-            distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
+            distanceToPlayerX = (int)player.Position.X - (int)pos.X;
+            distanceToPlayerY = (int)player.Position.Y - (int)pos.Y;
 
+            PlayerCharmed();
+            ShootCooldown(gt);
             Movement();
-            EnemyState(gt);
+            CurrentEnemyState(gt);
+            EnemyFacing();
+            Combat(gt);
+        }
+
+        void PlayerCharmed()
+        {
+            if (player.charmed == true)
+            {
+                if (player.Position.X < pos.X)
+                {
+                    player.playerFacing = Facing.Right;
+                    player.Velocity = 2f;
+
+
+                }
+                else if (player.Position.X > pos.X)
+                {
+                    player.playerFacing = Facing.Left;
+                    player.Velocity = -2f;
+                }
+            }
         }
 
         private void Movement()
@@ -78,72 +106,58 @@ namespace Cyberpriest
 
             if (distanceToPlayerX < chasingRange)
             {
-                moveDir = player.GetPos - pos;
-                enemyState = Cyberpriest.EnemyState.Chase;
+                moveDir = player.Position - pos;
+                enemyState = EnemyState.Chase;
             }
             else
             {
-                enemyState = Cyberpriest.EnemyState.Patrol;
+                enemyState = EnemyState.Patrol;
             }
         }
 
-        private void EnemyState(GameTime gt)
+        void Combat(GameTime gt)
         {
-            switch (enemyState)
+            if (shotCount > 0)
             {
-                case Cyberpriest.EnemyState.Patrol:
-                    pos += velocity;
-                    PatrolTimer(gt);
-                    break;
-                case Cyberpriest.EnemyState.Chase:
-                    if (player.GetPos.X > pos.X)
-                    {
-                        pos.X += startVelocity.X;
-                    }
-                    else if (player.GetPos.X < pos.X)
-                    {
-                        pos.X -= startVelocity.X;
-                    }
+                bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
+                bulletList.Add(bullet);
+                //bullet.isActive = true;
 
-                    if (distanceToPlayerX > chasingRange)
-                        enemyState = Cyberpriest.EnemyState.Patrol;
-                    break;
+                shotCount--;
+            }
+
+            foreach (EnemyBullet bullet in bulletList)
+            {
+                bullet.Velocity = new Vector2(3, 3);
+                moveDir = player.Position - bullet.Position;
+                bullet.Position += bullet.Velocity * moveDir * 0.015f;
+                bullet.Update(gt);
             }
         }
 
-        void RandomDirection()
+        public void ShootCooldown(GameTime gt)
         {
-            int random = rand.Next(0, 2);
+            if (shotCount <= 0)
+                shootCD += gt.ElapsedGameTime.TotalSeconds;
 
-            //Left
-            if (random == 0)
+            double cooldown = 10;
+
+            if (shootCD >= cooldown && shotCount == 0)
             {
-                velocity.X = -1f;
-            }
-
-            //Right
-            if (random == 1)
-            {
-                velocity.X = 1f;
-            }
-        }
-
-        void PatrolTimer(GameTime gt)
-        {
-            randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
-
-            if (randomizationTime >= randomizationPeriod)
-            {
-                RandomDirection();
-                randomizationTime = 0.0f;
+                shotCount = 1;
+                if (shotCount == 1)
+                    shootCD = 0;
             }
         }
 
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
+
+            foreach (EnemyBullet bullet in bulletList)
             {
-                sb.Draw(tex, pos, Color.White);
+                bullet.Draw(sb);
             }
         }
 

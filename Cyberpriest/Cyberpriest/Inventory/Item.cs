@@ -38,7 +38,7 @@ namespace Cyberpriest
         {
             if (isCollected)
             {
-                pos = inventory[row, column].GetPos;
+                pos = inventory[row, column].Position;
                 inventory[row, column].occupied = inInventory;
                 hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             }

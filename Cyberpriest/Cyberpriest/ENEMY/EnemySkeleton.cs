@@ -17,7 +17,8 @@ namespace Cyberpriest
             isActive = true;
             isHit = false;
             healthPoints = 100;
-            enemyState = Cyberpriest.EnemyState.Patrol;
+            effect = SpriteEffects.None;
+            enemyState = EnemyState.Patrol;
             moveDir = new Vector2(50, 50);
             velocity = new Vector2(1, 0);
             startVelocity = velocity;
@@ -51,7 +52,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            pos.Y += gravity;
+            float i = 0.75f;
+            pos.Y += gravity * i;
 
             if (healthPoints <= 0)
             {
@@ -61,11 +63,12 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
-            distanceToPlayerX = (int)player.GetPos.X - (int)pos.X;
-            distanceToPlayerY = (int)player.GetPos.Y - (int)pos.Y;
+            distanceToPlayerX = (int)player.Position.X - (int)pos.X;
+            distanceToPlayerY = (int)player.Position.Y - (int)pos.Y;
 
+            EnemyFacing();
             Movement();
-            EnemyState(gt);
+            CurrentEnemyState(gt);
         }
 
         private void Movement()
@@ -75,86 +78,52 @@ namespace Cyberpriest
 
             if (distanceToPlayerX < chasingRange)
             {
-                moveDir = player.GetPos - pos;
-                //enemyState = Cyberpriest.EnemyState.Chase;
+                moveDir = player.Position - pos;
+                enemyState = EnemyState.Chase;
             }
             else
             {
-                enemyState = Cyberpriest.EnemyState.Patrol;
+                enemyState = EnemyState.Patrol;
             }
         }
 
-        private void EnemyState(GameTime gt)
+        protected override void CurrentEnemyState(GameTime gt)
         {
             switch (enemyState)
             {
-                case Cyberpriest.EnemyState.Patrol:
+                case EnemyState.Patrol:
                     pos += velocity;
 
-                    if(pos.X == startPos.X + 75)
+                    if (pos.X >= startPos.X + 75)
                     {
-                        velocity *= -1;
+                        velocity = -startVelocity;
+                        enemyFacing = Facing.Left;
                     }
-                    else if(pos.X == startPos.X - 75)
+                    else if (pos.X <= startPos.X - 75)
                     {
-                        velocity *= -1;
+                        velocity = startVelocity;
+                        enemyFacing = Facing.Right;
                     }
                     //PatrolTimer(gt);
                     break;
 
-                case Cyberpriest.EnemyState.Chase:
-                    if (player.GetPos.X > pos.X)
+                case EnemyState.Chase:
+                    if (player.Position.X > pos.X)
                     {
                         pos.X += startVelocity.X;
+                        enemyFacing = Facing.Right;
                     }
-                    else if (player.GetPos.X < pos.X)
+                    else if (player.Position.X < pos.X)
                     {
                         pos.X -= startVelocity.X;
+                        enemyFacing = Facing.Left;
                     }
 
                     if (distanceToPlayerX > chasingRange)
-                        enemyState = Cyberpriest.EnemyState.Patrol;
+                        enemyState = EnemyState.Patrol;
                     break;
             }
         }
-
-        void RandomDirection()
-        {
-            int random = rand.Next(0, 2);
-
-            //Left
-            if (random == 0)
-            {
-                velocity.X = -1f;
-            }
-
-            //Right
-            if (random == 1)
-            {
-                velocity.X = 1f;
-            }
-        }
-
-        void PatrolTimer(GameTime gt)
-        {
-            randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
-
-            if (randomizationTime >= randomizationPeriod)
-            {
-                RandomDirection();
-                randomizationTime = 0.0f;
-            }
-        }
-
-        public override void Draw(SpriteBatch sb)
-        {
-            if (isActive == true)
-                if (moveDir.X < 0)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.FlipHorizontally, 1);
-                else
-                    sb.Draw(tex, pos, Color.White);
-        }
-
     }
 }
 

@@ -142,7 +142,7 @@ namespace Cyberpriest
 
                 case GameState.Play:
 
-                    playerPos = GamePlayManager.map.player.GetPos;
+                    playerPos = GamePlayManager.map.player.Position;
 
                     GamePlayManager.InventorySlotCheck();
 

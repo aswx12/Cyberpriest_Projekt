@@ -78,11 +78,15 @@ namespace Cyberpriest
             }
         }
 
-        public virtual Vector2 GetPos
+        public virtual Vector2 Position
         {
             get
             {
                 return pos;
+            }
+            set
+            {
+                pos = value;
             }
         }
 
