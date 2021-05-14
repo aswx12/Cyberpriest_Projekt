@@ -129,7 +129,7 @@ namespace Cyberpriest
 
             Console.WriteLine("vel from player" + velocity);
 
-            if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
             {
                 pos = startPos;
