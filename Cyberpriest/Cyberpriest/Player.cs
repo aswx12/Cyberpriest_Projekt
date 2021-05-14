@@ -160,9 +160,9 @@ namespace Cyberpriest
             Charmed(gt);
             if (charmed == false)
             {
-                Control();
+                
             }
-
+            Control();
             PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);

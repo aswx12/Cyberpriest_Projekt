@@ -19,7 +19,7 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-            map = new MapParser("Content/level1.txt");
+            
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
