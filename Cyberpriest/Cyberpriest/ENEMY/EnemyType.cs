@@ -64,12 +64,12 @@ namespace Cyberpriest
                     if (player.Position.X > pos.X)
                     {
                         pos.X += startVelocity.X;
-                        enemyFacing = Facing.Left;
+                        enemyFacing = Facing.Right;
                     }
                     else if (player.Position.X < pos.X)
                     {
                         pos.X -= startVelocity.X;
-                        enemyFacing = Facing.Right;
+                        enemyFacing = Facing.Left;
                     }
 
                     if (distanceToPlayerX > chasingRange)
