@@ -19,7 +19,7 @@ namespace Cyberpriest
 
         public Facing playerFacing;
 
-        private int lives;
+        //private int lives;
         int bY, bX;
         int normalVel = 3;
         int dashLength = 150;
@@ -51,7 +51,7 @@ namespace Cyberpriest
         {
             charmed = false;
             isGrounded = true;
-            lives = 3;
+            //lives = 3;
             startPos = pos;
             velocity = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
@@ -90,13 +90,13 @@ namespace Cyberpriest
 
             if (other is EnemyType && other.isActive == true)
             {
-                if (iFrameTimer <= 0 && lives >= 0)
+                if (iFrameTimer <= 0 && GamePlayManager.health.hitBox.Width >= 0)
                 {
-                    lives--;
+                    GamePlayManager.health.hitBox.Width -= 20;
                 }
 
                 isHit = true;
-                Console.WriteLine(lives);
+                Console.WriteLine(GamePlayManager.health.hitBox.Width);
                 return;
             }
 
@@ -124,12 +124,16 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+
+            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+
             Console.WriteLine("vel from player" + velocity);
 
             if (lives <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+
             {
                 pos = startPos;
-                lives = 3;
+                GamePlayManager.health.hitBox.Width = AssetManager.fullHealthbar.Width;
             }
 
             if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)

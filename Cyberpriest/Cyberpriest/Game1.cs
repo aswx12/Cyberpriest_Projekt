@@ -224,6 +224,10 @@ namespace Cyberpriest
 
             spriteBatch.End();
 
+            spriteBatch.Begin();
+            GamePlayManager.HealthDraw(spriteBatch);
+            spriteBatch.End();
+
             base.Draw(gameTime);
         }
 

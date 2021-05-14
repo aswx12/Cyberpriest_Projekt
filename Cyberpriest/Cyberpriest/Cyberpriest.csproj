@@ -45,6 +45,7 @@
     <Compile Include="EnemyBullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
+    <Compile Include="Health.cs" />
     <Compile Include="Managers\GamePlayManager.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
