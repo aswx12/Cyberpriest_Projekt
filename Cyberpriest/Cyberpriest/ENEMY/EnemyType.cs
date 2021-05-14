@@ -64,12 +64,12 @@ namespace Cyberpriest
                     if (player.Position.X > pos.X)
                     {
                         pos.X += startVelocity.X;
-                        enemyFacing = Facing.Right;
+                        enemyFacing = Facing.Left;
                     }
                     else if (player.Position.X < pos.X)
                     {
                         pos.X -= startVelocity.X;
-                        enemyFacing = Facing.Left;
+                        enemyFacing = Facing.Right;
                     }
 
                     if (distanceToPlayerX > chasingRange)
@@ -91,11 +91,11 @@ namespace Cyberpriest
 
         protected void EnemyFacing()
         {
-            if (enemyFacing == Facing.Right)
+            if (enemyFacing == Facing.Left)
             {
                 effect = SpriteEffects.None;
             }
-            else if (enemyFacing == Facing.Left)
+            else if (enemyFacing == Facing.Right)
             {
                 effect = SpriteEffects.FlipHorizontally;
             }

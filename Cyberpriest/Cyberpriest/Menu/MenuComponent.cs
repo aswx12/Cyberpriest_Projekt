@@ -18,6 +18,8 @@ namespace Cyberpriest
         MouseState previousMouseState;
         //GameState gameState;
 
+        int thisisjustpurebadcodingbutitworkssowhocares;
+
         public MenuComponent(Game game)
             : base(game)
         {
@@ -26,25 +28,44 @@ namespace Cyberpriest
 
         public override void Initialize()
         {
+            thisisjustpurebadcodingbutitworkssowhocares = 0;
             choices = new List<MenuChoice>();
-            choices.Add(new MenuChoice() { Text = "START", Selected = true, ClickAction = MenuStartClicked });
-            choices.Add(new MenuChoice() { Text = "SELECT LEVEL", ClickAction = MenuSelectClicked });
+            choices.Add(new MenuChoice() { Text = "NEW GAME", Selected = true, ClickAction = MenuStartClicked });
+
             choices.Add(new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
             choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
+            
 
             base.Initialize();
+        }
+
+        public void ContinueEnable()
+        {
+
+            choices[1] = (new MenuChoice() { Text = "CONTINUE", ClickAction = RestartClicked });
+            choices[2] = (new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
+
+            if (thisisjustpurebadcodingbutitworkssowhocares==0)
+            {
+                thisisjustpurebadcodingbutitworkssowhocares++;
+                choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
+            }
+
+                
         }
 
         #region Menu Clicks
 
         private void MenuStartClicked()
         {
+            GamePlayManager.map = new MapParser("Content/level1.txt");
             Game1.GetState = GameState.Play;
+            Game1.newGame = true;
         }
 
-        private void MenuSelectClicked()
+        private void RestartClicked()
         {
-            bgColor = Color.Teal;
+            Game1.GetState = GameState.Play;
         }
 
         private void MenuOptionsClicked()
@@ -62,7 +83,7 @@ namespace Cyberpriest
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             bgColor = Color.Black;
 
             AssetManager.LoadAssets(Game.Content);
@@ -73,23 +94,26 @@ namespace Cyberpriest
 
         public override void Update(GameTime gameTime)
         {
-            if (KeyboardComponent.KeyPressed(Keys.Down))
-                NextMenuChoice();
-            if (KeyboardComponent.KeyPressed(Keys.Up))
-                PreviousMenuChoice();
-            if (KeyboardComponent.KeyPressed(Keys.Enter))
+            if (Game1.GetState == GameState.Menu)
             {
-                var selectedChoice = choices.First(c => c.Selected);
-                selectedChoice.ClickAction.Invoke();
+                if (KeyboardComponent.KeyPressed(Keys.S))
+                    NextMenuChoice();
+                if (KeyboardComponent.KeyPressed(Keys.W))
+                    PreviousMenuChoice();
+                if (KeyboardComponent.KeyPressed(Keys.Enter))
+                {
+                    var selectedChoice = choices.First(c => c.Selected);
+                    selectedChoice.ClickAction.Invoke();
+                }
             }
-
+            
             int choicesGap = 70;
-            float startY = Game1.window.ClientBounds.Height/ 4f;
+            float startY = Game1.window.ClientBounds.Height / 4f;
 
             foreach (var choice in choices)
             {
                 Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
-                choice.posY  = startY;
+                choice.posY = startY;
                 choice.posX = Game1.window.ClientBounds.Width / 2 - size.X / 2;
                 choice.HitBox = new Rectangle((int)choice.posX, (int)choice.posY, (int)size.X, (int)size.Y);
                 startY += choicesGap;

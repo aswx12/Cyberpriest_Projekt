@@ -26,6 +26,8 @@ namespace Cyberpriest
         static GameState gameState;
         public static GameWindow window;
 
+        public static bool newGame;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,13 +54,15 @@ namespace Cyberpriest
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
 
+            newGame = false;
+
             GamePlayManager.Initializer();
 
             AssetManager.LoadAssets(Content);
 
             window.AllowUserResizing = true;
 
-            GamePlayManager.map = new MapParser("Content/level1.txt");
+            gameState = GameState.Menu;
 
             #region Background (MÅSTE FIXAS)
             bgArray = new Background[9, 9];
@@ -161,7 +165,11 @@ namespace Cyberpriest
                     break;
 
                 case GameState.Menu:
-
+                    if (newGame)
+                    {
+                        menuComponent.ContinueEnable();
+                        newGame = false;
+                    }
                     break;
             }
             base.Update(gameTime);

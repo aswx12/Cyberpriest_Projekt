@@ -77,6 +77,7 @@ namespace Cyberpriest
             Movement();
             CurrentEnemyState(gt);
             EnemyFacing();
+            if(enemyState==EnemyState.Chase)
             Combat(gt);
         }
 
@@ -121,7 +122,7 @@ namespace Cyberpriest
             {
                 bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
                 bulletList.Add(bullet);
-                //bullet.isActive = true;
+                bullet.isActive = true;
 
                 shotCount--;
             }
