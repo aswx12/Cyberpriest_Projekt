@@ -20,6 +20,8 @@ namespace Cyberpriest
         public static Texture2D tallPlatform;
         public static Texture2D squarePlatform;
         public static Texture2D longPlatform;
+        public static Texture2D openDoor;
+        public static Texture2D closedDoor;
 
         #endregion
 
@@ -35,7 +37,8 @@ namespace Cyberpriest
         public static Texture2D enemyDemon;
         public static Texture2D enemySkeleton;
         public static Texture2D bossCleopatra;
-        public static Texture2D bossCerberus;
+        public static Texture2D bossCerberus; 
+        public static Texture2D bossGreed;
 
         #endregion
 
@@ -110,6 +113,8 @@ namespace Cyberpriest
 
         public static Texture2D heartSprite;
         public static Texture2D coinSprite;
+        public static Texture2D fullHealthbar;
+        public static Texture2D emptyHealthbar;
 
         #endregion
 
@@ -131,6 +136,8 @@ namespace Cyberpriest
             tallPlatform = content.Load<Texture2D>("TallPlatform");
             squarePlatform = content.Load<Texture2D>("SquarePlatform");
             longPlatform = content.Load<Texture2D>("LongPlatform");
+            openDoor = content.Load<Texture2D>("OpenDoor");
+            closedDoor = content.Load<Texture2D>("ClosedDoor");
 
             #endregion
 
@@ -147,6 +154,7 @@ namespace Cyberpriest
             enemySkeleton = content.Load<Texture2D>("enemy3");
             bossCleopatra = content.Load<Texture2D>("Boss_Lust");
             bossCerberus = content.Load<Texture2D>("Boss_Gluttony");
+            bossGreed = content.Load<Texture2D>("Boss_Greed");
 
             #endregion
 
@@ -221,6 +229,8 @@ namespace Cyberpriest
 
             heartSprite = content.Load<Texture2D>("HeartSprite");
             coinSprite = content.Load<Texture2D>("CoinSprite");
+            fullHealthbar = content.Load<Texture2D>("FullHealthbar");
+            emptyHealthbar = content.Load<Texture2D>("EmptyHealthbar");
 
             #endregion
 

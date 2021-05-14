@@ -10,6 +10,7 @@ namespace Cyberpriest
 {
     class GamePlayManager
     {
+        public static Health health;
         public static MapParser map;
         public static Rectangle mouseRect;
 
@@ -19,6 +20,7 @@ namespace Cyberpriest
         public static void Initializer()
         {
             map = new MapParser("Content/level1.txt");
+            health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
             column = 0;
@@ -232,6 +234,12 @@ namespace Cyberpriest
                     row = 0;
                 }
             }
+        }
+
+        public static void HealthDraw(SpriteBatch sb)
+        {
+            if(Game1.GetState == GameState.Play)
+                health.Draw(sb);
         }
 
     }
