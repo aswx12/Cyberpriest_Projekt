@@ -23,6 +23,22 @@ namespace Cyberpriest
         public static Texture2D openDoor;
         public static Texture2D closedDoor;
 
+        public static Texture2D blockWhite;
+        public static Texture2D rightTileWhite;
+        public static Texture2D centerTileWhite;
+        public static Texture2D leftTileWhite;
+        public static Texture2D rightLTileWhite;
+        public static Texture2D leftLTileWhite;
+        public static Texture2D tallTileWhite;
+
+        public static Texture2D blockBlue;
+        public static Texture2D rightTileBlue;
+        public static Texture2D centerTileBlue;
+        public static Texture2D leftTileBlue;
+        public static Texture2D rightLTileBlue;
+        public static Texture2D leftLTileBlue;
+        public static Texture2D tallTileBlue;
+
         #endregion
 
         #region Player
@@ -139,6 +155,21 @@ namespace Cyberpriest
             openDoor = content.Load<Texture2D>("OpenDoor");
             closedDoor = content.Load<Texture2D>("ClosedDoor");
 
+            blockWhite = content.Load<Texture2D>("BlockWhite");
+            leftLTileWhite = content.Load<Texture2D>("LeftLTileWhite");
+            rightLTileWhite = content.Load<Texture2D>("RightLTileWhite");
+            rightTileWhite = content.Load<Texture2D>("RightTileBlue");
+            centerTileWhite = content.Load<Texture2D>("CenterTileWhite");
+            leftTileWhite = content.Load<Texture2D>("LeftTileBlue");
+            tallTileWhite = content.Load<Texture2D>("TallTileWhite");
+
+            blockBlue = content.Load<Texture2D>("BlockBlue");
+            leftLTileBlue = content.Load<Texture2D>("LeftLTileBlue");
+            rightLTileBlue = content.Load<Texture2D>("RightLTileBlue");
+            rightTileBlue = content.Load<Texture2D>("RightTileBlue");
+            centerTileBlue = content.Load<Texture2D>("CenterTileBlue");
+            leftTileBlue = content.Load<Texture2D>("LeftTileBlue");
+            tallTileBlue = content.Load<Texture2D>("TallTileBlue");
             #endregion
 
             #region Player
