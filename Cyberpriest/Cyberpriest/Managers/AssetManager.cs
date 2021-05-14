@@ -38,8 +38,8 @@ namespace Cyberpriest
         public static Texture2D enemySkeleton;
         public static Texture2D bossCleopatra;
         public static Texture2D bossCerberus; 
-        public static Texture2D bossGreed;
-
+        public static Texture2D bossAlighiero;
+        public static Texture2D bossPhlegyas;
         #endregion
 
         #region Trap
@@ -154,8 +154,9 @@ namespace Cyberpriest
             enemySkeleton = content.Load<Texture2D>("enemy3");
             bossCleopatra = content.Load<Texture2D>("Boss_Lust");
             bossCerberus = content.Load<Texture2D>("Boss_Gluttony");
-            bossGreed = content.Load<Texture2D>("Boss_Greed");
-
+            bossAlighiero = content.Load<Texture2D>("Boss_Greed");
+            bossPhlegyas = content.Load<Texture2D>("Boss_Phlegyas");
+            
             #endregion
 
             #region Trap
