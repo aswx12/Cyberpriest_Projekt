@@ -160,9 +160,9 @@ namespace Cyberpriest
             Charmed(gt);
             if (charmed == false)
             {
-                
+                Control();
             }
-            Control();
+ 
             PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);
@@ -172,6 +172,28 @@ namespace Cyberpriest
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            if (iFrameTimer > 0)
+            {
+                if (blinking)
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+            else if (charmed)
+            {
+                sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+            else
+            {
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+
+            foreach (Bullet b in bulletList)
+            {
+                b.Draw(sb);
+            }
         }
 
         void PowerUp()
@@ -281,24 +303,6 @@ namespace Cyberpriest
             }
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            if (iFrameTimer > 0)
-            {
-                if (blinking)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
-            }
-            else
-            {
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
-            }
-
-            foreach (Bullet b in bulletList)
-            {
-                b.Draw(sb);
-            }
-        }
-
         public void IFrame(GameTime gameTime)
         {
             if (iFrameTimer <= 0 && isHit == true)
@@ -338,7 +342,9 @@ namespace Cyberpriest
             if (charmed == true)
                 affectedTimer += gt.ElapsedGameTime.TotalSeconds;
 
-            if (affectedTimer >= 5 && charmed == true)
+            double charmDuration = 2;
+
+            if (affectedTimer >= charmDuration && charmed == true)
             {
                 charmed = false;
                 if (charmed == false)

@@ -83,6 +83,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Font\selectedFont.bmp" />
+    <Content Include="Content\PlayerCharmed.png" />
     <Content Include="Content\PotionsSprite.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

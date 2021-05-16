@@ -102,8 +102,12 @@ namespace Cyberpriest
                     PreviousMenuChoice();
                 if (KeyboardComponent.KeyPressed(Keys.Enter))
                 {
-                    var selectedChoice = choices.First(c => c.Selected);
-                    selectedChoice.ClickAction.Invoke();
+                    try
+                    {
+                        var selectedChoice = choices.First(c => c.Selected);
+                        selectedChoice.ClickAction.Invoke();
+                    }
+                    catch { }                
                 }
             }
             
