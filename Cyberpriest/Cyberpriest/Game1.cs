@@ -210,7 +210,7 @@ namespace Cyberpriest
                     #endregion
 
                     GamePlayManager.Draw(spriteBatch);
-                    
+
                     break;
 
                 case GameState.Inventory:

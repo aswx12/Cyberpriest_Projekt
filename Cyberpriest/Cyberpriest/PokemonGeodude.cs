@@ -85,7 +85,7 @@ namespace Cyberpriest
 
                 direction.Normalize();
 
-                if (distance < towerRange && isActive == true && ene.isActive)
+                if (distance < chasingRange && isActive == true && ene.isActive)
                 {
                     pos += speed * direction;
 
@@ -146,11 +146,15 @@ namespace Cyberpriest
                 {
                     moveDir = enemy.Position - pos;
                     geodudeState = GeodudeState.Attack;
+                    pos += velocity * moveDir * 0.01f;
+
                 }
                 else if (enemy.distanceToGeodudeX > chasingRange)
                 {
                     moveDir = player.Position - pos;
                     geodudeState = GeodudeState.Follow;
+                    pos += velocity * moveDir * 0.01f; //the problem is here
+
                 }
             }
 
@@ -160,34 +164,32 @@ namespace Cyberpriest
         private void CurrentState()
         {
             //EnemyType enemy = FindClosestTarget();
-
+            
             switch (geodudeState)
             {
                 case GeodudeState.Follow:
-                    pos += velocity * moveDir * 0.01f;
-                    Movement();
+                    //pos += velocity * moveDir * 0.01f;
+                
                     foreach (EnemyType ene in enemyList)
                     {
                         //distanceToEnemyX = ((int)ene.Position.X - (int)pos.X);
-                        
-                        
+                        Movement();
                         if (ene.distanceToGeodudeX <= chasingRange && ene.isActive)
                             geodudeState = GeodudeState.Attack;
 
                         Console.WriteLine("Distance: " + ene.distanceToGeodudeX);
-                    }
-                   
+                    }                   
 
                     break;
                 case GeodudeState.Attack:
                     //pos += velocity * moveDir * 0.01f;
-                    //Test();
-                    //if (distanceToEnemyX > chasingRange)
-                    //{
-                    //    isAttacking = false;
-                    //    geodudeState = GeodudeState.Follow;
-                    //}
-                    Console.WriteLine("In attack");
+                    Test();
+                    if (distanceToEnemyX > chasingRange)
+                    {
+                        isAttacking = false;
+                        geodudeState = GeodudeState.Follow;
+                    }
+
                     break;
             }
         }

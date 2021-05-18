@@ -20,7 +20,7 @@ namespace Cyberpriest
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
         List<PowerUp> powerUpList;
-        List<EnemyType> enemyList;
+        public List<EnemyType> enemyList;
 
         public Point tileSize = new Point(64, 64);
 
