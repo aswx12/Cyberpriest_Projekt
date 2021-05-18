@@ -30,19 +30,26 @@ namespace Cyberpriest
         protected float randomizationTime;
         protected float randomizationPeriod;
 
-        public EnemyType(Texture2D tex, Vector2 pos/*, GameWindow window*/) : base(tex, pos)
-        {
+        protected PokemonGeodude geodude;
+        public int distanceToGeodudeX;
 
+        public EnemyType(Texture2D tex, Vector2 pos/*, GameWindow window*/, PokemonGeodude geodude) : base(tex, pos)
+        {
+            this.geodude = geodude;
         }
 
         public override void HandleCollision(GameObject other)
         {
-
         }
 
         public override void Update(GameTime gt)
         {
 
+        }
+
+        public void GeodudeCheck()
+        {
+            distanceToGeodudeX = ((int)geodude.Position.X - (int)pos.X);
         }
 
         public override void Draw(SpriteBatch sb)
@@ -118,6 +125,18 @@ namespace Cyberpriest
             {
                 velocity.X = 1f;
                 enemyFacing = Facing.Right;
+            }
+        }
+
+        public float Velocity
+        {
+            get
+            {
+                return velocity.X;
+            }
+            set
+            {
+                velocity.X = value;
             }
         }
     }

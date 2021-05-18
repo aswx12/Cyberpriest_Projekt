@@ -11,7 +11,7 @@ namespace Cyberpriest
 {
     class EnemyGhost : EnemyType
     {
-        public EnemyGhost(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
+        public EnemyGhost(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
             this.player = player;
             isActive = true;
@@ -42,6 +42,9 @@ namespace Cyberpriest
 
             if (other is Player)
                 isHit = true;
+
+            if (other is PokemonGeodude)
+                healthPoints -= 100;
         }
 
         public override void Update(GameTime gt)
@@ -61,6 +64,7 @@ namespace Cyberpriest
 
             Movement();
             CurrentEnemyState(gt);
+            GeodudeCheck();
             EnemyFacing();
         }
 

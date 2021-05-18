@@ -182,6 +182,26 @@ namespace Cyberpriest
                             }
 
                             #endregion
+
+                            #region Pokemon To Enemy Collision
+
+                            if (obj is PokemonGeodude)
+                            {
+                                if (otherObj is EnemyType)
+                                {
+
+                                    if (!otherObj.isActive)
+                                        continue;
+
+                                    if (obj.PixelCollision(otherObj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
+                            #endregion
                         }
                     }
                 }

@@ -16,7 +16,7 @@ namespace Cyberpriest
         int shotCount;
         double shootCD;
 
-        public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
+        public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
             this.player = player;
             isActive = true;
@@ -52,6 +52,9 @@ namespace Cyberpriest
 
             if (other is Player)
                 isHit = true;
+
+            if (other is PokemonGeodude)
+                healthPoints -= 100;
         }
 
         public override void Update(GameTime gt)
@@ -79,6 +82,7 @@ namespace Cyberpriest
             EnemyFacing();
             if(enemyState==EnemyState.Chase)
             Combat(gt);
+            GeodudeCheck();
         }
 
         void PlayerCharmed()
