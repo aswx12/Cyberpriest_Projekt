@@ -146,16 +146,16 @@ namespace Cyberpriest
                 {
                     moveDir = enemy.Position - pos;
                     geodudeState = GeodudeState.Attack;
-                    pos += velocity * moveDir * 0.01f;
 
                 }
                 else if (enemy.distanceToGeodudeX > chasingRange)
                 {
                     moveDir = player.Position - pos;
                     geodudeState = GeodudeState.Follow;
-                    pos += velocity * moveDir * 0.01f; //the problem is here
+                   
 
                 }
+                pos += velocity * moveDir * 0.01f; //the problem is here
             }
 
 
