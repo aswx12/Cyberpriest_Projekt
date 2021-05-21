@@ -50,6 +50,9 @@ namespace Cyberpriest
 
             if (healthPoints <= 0)
             {
+                if (isActive)
+                    GameStats.coinCollected += 5;
+
                 isActive = false;
             }
 

@@ -46,6 +46,7 @@ namespace Cyberpriest
         bool downPlatform;
         bool blinking;
         public bool charmed;
+        bool canShoot;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
@@ -90,13 +91,13 @@ namespace Cyberpriest
 
             if (other is EnemyType && other.isActive == true)
             {
-                if (iFrameTimer <= 0 && GamePlayManager.health.hitBox.Width >= 0)
+                if (iFrameTimer <= 0 && GameStats.health.hitBox.Width >= 0)
                 {
-                    GamePlayManager.health.hitBox.Width -= 20;
+                    GameStats.health.hitBox.Width -= 20;
                 }
 
                 isHit = true;
-                Console.WriteLine(GamePlayManager.health.hitBox.Width);
+                Console.WriteLine(GameStats.health.hitBox.Width);
                 return;
             }
 
@@ -115,6 +116,12 @@ namespace Cyberpriest
                 return;
             }
 
+            if (other is Coin)
+            {
+                GameStats.coinCollected += 1;
+                return;
+            }
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
@@ -124,16 +131,15 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-
-            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+            if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
             Console.WriteLine("vel from player" + velocity);
 
-            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+            if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
             {
                 pos = startPos;
-                GamePlayManager.health.hitBox.Width = AssetManager.fullHealthbar.Width;
+                GameStats.health.hitBox.Width = AssetManager.fullHealthbar.Width;
             }
 
             if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)
@@ -166,12 +172,14 @@ namespace Cyberpriest
             PowerUp();
             ShootCooldown(gt);
             DashCooldown(gt);
-
+            CanShootBullet();
             IFrame(gt);
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+
+            GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -193,6 +201,18 @@ namespace Cyberpriest
             foreach (Bullet b in bulletList)
             {
                 b.Draw(sb);
+            }
+        }
+
+        void CanShootBullet()
+        {
+            if (bulletList.Count == GameStats.maxAmmo)
+            {
+                canShoot = false;
+            }
+            else
+            {
+                canShoot = true;
             }
         }
 
@@ -292,7 +312,7 @@ namespace Cyberpriest
 
             if (KeyMouseReader.LeftClick())
             {
-                if (shotCount > 0)
+                if (shotCount > 0 && canShoot)
                 {
                     bullet = new Bullet(AssetManager.bomb, pos, playerFacing);
                     bulletList.Add(bullet);
