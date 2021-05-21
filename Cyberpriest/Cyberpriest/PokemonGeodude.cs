@@ -23,7 +23,7 @@ namespace Cyberpriest
         Vector2 moveDir;
         Vector2 direction;
 
-        int chasingRange = 200;
+        int chasingRange = 225;
 
         Vector2 goal;
 
@@ -55,7 +55,7 @@ namespace Cyberpriest
             Animation(gameTime);
             GeoFacing();
             CurrentState();
-            Movement();
+            GeoStateLogic();
 
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 6, tex.Height);
         }
@@ -66,7 +66,7 @@ namespace Cyberpriest
                 sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 1);
         }
 
-        public void GeoChase()
+        public void GeoAttack()
         {
             foreach (EnemyType ene in enemyList)
             {
@@ -86,7 +86,7 @@ namespace Cyberpriest
             }
         }
 
-        private void Movement()
+        private void GeoStateLogic()
         {
             foreach (EnemyType enemy in enemyList)
             {
@@ -118,7 +118,7 @@ namespace Cyberpriest
 
                 case GeodudeState.Attack:
 
-                    GeoChase();
+                    GeoAttack();
 
                     break;
             }
