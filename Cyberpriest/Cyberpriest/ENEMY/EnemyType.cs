@@ -31,7 +31,7 @@ namespace Cyberpriest
         protected float randomizationPeriod;
 
         protected PokemonGeodude geodude;
-        public int distanceToGeodudeX;
+        public Vector2 directionToGeo;
 
         public EnemyType(Texture2D tex, Vector2 pos/*, GameWindow window*/, PokemonGeodude geodude) : base(tex, pos)
         {
@@ -47,9 +47,10 @@ namespace Cyberpriest
 
         }
 
-        public void GeodudeCheck()
+        public virtual float DistanceToGeo()
         {
-            distanceToGeodudeX = ((int)geodude.Position.X - (int)pos.X);
+            directionToGeo = pos - geodude.Position;
+            return directionToGeo.Length();
         }
 
         public override void Draw(SpriteBatch sb)

@@ -188,7 +188,6 @@ namespace Cyberpriest
             enemySkeletonPos = ParseVectorArray(stringList[9]);
 
             CreateEnemySkeleton(AssetManager.enemySkeleton, enemySkeletonPos);
-            enemyList.Add(enemySkeleton);
           
             //EnemyPos = ParsePos(stringList[9]);
 
@@ -226,6 +225,7 @@ namespace Cyberpriest
             {
                 enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player, geodude);
                 objectList.Add(enemySkeleton);
+                enemyList.Add(enemySkeleton);
             }
         }
 

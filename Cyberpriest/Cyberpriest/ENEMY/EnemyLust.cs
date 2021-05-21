@@ -82,7 +82,14 @@ namespace Cyberpriest
             EnemyFacing();
             if(enemyState==EnemyState.Chase)
             Combat(gt);
-            GeodudeCheck();
+            DistanceToGeo();
+        }
+
+
+        public override float DistanceToGeo()
+        {
+            directionToGeo = pos - geodude.Position;
+            return directionToGeo.Length();
         }
 
         void PlayerCharmed()

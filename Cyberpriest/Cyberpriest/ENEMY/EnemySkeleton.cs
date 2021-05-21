@@ -50,7 +50,11 @@ namespace Cyberpriest
                 isHit = true;
 
             if (other is PokemonGeodude)
+            {
                 healthPoints -= 100;
+                isActive = false;
+            }
+                
         }
 
         public override void Update(GameTime gt)
@@ -72,7 +76,7 @@ namespace Cyberpriest
             EnemyFacing();
             Movement();
             CurrentEnemyState(gt);
-            GeodudeCheck();
+            DistanceToGeo();
         }
 
         private void Movement()
@@ -89,6 +93,12 @@ namespace Cyberpriest
             {
                 enemyState = EnemyState.Patrol;
             }
+        }
+
+        public override float DistanceToGeo()
+        {
+            directionToGeo = pos - geodude.Position;
+            return directionToGeo.Length();
         }
 
         protected override void CurrentEnemyState(GameTime gt)

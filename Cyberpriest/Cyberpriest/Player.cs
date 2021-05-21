@@ -222,13 +222,10 @@ namespace Cyberpriest
             {
                 velocity.X = normalVel;
 
-                playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
-
-                playerFacing = Facing.Left;
             }
             else
                 velocity.X = 0;
@@ -237,7 +234,6 @@ namespace Cyberpriest
             {
                 playerFacing = Facing.Right;
             }
-
             else if (KeyMouseReader.mouseState.X <= (bX / 2))
             {
                 playerFacing = Facing.Left;

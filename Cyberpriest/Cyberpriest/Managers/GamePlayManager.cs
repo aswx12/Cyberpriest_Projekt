@@ -19,7 +19,7 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-            
+
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
@@ -53,20 +53,20 @@ namespace Cyberpriest
                     {
                         movingObj.HandleCollision(bullet);
                     }
-                }            
+                }
             }
 
             #endregion
 
             foreach (GameObject obj in map.objectList)
-            {              
+            {
                 foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
                 {
                     if (eBullet.IntersectCollision(obj))
                     {
                         if (obj is Player && eBullet.isActive)
-                        {                           
-                            obj.HandleCollision(eBullet);                          
+                        {
+                            obj.HandleCollision(eBullet);
                         }
                         else
                             continue;
@@ -189,7 +189,6 @@ namespace Cyberpriest
                             {
                                 if (otherObj is EnemyType)
                                 {
-
                                     if (!otherObj.isActive)
                                         continue;
 
@@ -274,7 +273,7 @@ namespace Cyberpriest
 
         public static void HealthDraw(SpriteBatch sb)
         {
-            if(Game1.GetState == GameState.Play)
+            if (Game1.GetState == GameState.Play)
                 health.Draw(sb);
         }
 
