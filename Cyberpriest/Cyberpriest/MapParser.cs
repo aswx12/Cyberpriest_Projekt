@@ -28,6 +28,7 @@ namespace Cyberpriest
         public Platform platform;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public Coin coin;
 
         public PowerUp powerUp;
         public EnemySkeleton enemySkeleton;
@@ -40,6 +41,7 @@ namespace Cyberpriest
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
+        Vector2[] coinPos;
 
         public MapParser(string filename)
         {
@@ -161,6 +163,14 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Coin
+
+            coinPos = ParseVectorArray(stringList[13]);
+
+            CreateCoin(AssetManager.coinSprite, coinPos);
+
+            #endregion
+
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
@@ -178,6 +188,15 @@ namespace Cyberpriest
             {
                 enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player);
                 objectList.Add(enemySkeleton);
+            }
+        }
+
+        public void CreateCoin(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                coin = new Coin(texture, pos[i]);
+                objectList.Add(coin);
             }
         }
 
