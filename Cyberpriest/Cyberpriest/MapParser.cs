@@ -38,6 +38,7 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
+        Vector2 MagnetPos;
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
@@ -123,6 +124,16 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Magnet PowerUp
+
+            MagnetPos = ParsePos(stringList[14]);
+
+            powerUp = new PowerUp(AssetManager.magnet, MagnetPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
             #region Player's Start Position
 
             PlayerPos = ParsePos(stringList[0]);
@@ -167,10 +178,9 @@ namespace Cyberpriest
 
             coinPos = ParseVectorArray(stringList[13]);
 
-            CreateCoin(AssetManager.coinSprite, coinPos);
+            CreateCoin(AssetManager.avocado, coinPos);
 
             #endregion
-
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
@@ -195,7 +205,7 @@ namespace Cyberpriest
         {
             for (int i = 0; i < pos.Length; i++)
             {
-                coin = new Coin(texture, pos[i]);
+                coin = new Coin(texture, pos[i], player, powerUpList);
                 objectList.Add(coin);
             }
         }
