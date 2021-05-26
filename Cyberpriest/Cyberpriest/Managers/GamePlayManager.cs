@@ -14,12 +14,16 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
+        public static int levelNumber = 3;
+        public static string currentLevel = "level" + levelNumber.ToString();
+        public static bool levelComplete;
+
         static int row;
         static int column;
 
         public static void Initializer()
         {
-            
+
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
@@ -53,20 +57,22 @@ namespace Cyberpriest
                     {
                         movingObj.HandleCollision(bullet);
                     }
-                }            
+                }
             }
 
             #endregion
 
+            Console.WriteLine("Current level: " + levelNumber);
+
             foreach (GameObject obj in map.objectList)
-            {              
+            {
                 foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
                 {
                     if (eBullet.IntersectCollision(obj))
                     {
                         if (obj is Player && eBullet.isActive)
-                        {                           
-                            obj.HandleCollision(eBullet);                          
+                        {
+                            obj.HandleCollision(eBullet);
                         }
                         else
                             continue;
@@ -81,6 +87,11 @@ namespace Cyberpriest
             {
                 foreach (GameObject otherObj in map.objectList)
                 {
+                    if (obj is Platform && otherObj is Platform)
+                    {
+                        continue;
+                    }
+
                     if (otherObj != obj)
                     {
                         if (obj.IntersectCollision(otherObj))
@@ -102,6 +113,22 @@ namespace Cyberpriest
                                     obj.HandleCollision(otherObj);
                                 }
                             }
+
+                            #endregion
+
+                            #region Door Collision
+
+                            if (otherObj is Door)
+                            {
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    if (obj is Player)
+                                    {
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
 
                             #endregion
 
@@ -180,9 +207,9 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-
-                            #endregion
                         }
+                        #endregion
+
                     }
                 }
             }
@@ -254,7 +281,7 @@ namespace Cyberpriest
 
         public static void HealthDraw(SpriteBatch sb)
         {
-            if(Game1.GetState == GameState.Play)
+            if (Game1.GetState == GameState.Play)
                 health.Draw(sb);
         }
 

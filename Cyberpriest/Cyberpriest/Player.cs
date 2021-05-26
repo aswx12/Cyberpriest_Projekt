@@ -124,6 +124,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            Console.WriteLine("Current position: " + pos);
 
             if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
@@ -172,6 +173,8 @@ namespace Cyberpriest
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+
+            GamePlayManager.levelComplete = false;
         }
 
         public override void Draw(SpriteBatch sb)
@@ -231,6 +234,14 @@ namespace Cyberpriest
 
         public void Control()
         {
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true)
+            {
+                GamePlayManager.levelNumber++;
+                GamePlayManager.currentLevel = "level" + GamePlayManager.levelNumber.ToString();
+                GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
+                GamePlayManager.levelComplete = false;
+            }
+
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;

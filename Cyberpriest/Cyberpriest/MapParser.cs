@@ -19,6 +19,7 @@ namespace Cyberpriest
         public List<GameObject> objectList;
         public List<GameObject> inventory;
         public Inventory[,] inventoryArray;
+        public Background[,] backgroundArray;
         List<PowerUp> powerUpList;
 
         public Point tileSize = new Point(64, 64);
@@ -26,8 +27,12 @@ namespace Cyberpriest
         public Player player;
         public Item item;
         public Platform platform;
+        public Door door;
+        public Background background;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+
+        public bool doorOpen;
 
         public PowerUp powerUp;
         public EnemySkeleton enemySkeleton;
@@ -37,9 +42,11 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
+        Vector2 DoorPos;
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
+        Vector2[] backgroundPos;
 
         public MapParser(string filename)
         {
@@ -51,6 +58,7 @@ namespace Cyberpriest
             objectList = new List<GameObject>();
             inventory = new List<GameObject>();
             inventoryArray = new Inventory[3, 3];
+            backgroundArray = new Background[12,12];
             powerUpList = new List<PowerUp>();
 
             List<string> stringList = ReadFromFile(fileName);
@@ -68,56 +76,105 @@ namespace Cyberpriest
 
             #endregion
 
-            #region Platforms
+            #region Background
+            int backgroundOffset = -2700;
 
-            platformPos = ParseVectorArray(stringList[2]);
-
-            //This is the first platform
-            CreatePlatform(AssetManager.longPlatform, platformPos);
-
-            platformPos = ParseVectorArray(stringList[7]);
-
-            //This is the taller version of the platform
-            CreatePlatform(AssetManager.tallPlatform, platformPos);
-
-            platformPos = ParseVectorArray(stringList[8]);
-
-            //This is the smallest platform
-            CreatePlatform(AssetManager.smallPlatform, platformPos);
-
+            for (int i = 0; i < backgroundArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < backgroundArray.GetLength(1); j++)
+                {
+                    backgroundArray[i, j] = new Background(AssetManager.backgroundLvl1, new Vector2(backgroundOffset + AssetManager.backgroundLvl1.Width * i, backgroundOffset + AssetManager.backgroundLvl1.Height * j));
+                }
+            }
             #endregion
 
-            #region Item Spawn
+            #region DGPlatforms
 
-            itemPos = ParseVectorArray(stringList[5]);
-
-            for (int i = 0; i < itemPos.Length; i++)
+            if (GamePlayManager.levelNumber == 1 || GamePlayManager.levelNumber == 2)
             {
-                random = rand.Next(0, 3);
-                item = new Item(random, AssetManager.item, itemPos[i], inventoryArray);
+                platformPos = ParseVectorArray(stringList[2]);
+                //This is the first platform
+                CreatePlatform(AssetManager.longPlatform, platformPos);
 
-                objectList.Add(item);
+                platformPos = ParseVectorArray(stringList[3]);
+                //This is the taller version of the platform
+                CreatePlatform(AssetManager.tallPlatform, platformPos);
+
+                platformPos = ParseVectorArray(stringList[4]);
+                //This is the smallest platform
+                CreatePlatform(AssetManager.smallPlatform, platformPos);
             }
 
             #endregion
 
-            #region Wings PowerUp
+            #region BluePlatforms
 
-            WingsPos = ParsePos(stringList[11]);
+            if (GamePlayManager.levelNumber == 3 || GamePlayManager.levelNumber == 4)
+            {
 
-            powerUp = new PowerUp(AssetManager.wing, WingsPos);
-            powerUpList.Add(powerUp);
-            objectList.Add(powerUp);
+                platformPos = ParseVectorArray(stringList[2]);
+                CreatePlatform(AssetManager.leftTileBlue, platformPos);
+
+                platformPos = ParseVectorArray(stringList[3]);
+                CreatePlatform(AssetManager.blockBlue, platformPos);
+
+                platformPos = ParseVectorArray(stringList[4]);
+                CreatePlatform(AssetManager.centerTileBlue, platformPos);
+
+                //platformPos = ParseVectorArray(stringList[5]);
+                //CreatePlatform(AssetManager.leftLTileBlue, platformPos);
+
+                //platformPos = ParseVectorArray(stringList[6]);
+                //CreatePlatform(AssetManager.rightLTileBlue, platformPos);
+
+                platformPos = ParseVectorArray(stringList[7]);
+                CreatePlatform(AssetManager.rightTileBlue, platformPos);
+
+                platformPos = ParseVectorArray(stringList[8]);
+                CreatePlatform(AssetManager.tallTileBlue, platformPos);
+            }
 
             #endregion
 
-            #region Boots PowerUp
+            #region WhitePlatforms
 
-            BootsPos = ParsePos(stringList[12]);
+            if (GamePlayManager.levelNumber == 5 || GamePlayManager.levelNumber == 6)
+            {
+                platformPos = ParseVectorArray(stringList[2]);
+                CreatePlatform(AssetManager.leftTileWhite, platformPos);
 
-            powerUp = new PowerUp(AssetManager.boots, BootsPos);
-            powerUpList.Add(powerUp);
-            objectList.Add(powerUp);
+                platformPos = ParseVectorArray(stringList[3]);
+                CreatePlatform(AssetManager.blockWhite, platformPos);
+
+                platformPos = ParseVectorArray(stringList[4]);
+                CreatePlatform(AssetManager.centerTileWhite, platformPos);
+
+                //platformPos = ParseVectorArray(stringList[5]);
+                //CreatePlatform(AssetManager.leftLTileWhite, platformPos);
+
+                //platformPos = ParseVectorArray(stringList[6]);
+                //CreatePlatform(AssetManager.rightLTileWhite, platformPos);
+
+                platformPos = ParseVectorArray(stringList[7]);
+                CreatePlatform(AssetManager.rightTileWhite, platformPos);
+
+                platformPos = ParseVectorArray(stringList[8]);
+                CreatePlatform(AssetManager.tallTileWhite, platformPos);
+            }
+
+            #endregion
+
+            #region Doors
+
+            doorOpen = true;
+            DoorPos = ParsePos(stringList[10]);
+            door = new Door(AssetManager.closedDoor, DoorPos, doorOpen);
+            objectList.Add(door);
+
+            doorOpen = false;
+            DoorPos = ParsePos(stringList[11]);
+            door = new Door(AssetManager.closedDoor, DoorPos, doorOpen);
+            objectList.Add(door);
 
             #endregion
 
@@ -132,7 +189,7 @@ namespace Cyberpriest
 
             #region EnemyGhost
 
-            EnemyPos = ParsePos(stringList[6]);
+            EnemyPos = ParsePos(stringList[12]);
 
             enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos/*, Game1.window*/, player);
             objectList.Add(enemyGhost);
@@ -141,7 +198,7 @@ namespace Cyberpriest
 
             #region EnemySkeleton
 
-            enemySkeletonPos = ParseVectorArray(stringList[9]);
+            enemySkeletonPos = ParseVectorArray(stringList[13]);
 
             CreateEnemySkeleton(AssetManager.enemySkeleton, enemySkeletonPos);
 
@@ -154,10 +211,44 @@ namespace Cyberpriest
 
             #region EnemyLust
 
-            EnemyPos = ParsePos(stringList[10]);
+            EnemyPos = ParsePos(stringList[14]);
 
             enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos/*, Game1.window*/, player);
             objectList.Add(enemyLust);
+
+            #endregion
+
+            #region Item Spawn
+
+            itemPos = ParseVectorArray(stringList[20]);
+
+            for (int i = 0; i < itemPos.Length; i++)
+            {
+                random = rand.Next(0, 3);
+                item = new Item(random, AssetManager.item, itemPos[i], inventoryArray);
+
+                objectList.Add(item);
+            }
+
+            #endregion
+
+            #region Wings PowerUp
+
+            WingsPos = ParsePos(stringList[22]);
+
+            powerUp = new PowerUp(AssetManager.wing, WingsPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
+            #region Boots PowerUp
+
+            BootsPos = ParsePos(stringList[23]);
+
+            powerUp = new PowerUp(AssetManager.boots, BootsPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
 
             #endregion
 
@@ -171,6 +262,15 @@ namespace Cyberpriest
                 objectList.Add(platform);
             }
         }
+
+        //public void CreateBackground(Texture2D texture, Vector2[] pos)
+        //{
+        //    for (int i = 0; i < pos.Length; i++)
+        //    {
+        //        background = new Background(texture, pos[i]);
+        //        objectList.Add(platform);
+        //    }
+        //}
 
         public void CreateEnemySkeleton(Texture2D texture, Vector2[] pos)
         {
@@ -252,6 +352,14 @@ namespace Cyberpriest
 
         public void Draw(SpriteBatch sb)
         {
+            for (int i = 0; i < backgroundArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < backgroundArray.GetLength(1); j++)
+                {
+                    backgroundArray[i, j].Draw(sb);
+                }
+            }
+
             foreach (GameObject o in objectList)
                 o.Draw(sb);
         }
