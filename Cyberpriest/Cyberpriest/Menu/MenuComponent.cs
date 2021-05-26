@@ -56,7 +56,7 @@ namespace Cyberpriest
 
         private void MenuStartClicked()
         {
-            GamePlayManager.map = new MapParser("Content/"+ GamePlayManager.currentLevel + ".txt");
+            GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
             Game1.GetState = GameState.Play;
             Game1.newGame = true;
         }
@@ -105,40 +105,41 @@ namespace Cyberpriest
                         var selectedChoice = choices.First(c => c.Selected);
                         selectedChoice.ClickAction.Invoke();
                     }
-                    catch { }              
+                    catch { }
                 }
-            }
 
-            int choicesGap = 70;
-            float startY = Game1.window.ClientBounds.Height / 4f;
 
-            foreach (var choice in choices)
-            {
-                Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
-                choice.posY = startY;
-                choice.posX = Game1.window.ClientBounds.Width / 2 - size.X / 2;
-                choice.HitBox = new Rectangle((int)choice.posX, (int)choice.posY, (int)size.X, (int)size.Y);
-                startY += choicesGap;
-            }
+                int choicesGap = 70;
+                float startY = Game1.window.ClientBounds.Height / 4f;
 
-            var mouseState = Mouse.GetState();
-
-            foreach (var choice in choices)
-            {
-                if (choice.HitBox.Contains(mouseState.X, mouseState.Y))
+                foreach (var choice in choices)
                 {
-                    choices.ForEach(c => c.Selected = false);
-                    choice.Selected = true;
-
-                    if (previousMouseState.LeftButton == ButtonState.Released
-                        && mouseState.LeftButton == ButtonState.Pressed)
-                        choice.ClickAction.Invoke();
+                    Vector2 size = AssetManager.normalFont.MeasureString(choice.Text);
+                    choice.posY = startY;
+                    choice.posX = Game1.window.ClientBounds.Width / 2 - size.X / 2;
+                    choice.HitBox = new Rectangle((int)choice.posX, (int)choice.posY, (int)size.X, (int)size.Y);
+                    startY += choicesGap;
                 }
+
+                var mouseState = Mouse.GetState();
+
+                foreach (var choice in choices)
+                {
+                    if (choice.HitBox.Contains(mouseState.X, mouseState.Y))
+                    {
+                        choices.ForEach(c => c.Selected = false);
+                        choice.Selected = true;
+
+                        if (previousMouseState.LeftButton == ButtonState.Released
+                            && mouseState.LeftButton == ButtonState.Pressed)
+                            choice.ClickAction.Invoke();
+                    }
+                }
+
+                previousMouseState = mouseState;
+
+                base.Update(gameTime);
             }
-
-            previousMouseState = mouseState;
-
-            base.Update(gameTime);
         }
 
         private void PreviousMenuChoice()

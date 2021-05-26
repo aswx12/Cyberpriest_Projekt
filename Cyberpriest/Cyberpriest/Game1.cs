@@ -83,7 +83,7 @@ namespace Cyberpriest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            GamePlayManager.Update(gameTime);
+            GamePlayManager.MouseRect(gameTime);
 
             camera.SetPosition(playerPos, gameState);
 
@@ -101,7 +101,7 @@ namespace Cyberpriest
 
                     GamePlayManager.InventorySlotCheck();
 
-                    GamePlayManager.CollisionHandler(gameTime);
+                    GamePlayManager.Update(gameTime);
 
                     break;
 

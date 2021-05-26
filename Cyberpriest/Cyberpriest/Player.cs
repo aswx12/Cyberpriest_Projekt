@@ -134,14 +134,10 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine("Current position: " + pos);
+            //Console.WriteLine("Current position: " + pos);
+            //Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
-
-            Console.WriteLine("vel from player" + velocity);
-
-            if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
-
             {
                 pos = startPos;
                 GameStats.health.hitBox.Width = AssetManager.fullHealthbar.Width;
@@ -292,11 +288,13 @@ namespace Cyberpriest
             else
                 velocity.X = 0;
 
-            if (KeyMouseReader.mouseState.X >= (bX / 2))
+            int mouseOffset = 425;
+
+            if (KeyMouseReader.mouseState.X >= pos.X + mouseOffset)
             {
                 playerFacing = Facing.Right;
             }
-            else if (KeyMouseReader.mouseState.X <= (bX / 2))
+            else if (KeyMouseReader.mouseState.X <= pos.X + mouseOffset)
             {
                 playerFacing = Facing.Left;
             }

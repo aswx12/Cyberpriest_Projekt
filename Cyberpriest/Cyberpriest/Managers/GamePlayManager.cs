@@ -26,7 +26,7 @@ namespace Cyberpriest
             column = 0;
         }
 
-        public static void Update(GameTime gt)
+        public static void MouseRect(GameTime gt)
         {
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X, KeyMouseReader.mouseState.Y, 8, 8);
         }
@@ -36,7 +36,7 @@ namespace Cyberpriest
             map.Draw(sb);
         }
 
-        public static void CollisionHandler(GameTime gameTime)
+        public static void Update(GameTime gameTime)
         {
             #region Bullet Collision
 
@@ -208,14 +208,18 @@ namespace Cyberpriest
 
                             #region Pokemon To Enemy Collision
 
-                            if (obj is PokemonGeodude)
+                         if (obj is PokemonGeodude)
                             {
                                 if (otherObj is EnemyType)
                                 {
                                     if (!otherObj.isActive)
                                         continue;
 
-                                     
+                                    if (obj.PixelCollision(otherObj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
                                 }
                             }
                             #endregion
