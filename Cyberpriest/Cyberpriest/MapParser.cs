@@ -43,19 +43,15 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
-<<<<<<< HEAD
+
         Vector2 DoorPos;
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
         Vector2[] backgroundPos;
-=======
         Vector2 MagnetPos;
-        Vector2[] enemySkeletonPos;
-        Vector2[] itemPos;
-        Vector2[] platformPos;
         Vector2[] coinPos;
->>>>>>> main
+
 
         public MapParser(string filename)
         {
@@ -237,7 +233,6 @@ namespace Cyberpriest
 
             #endregion
 
-<<<<<<< HEAD
             #region Item Spawn
 
             itemPos = ParseVectorArray(stringList[20]);
@@ -272,7 +267,6 @@ namespace Cyberpriest
 
             #endregion
 
-=======
             #region Coin
 
             coinPos = ParseVectorArray(stringList[13]);
@@ -280,7 +274,6 @@ namespace Cyberpriest
             CreateCoin(AssetManager.avocado, coinPos);
 
             #endregion
->>>>>>> main
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
