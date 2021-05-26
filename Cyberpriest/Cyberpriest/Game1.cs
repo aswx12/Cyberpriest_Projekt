@@ -14,6 +14,7 @@ namespace Cyberpriest
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameStats gameStats;
         Camera camera;
         Vector2 playerPos;
         MenuComponent menuComponent;
@@ -49,6 +50,7 @@ namespace Cyberpriest
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new Camera(GraphicsDevice.Viewport);
+            gameStats = new GameStats();
 
             newGame = false;
 
@@ -163,7 +165,7 @@ namespace Cyberpriest
             spriteBatch.End();
 
             spriteBatch.Begin();
-            GamePlayManager.HealthDraw(spriteBatch);
+            gameStats.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

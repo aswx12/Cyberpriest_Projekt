@@ -31,6 +31,7 @@ namespace Cyberpriest
         public Background background;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public Coin coin;
 
         public bool doorOpen;
 
@@ -42,11 +43,19 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
+<<<<<<< HEAD
         Vector2 DoorPos;
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
         Vector2[] backgroundPos;
+=======
+        Vector2 MagnetPos;
+        Vector2[] enemySkeletonPos;
+        Vector2[] itemPos;
+        Vector2[] platformPos;
+        Vector2[] coinPos;
+>>>>>>> main
 
         public MapParser(string filename)
         {
@@ -178,6 +187,16 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Magnet PowerUp
+
+            MagnetPos = ParsePos(stringList[14]);
+
+            powerUp = new PowerUp(AssetManager.magnet, MagnetPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
             #region Player's Start Position
 
             PlayerPos = ParsePos(stringList[0]);
@@ -218,6 +237,7 @@ namespace Cyberpriest
 
             #endregion
 
+<<<<<<< HEAD
             #region Item Spawn
 
             itemPos = ParseVectorArray(stringList[20]);
@@ -252,6 +272,15 @@ namespace Cyberpriest
 
             #endregion
 
+=======
+            #region Coin
+
+            coinPos = ParseVectorArray(stringList[13]);
+
+            CreateCoin(AssetManager.avocado, coinPos);
+
+            #endregion
+>>>>>>> main
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
@@ -278,6 +307,15 @@ namespace Cyberpriest
             {
                 enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player);
                 objectList.Add(enemySkeleton);
+            }
+        }
+
+        public void CreateCoin(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                coin = new Coin(texture, pos[i], player, powerUpList);
+                objectList.Add(coin);
             }
         }
 

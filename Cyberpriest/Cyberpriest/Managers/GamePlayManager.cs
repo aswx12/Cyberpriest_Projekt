@@ -10,7 +10,6 @@ namespace Cyberpriest
 {
     class GamePlayManager
     {
-        public static Health health;
         public static MapParser map;
         public static Rectangle mouseRect;
 
@@ -23,9 +22,12 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
+<<<<<<< HEAD
 
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
+=======
+>>>>>>> main
             row = 0;
             column = 0;
         }
@@ -207,6 +209,32 @@ namespace Cyberpriest
                                     }
                                 }
                             }
+<<<<<<< HEAD
+=======
+
+                            #endregion
+
+                            #region Coin
+
+                            if (otherObj is Coin)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
+                            #endregion
+>>>>>>> main
                         }
                         #endregion
 
@@ -278,6 +306,7 @@ namespace Cyberpriest
                 }
             }
         }
+<<<<<<< HEAD
 
         public static void HealthDraw(SpriteBatch sb)
         {
@@ -285,5 +314,7 @@ namespace Cyberpriest
                 health.Draw(sb);
         }
 
+=======
+>>>>>>> main
     }
 }
