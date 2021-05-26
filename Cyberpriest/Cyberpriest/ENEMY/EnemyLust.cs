@@ -61,6 +61,9 @@ namespace Cyberpriest
         {
             if (healthPoints <= 0)
             {
+                if(isActive)
+                    GameStats.coinCollected += 50;
+
                 isActive = false;
             }
 
@@ -80,7 +83,6 @@ namespace Cyberpriest
             Movement();
             CurrentEnemyState(gt);
             EnemyFacing();
-            if(enemyState==EnemyState.Chase)
             Combat(gt);
             DistanceToGeo();
         }
@@ -99,14 +101,14 @@ namespace Cyberpriest
                 if (player.Position.X < pos.X)
                 {
                     player.playerFacing = Facing.Right;
-                    player.Velocity = 2f;
+                    player.Velocity = 1f;
 
 
                 }
                 else if (player.Position.X > pos.X)
                 {
                     player.playerFacing = Facing.Left;
-                    player.Velocity = -2f;
+                    player.Velocity = -1f;
                 }
             }
         }
@@ -129,21 +131,27 @@ namespace Cyberpriest
 
         void Combat(GameTime gt)
         {
-            if (shotCount > 0)
+            if (enemyState == EnemyState.Chase)
             {
-                bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
-                bulletList.Add(bullet);
-                bullet.isActive = true;
+                if (shotCount > 0)
+                {
+                    bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
+                    bulletList.Add(bullet);
+                    bullet.isActive = true;
 
-                shotCount--;
+                    shotCount--;
+                }
             }
 
-            foreach (EnemyBullet bullet in bulletList)
+            if (enemyState == EnemyState.Chase || enemyState == EnemyState.Patrol)
             {
-                bullet.Velocity = new Vector2(3, 3);
-                moveDir = player.Position - bullet.Position;
-                bullet.Position += bullet.Velocity * moveDir * 0.015f;
-                bullet.Update(gt);
+                foreach (EnemyBullet bullet in bulletList)
+                {
+                    bullet.Velocity = new Vector2(3, 3);
+                    moveDir = player.Position - bullet.Position;
+                    bullet.Position += bullet.Velocity * moveDir * 0.015f;
+                    bullet.Update(gt);
+                }
             }
         }
 

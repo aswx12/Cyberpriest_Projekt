@@ -10,16 +10,18 @@ namespace Cyberpriest
 {
     class GamePlayManager
     {
-        public static Health health;
         public static MapParser map;
         public static Rectangle mouseRect;
+
+        public static int levelNumber = 3;
+        public static string currentLevel = "level" + levelNumber.ToString();
+        public static bool levelComplete;
 
         static int row;
         static int column;
 
         public static void Initializer()
         {
-
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
@@ -58,6 +60,8 @@ namespace Cyberpriest
 
             #endregion
 
+            Console.WriteLine("Current level: " + levelNumber);
+
             foreach (GameObject obj in map.objectList)
             {
                 foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
@@ -81,6 +85,11 @@ namespace Cyberpriest
             {
                 foreach (GameObject otherObj in map.objectList)
                 {
+                    if (obj is Platform && otherObj is Platform)
+                    {
+                        continue;
+                    }
+
                     if (otherObj != obj)
                     {
                         if (obj.IntersectCollision(otherObj))
@@ -102,6 +111,22 @@ namespace Cyberpriest
                                     obj.HandleCollision(otherObj);
                                 }
                             }
+
+                            #endregion
+
+                            #region Door Collision
+
+                            if (otherObj is Door)
+                            {
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    if (obj is Player)
+                                    {
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
+
 
                             #endregion
 
@@ -193,6 +218,19 @@ namespace Cyberpriest
                                         continue;
 
                                     if (obj.PixelCollision(otherObj))
+
+                            #region Coin
+
+                            if (otherObj is Coin)
+                            {
+                                if (obj is Player)
+                                {
+                                    if (!otherObj.isActive)
+                                    {
+                                        continue;
+                                    }
+
+                                    if (otherObj.PixelCollision(obj))
                                     {
                                         obj.HandleCollision(otherObj);
                                         otherObj.HandleCollision(obj);
@@ -202,6 +240,8 @@ namespace Cyberpriest
 
                             #endregion
                         }
+                        #endregion
+
                     }
                 }
             }
@@ -270,7 +310,7 @@ namespace Cyberpriest
                 }
             }
         }
-
+              
         public static void HealthDraw(SpriteBatch sb)
         {
             if (Game1.GetState == GameState.Play)

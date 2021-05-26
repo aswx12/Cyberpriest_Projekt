@@ -45,6 +45,8 @@ namespace Cyberpriest
 
         public static Texture2D player;
 
+        public static Texture2D playerCharmed;
+
         #endregion
 
         #region Enemy
@@ -176,6 +178,8 @@ namespace Cyberpriest
             #region Player
 
             player = content.Load<Texture2D>("player1");
+
+            playerCharmed = content.Load<Texture2D>("PlayerCharmed");
 
             #endregion
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest
 {
+
     public class MenuComponent : Microsoft.Xna.Framework.DrawableGameComponent
     {
         SpriteBatch spriteBatch;
@@ -55,7 +56,7 @@ namespace Cyberpriest
 
         private void MenuStartClicked()
         {
-            GamePlayManager.map = new MapParser("Content/level1.txt");
+            GamePlayManager.map = new MapParser("Content/"+ GamePlayManager.currentLevel + ".txt");
             Game1.GetState = GameState.Play;
             Game1.newGame = true;
         }
@@ -104,8 +105,7 @@ namespace Cyberpriest
                         var selectedChoice = choices.First(c => c.Selected);
                         selectedChoice.ClickAction.Invoke();
                     }
-                    catch { }
-                  
+                    catch { }              
                 }
             }
 

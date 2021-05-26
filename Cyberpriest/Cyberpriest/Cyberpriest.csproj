@@ -43,9 +43,15 @@
   <ItemGroup>
     <Compile Include="HeadArvClass\AnimatedObject.cs" />
     <Compile Include="Bullet.cs" />
+<<<<<<< HEAD
+    <Compile Include="Door.cs" />
+=======
+    <Compile Include="Coin.cs" />
+>>>>>>> main
     <Compile Include="EnemyBullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
+    <Compile Include="GameStats.cs" />
     <Compile Include="Health.cs" />
     <Compile Include="Managers\GamePlayManager.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
@@ -81,10 +87,20 @@
   <ItemGroup>
     <Content Include="Content\BG_Lvl_1.jpg" />
     <Content Include="Content\Font\normalFont.bmp" />
+    <Content Include="Content\level4.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\level3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\level2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\level1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Font\selectedFont.bmp" />
+    <Content Include="Content\PlayerCharmed.png" />
     <Content Include="Content\PotionsSprite.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>

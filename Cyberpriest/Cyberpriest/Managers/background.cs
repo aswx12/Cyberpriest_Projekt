@@ -8,20 +8,30 @@ using System.Threading.Tasks;
 
 namespace Cyberpriest.Menu
 {
-    class Background
+    class Background : GameObject
     {
-        Texture2D backgroundlvl1;
-        public Vector2 position;
-
-        public Background(Texture2D backgroundlvl1, int positionX, int positionY)
+        public Background(Texture2D tex, Vector2 pos) : base(tex,pos)
         {
-            this.backgroundlvl1 = backgroundlvl1;
-            this.position = new Vector2(positionX, positionY);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(backgroundlvl1, position, null, Color.White);
+            if(GamePlayManager.levelNumber <= 2)
+            {
+                spriteBatch.Draw(tex, pos, Color.White);
+            }
+            else if(GamePlayManager.levelNumber > 2 && GamePlayManager.levelNumber <= 4)
+            {
+                spriteBatch.Draw(tex, pos, Color.MediumBlue);
+            }
+        }
+
+        public override void HandleCollision(GameObject other)
+        {
+        }
+
+        public override void Update(GameTime gt)
+        {
         }
     }
 }

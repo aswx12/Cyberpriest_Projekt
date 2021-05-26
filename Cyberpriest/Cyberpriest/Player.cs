@@ -47,6 +47,7 @@ namespace Cyberpriest
         bool downPlatform;
         bool blinking;
         public bool charmed;
+        bool canShoot;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
@@ -93,13 +94,13 @@ namespace Cyberpriest
 
             if (other is EnemyType && other.isActive == true)
             {
-                if (iFrameTimer <= 0 && GamePlayManager.health.hitBox.Width >= 0)
+                if (iFrameTimer <= 0 && GameStats.health.hitBox.Width >= 0)
                 {
-                    GamePlayManager.health.hitBox.Width -= 20;
+                    GameStats.health.hitBox.Width -= 20;
                 }
 
                 isHit = true;
-                Console.WriteLine(GamePlayManager.health.hitBox.Width);
+                Console.WriteLine(GameStats.health.hitBox.Width);
                 return;
             }
 
@@ -118,6 +119,12 @@ namespace Cyberpriest
                 return;
             }
 
+            if (other is Coin)
+            {
+                GameStats.coinCollected += 1;
+                return;
+            }
+
             if (downPlatform == true)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
@@ -127,15 +134,17 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+            Console.WriteLine("Current position: " + pos);
+
+            if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
             Console.WriteLine("vel from player" + velocity);
 
-            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+            if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
 
             {
                 pos = startPos;
-                GamePlayManager.health.hitBox.Width = AssetManager.fullHealthbar.Width;
+                GameStats.health.hitBox.Width = AssetManager.fullHealthbar.Width;
             }
 
             if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)
@@ -168,12 +177,52 @@ namespace Cyberpriest
             PowerUp(gt);
             ShootCooldown(gt);
             DashCooldown(gt);
-
+            CanShootBullet();
             IFrame(gt);
 
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
+
+
+            GamePlayManager.levelComplete = false;
+
+            GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
+
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            if (iFrameTimer > 0)
+            {
+                if (blinking)
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+            else if (charmed)
+            {
+                sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+            else
+            {
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+
+            foreach (Bullet b in bulletList)
+            {
+                b.Draw(sb);
+            }
+        }
+
+        void CanShootBullet()
+        {
+            if (bulletList.Count == GameStats.maxAmmo)
+            {
+                canShoot = false;
+            }
+            else
+            {
+                canShoot = true;
+            }
         }
 
         void PowerUp(GameTime gameTime)
@@ -218,6 +267,14 @@ namespace Cyberpriest
 
         public void Control()
         {
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true)
+            {
+                GamePlayManager.levelNumber++;
+                GamePlayManager.currentLevel = "level" + GamePlayManager.levelNumber.ToString();
+                GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
+                GamePlayManager.levelComplete = false;
+            }
+
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
                 velocity.X = normalVel;
@@ -275,7 +332,7 @@ namespace Cyberpriest
 
             if (KeyMouseReader.LeftClick())
             {
-                if (shotCount > 0)
+                if (shotCount > 0 && canShoot)
                 {
                     bullet = new Bullet(AssetManager.bomb, pos, playerFacing);
                     bulletList.Add(bullet);
@@ -285,7 +342,7 @@ namespace Cyberpriest
                 }
             }
         }
-     
+
         public override void Draw(SpriteBatch sb)
         {
             if (iFrameTimer > 0)
@@ -347,7 +404,9 @@ namespace Cyberpriest
             if (charmed == true)
                 affectedTimer += gt.ElapsedGameTime.TotalSeconds;
 
-            if (affectedTimer >= 5 && charmed == true)
+            double charmDuration = 2;
+
+            if (affectedTimer >= charmDuration && charmed == true)
             {
                 charmed = false;
                 if (charmed == false)
