@@ -94,6 +94,7 @@ namespace Cyberpriest
         public static Texture2D rubyEye;
         public static Texture2D diamond;
         public static Texture2D diamond2;
+        public static Texture2D pokemonGeodude;
 
         #endregion
 
@@ -228,6 +229,7 @@ namespace Cyberpriest
             diamond = content.Load<Texture2D>("l0_sprite_23");
             diamond2 = content.Load<Texture2D>("l0_sprite_24");
             item = content.Load<Texture2D>("PotionsSprite");
+            pokemonGeodude = content.Load<Texture2D>("Pokemon Geodude");
 
             #endregion
 

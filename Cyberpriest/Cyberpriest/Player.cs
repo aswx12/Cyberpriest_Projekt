@@ -43,6 +43,7 @@ namespace Cyberpriest
 
         double affectedTimer;
 
+        public static bool invincible;
         bool downPlatform;
         bool blinking;
         public bool charmed;
@@ -72,6 +73,8 @@ namespace Cyberpriest
             affectedTimer = 0;
 
             isHit = false;
+
+            rand = new Random();
         }
 
         public override void HandleCollision(GameObject other)
@@ -131,13 +134,9 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-<<<<<<< HEAD
             Console.WriteLine("Current position: " + pos);
 
-            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
-=======
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
->>>>>>> main
 
             Console.WriteLine("vel from player" + velocity);
 
@@ -174,8 +173,8 @@ namespace Cyberpriest
             {
                 Control();
             }
- 
-            PowerUp();
+
+            PowerUp(gt);
             ShootCooldown(gt);
             DashCooldown(gt);
             CanShootBullet();
@@ -185,11 +184,11 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
 
-<<<<<<< HEAD
+
             GamePlayManager.levelComplete = false;
-=======
+
             GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
->>>>>>> main
+
         }
 
         public override void Draw(SpriteBatch sb)
@@ -226,7 +225,7 @@ namespace Cyberpriest
             }
         }
 
-        void PowerUp()
+        void PowerUp(GameTime gameTime)
         {
             foreach (PowerUp powerUp in powerUpList)
             {
@@ -236,6 +235,13 @@ namespace Cyberpriest
                         FlyingPowerUp();
                     else if (powerUp.GetTexture == AssetManager.boots)
                         JumpingPowerUp();
+                    else if (powerUp.GetTexture == AssetManager.energy)
+                        SpeedPowerUp();
+                    else if (powerUp.GetTexture == AssetManager.star1)
+                    {
+                        invincible = true;
+                        InvincibilityPowerUp(gameTime);
+                    }
                 }
 
                 if (!powerUp.poweredUp)
@@ -273,13 +279,10 @@ namespace Cyberpriest
             {
                 velocity.X = normalVel;
 
-                playerFacing = Facing.Right;
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
                 velocity.X = -normalVel;
-
-                playerFacing = Facing.Left;
             }
             else
                 velocity.X = 0;
@@ -288,7 +291,6 @@ namespace Cyberpriest
             {
                 playerFacing = Facing.Right;
             }
-
             else if (KeyMouseReader.mouseState.X <= (bX / 2))
             {
                 playerFacing = Facing.Left;
@@ -338,6 +340,28 @@ namespace Cyberpriest
 
                     shotCount = 0;
                 }
+            }
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            if (iFrameTimer > 0)
+            {
+                if (blinking)
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+            else if (invincible)
+            {
+                sb.Draw(tex, pos, null, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
+            }
+            else
+            {
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+            }
+
+            foreach (Bullet b in bulletList)
+            {
+                b.Draw(sb);
             }
         }
 
@@ -405,7 +429,9 @@ namespace Cyberpriest
             }
         }
 
-        public void FlyingPowerUp()
+        #region PowerUps
+
+        private void FlyingPowerUp()
         {
             if (KeyMouseReader.keyState.IsKeyDown(Keys.W))
             {
@@ -432,11 +458,42 @@ namespace Cyberpriest
             }
         }
 
-        public void JumpingPowerUp()
+        private void JumpingPowerUp()
         {
             jumpHeight = 20;
             //jumpHeight *= 2; not working like it should
         }
+
+        private void SpeedPowerUp()
+        {
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
+            {
+                velocity.X = normalVel * 2;
+
+                playerFacing = Facing.Right;
+            }
+            else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))
+            {
+                velocity.X = -normalVel * 2;
+
+                playerFacing = Facing.Left;
+            }
+        }
+
+        private void InvincibilityPowerUp(GameTime gameTime)
+        {
+            GamePlayManager.health.hitBox.Width = GamePlayManager.health.GetTexLength;
+        }
+
+        public Color RandomColor()
+        {
+            Color[] Colors = new Color[] { Color.Salmon, Color.PaleGoldenrod, Color.Beige, Color.LightGreen, Color.Cyan };
+
+            return Colors[rand.Next(Colors.Length)];
+        }
+
+
+        #endregion
 
         public override Vector2 Position
         {
