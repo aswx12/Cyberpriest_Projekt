@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 1;
+        public static int levelNumber = 3;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -22,7 +22,12 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-            GameStats.health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
+<<<<<<< HEAD
+
+            health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
+
+=======
+>>>>>>> main
             row = 0;
             column = 0;
         }
@@ -204,6 +209,8 @@ namespace Cyberpriest
                                     }
                                 }
                             }
+<<<<<<< HEAD
+=======
 
                             #endregion
 
@@ -227,7 +234,9 @@ namespace Cyberpriest
                             }
 
                             #endregion
+>>>>>>> main
                         }
+                        #endregion
 
                     }
                 }
@@ -297,12 +306,15 @@ namespace Cyberpriest
                 }
             }
         }
+<<<<<<< HEAD
 
         public static void HealthDraw(SpriteBatch sb)
         {
             if (Game1.GetState == GameState.Play)
-                GameStats.health.Draw(sb);
+                health.Draw(sb);
         }
 
+=======
+>>>>>>> main
     }
 }

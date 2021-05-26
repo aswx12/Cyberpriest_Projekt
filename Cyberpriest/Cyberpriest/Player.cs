@@ -131,8 +131,13 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+<<<<<<< HEAD
+            Console.WriteLine("Current position: " + pos);
 
+            if (GamePlayManager.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+=======
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
+>>>>>>> main
 
             Console.WriteLine("vel from player" + velocity);
 
@@ -180,8 +185,11 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
 
+<<<<<<< HEAD
             GamePlayManager.levelComplete = false;
+=======
             GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
+>>>>>>> main
         }
 
         public override void Draw(SpriteBatch sb)
