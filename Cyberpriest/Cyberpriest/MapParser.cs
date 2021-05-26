@@ -21,6 +21,7 @@ namespace Cyberpriest
         public Inventory[,] inventoryArray;
         public Background[,] backgroundArray;
         List<PowerUp> powerUpList;
+        public List<EnemyType> enemyList;
 
         public Point tileSize = new Point(64, 64);
 
@@ -36,6 +37,7 @@ namespace Cyberpriest
         public bool doorOpen;
 
         public PowerUp powerUp;
+        public PokemonGeodude geodude;
         public EnemySkeleton enemySkeleton;
         public EnemyLust enemyLust;
 
@@ -43,19 +45,17 @@ namespace Cyberpriest
         Vector2 EnemyPos;
         Vector2 WingsPos;
         Vector2 BootsPos;
-<<<<<<< HEAD
+        Vector2 EnergyPos;
+        Vector2 StarPos;
+        Vector2 PokemonballPos;
         Vector2 DoorPos;
+        Vector2 MagnetPos;
+
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
         Vector2[] backgroundPos;
-=======
-        Vector2 MagnetPos;
-        Vector2[] enemySkeletonPos;
-        Vector2[] itemPos;
-        Vector2[] platformPos;
         Vector2[] coinPos;
->>>>>>> main
 
         public MapParser(string filename)
         {
@@ -69,6 +69,7 @@ namespace Cyberpriest
             inventoryArray = new Inventory[3, 3];
             backgroundArray = new Background[12,12];
             powerUpList = new List<PowerUp>();
+            enemyList = new List<EnemyType>();
 
             List<string> stringList = ReadFromFile(fileName);
 
@@ -197,6 +198,36 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Energy PowerUp
+
+            EnergyPos = ParsePos(stringList[13]);
+
+            powerUp = new PowerUp(AssetManager.energy, EnergyPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
+            #region Star PowerUp
+
+            StarPos = ParsePos(stringList[14]);
+
+            powerUp = new PowerUp(AssetManager.star1, StarPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
+            #region Pokemonball PowerUp
+
+            PokemonballPos = ParsePos(stringList[24]);
+
+            powerUp = new PowerUp(AssetManager.pokeball, PokemonballPos);
+            powerUpList.Add(powerUp);
+            objectList.Add(powerUp);
+
+            #endregion
+
             #region Player's Start Position
 
             PlayerPos = ParsePos(stringList[0]);
@@ -206,11 +237,19 @@ namespace Cyberpriest
 
             #endregion
 
+            #region Geodude PowerUp
+
+            geodude = new PokemonGeodude(AssetManager.pokemonGeodude, new Vector2(player.Position.X - 100, player.Position.Y), powerUp, player, enemyList);
+            objectList.Add(geodude);
+
+            #endregion
+
             #region EnemyGhost
 
             EnemyPos = ParsePos(stringList[12]);
 
-            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos/*, Game1.window*/, player);
+            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos/*, Game1.window*/, player, geodude);
+            enemyList.Add(enemyGhost);
             objectList.Add(enemyGhost);
 
             #endregion
@@ -220,7 +259,7 @@ namespace Cyberpriest
             enemySkeletonPos = ParseVectorArray(stringList[13]);
 
             CreateEnemySkeleton(AssetManager.enemySkeleton, enemySkeletonPos);
-
+          
             //EnemyPos = ParsePos(stringList[9]);
 
             //enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos/*, Game1.window*/, player);
@@ -232,12 +271,12 @@ namespace Cyberpriest
 
             EnemyPos = ParsePos(stringList[14]);
 
-            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos/*, Game1.window*/, player);
+            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos/*, Game1.window*/, player, geodude);
+            enemyList.Add(enemyLust);
             objectList.Add(enemyLust);
 
             #endregion
-
-<<<<<<< HEAD
+              
             #region Item Spawn
 
             itemPos = ParseVectorArray(stringList[20]);
@@ -272,7 +311,6 @@ namespace Cyberpriest
 
             #endregion
 
-=======
             #region Coin
 
             coinPos = ParseVectorArray(stringList[13]);
@@ -280,7 +318,6 @@ namespace Cyberpriest
             CreateCoin(AssetManager.avocado, coinPos);
 
             #endregion
->>>>>>> main
         }
 
         public void CreatePlatform(Texture2D texture, Vector2[] pos)
@@ -305,8 +342,9 @@ namespace Cyberpriest
         {
             for (int i = 0; i < pos.Length; i++)
             {
-                enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player);
+                enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player, geodude);
                 objectList.Add(enemySkeleton);
+                enemyList.Add(enemySkeleton);
             }
         }
 

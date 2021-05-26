@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 3;
+        public static int levelNumber = 1;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -22,17 +22,11 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-<<<<<<< HEAD
-
-            health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
-
-=======
->>>>>>> main
             row = 0;
             column = 0;
         }
 
-        public static void Update(GameTime gt)
+        public static void MouseRect(GameTime gt)
         {
             mouseRect = new Rectangle(KeyMouseReader.mouseState.X, KeyMouseReader.mouseState.Y, 8, 8);
         }
@@ -42,7 +36,7 @@ namespace Cyberpriest
             map.Draw(sb);
         }
 
-        public static void CollisionHandler(GameTime gameTime)
+        public static void Update(GameTime gameTime)
         {
             #region Bullet Collision
 
@@ -209,9 +203,25 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-<<<<<<< HEAD
-=======
 
+                            #endregion
+
+                            #region Pokemon To Enemy Collision
+
+                         if (obj is PokemonGeodude)
+                            {
+                                if (otherObj is EnemyType)
+                                {
+                                    if (!otherObj.isActive)
+                                        continue;
+
+                                    if (obj.PixelCollision(otherObj))
+                                    {
+                                        obj.HandleCollision(otherObj);
+                                        otherObj.HandleCollision(obj);
+                                    }
+                                }
+                            }
                             #endregion
 
                             #region Coin
@@ -234,10 +244,7 @@ namespace Cyberpriest
                             }
 
                             #endregion
->>>>>>> main
                         }
-                        #endregion
-
                     }
                 }
             }
@@ -306,15 +313,6 @@ namespace Cyberpriest
                 }
             }
         }
-<<<<<<< HEAD
-
-        public static void HealthDraw(SpriteBatch sb)
-        {
-            if (Game1.GetState == GameState.Play)
-                health.Draw(sb);
-        }
-
-=======
->>>>>>> main
     }
 }
+
