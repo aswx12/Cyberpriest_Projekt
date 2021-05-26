@@ -142,7 +142,7 @@ namespace Cyberpriest
 
                 case GameState.Play:
                     GamePlayManager.Draw(spriteBatch);
-
+                    
                     break;
 
                 case GameState.Inventory:

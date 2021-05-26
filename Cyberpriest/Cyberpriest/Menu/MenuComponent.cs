@@ -19,7 +19,7 @@ namespace Cyberpriest
         MouseState previousMouseState;
         //GameState gameState;
 
-        bool continueEnabled;
+        int thisisjustpurebadcodingbutitworkssowhocares;
 
         public MenuComponent(Game game)
             : base(game)
@@ -29,27 +29,30 @@ namespace Cyberpriest
 
         public override void Initialize()
         {
-            continueEnabled = false;
+            thisisjustpurebadcodingbutitworkssowhocares = 0;
             choices = new List<MenuChoice>();
             choices.Add(new MenuChoice() { Text = "NEW GAME", Selected = true, ClickAction = MenuStartClicked });
 
             choices.Add(new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
             choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
-
+            
 
             base.Initialize();
         }
 
         public void ContinueEnable()
         {
+
             choices[1] = (new MenuChoice() { Text = "CONTINUE", ClickAction = RestartClicked });
             choices[2] = (new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
 
-            if (!continueEnabled)
+            if (thisisjustpurebadcodingbutitworkssowhocares==0)
             {
-                continueEnabled = true;
+                thisisjustpurebadcodingbutitworkssowhocares++;
                 choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
             }
+
+                
         }
 
         #region Menu Clicks
@@ -105,10 +108,10 @@ namespace Cyberpriest
                         var selectedChoice = choices.First(c => c.Selected);
                         selectedChoice.ClickAction.Invoke();
                     }
-                    catch { }              
+                    catch { }                
                 }
             }
-
+            
             int choicesGap = 70;
             float startY = Game1.window.ClientBounds.Height / 4f;
 

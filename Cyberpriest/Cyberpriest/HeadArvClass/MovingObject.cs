@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Cyberpriest
 {
     enum Facing { Left, Right, Idle, Jump };
-    class MovingObject : AnimatedObject
+    class MovingObject : GameObject
     {
         protected float lifeSpan;
 

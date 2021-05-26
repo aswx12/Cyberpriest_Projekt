@@ -20,7 +20,7 @@ namespace Cyberpriest
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             isActive = true;
             poweredUp = false;
-            activeTimer = 60; //how long the power up is actived
+            activeTimer = 10; //how long the power up is active
             countdown = 0;
         }
 
@@ -42,7 +42,6 @@ namespace Cyberpriest
             if (countdown <= 0f)
             {
                 poweredUp = false;
-                Player.invincible = false;
             }
         }
 

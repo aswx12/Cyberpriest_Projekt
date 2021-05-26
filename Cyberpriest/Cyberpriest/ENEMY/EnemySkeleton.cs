@@ -10,7 +10,7 @@ namespace Cyberpriest
 {
     class EnemySkeleton : EnemyType
     {
-        public EnemySkeleton(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
+        public EnemySkeleton(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
         {
             this.player = player;
             startPos = pos;
@@ -48,13 +48,6 @@ namespace Cyberpriest
 
             if (other is Player)
                 isHit = true;
-
-            if (other is PokemonGeodude)
-            {
-                healthPoints -= 100;
-                isActive = false;
-            }
-                
         }
 
         public override void Update(GameTime gt)
@@ -79,7 +72,6 @@ namespace Cyberpriest
             EnemyFacing();
             Movement();
             CurrentEnemyState(gt);
-            DistanceToGeo();
         }
 
         private void Movement()
@@ -96,12 +88,6 @@ namespace Cyberpriest
             {
                 enemyState = EnemyState.Patrol;
             }
-        }
-
-        public override float DistanceToGeo()
-        {
-            directionToGeo = pos - geodude.Position;
-            return directionToGeo.Length();
         }
 
         protected override void CurrentEnemyState(GameTime gt)

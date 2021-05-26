@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    class StationaryObject : AnimatedObject
+    class StationaryObject : GameObject
     {
         public StationaryObject(Texture2D tex, Vector2 pos) : base(tex,pos)
         {

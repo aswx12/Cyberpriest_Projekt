@@ -11,7 +11,7 @@ namespace Cyberpriest
 {
     class EnemyGhost : EnemyType
     {
-        public EnemyGhost(Texture2D tex, Vector2 pos, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
+        public EnemyGhost(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player) : base(tex, pos/*, window*/)
         {
             this.player = player;
             isActive = true;
@@ -42,9 +42,6 @@ namespace Cyberpriest
 
             if (other is Player)
                 isHit = true;
-
-            if (other is PokemonGeodude)
-                healthPoints -= 100;
         }
 
         public override void Update(GameTime gt)
@@ -67,7 +64,6 @@ namespace Cyberpriest
 
             Movement();
             CurrentEnemyState(gt);
-            DistanceToGeo();
             EnemyFacing();
         }
 
@@ -109,12 +105,6 @@ namespace Cyberpriest
             }
         }
 
-        public override float DistanceToGeo()
-        {
-            directionToGeo = pos - geodude.Position;
-            return directionToGeo.Length();
-        }
-
         protected override void PatrolTimer(GameTime gt)
         {
             randomizationTime += (float)gt.ElapsedGameTime.TotalSeconds;
@@ -125,6 +115,7 @@ namespace Cyberpriest
                 randomizationTime = 0.0f;
             }
         }
+
 
         protected override void RandomDirection()
         {
