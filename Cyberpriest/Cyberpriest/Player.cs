@@ -198,6 +198,10 @@ namespace Cyberpriest
                 if (blinking)
                     sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
+            else if (invincible)
+            {
+                sb.Draw(tex, pos, null, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
+            }
             else if (charmed)
             {
                 sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
@@ -211,6 +215,7 @@ namespace Cyberpriest
             {
                 b.Draw(sb);
             }
+
         }
 
         void CanShootBullet()
@@ -343,27 +348,6 @@ namespace Cyberpriest
             }
         }
 
-        public override void Draw(SpriteBatch sb)
-        {
-            if (iFrameTimer > 0)
-            {
-                if (blinking)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
-            }
-            else if (invincible)
-            {
-                sb.Draw(tex, pos, null, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
-            }
-            else
-            {
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
-            }
-
-            foreach (Bullet b in bulletList)
-            {
-                b.Draw(sb);
-            }
-        }
 
         public void IFrame(GameTime gameTime)
         {
@@ -482,7 +466,7 @@ namespace Cyberpriest
 
         private void InvincibilityPowerUp(GameTime gameTime)
         {
-            GamePlayManager.health.hitBox.Width = GamePlayManager.health.GetTexLength;
+            GameStats.health.hitBox.Width = GameStats.health.GetTexLength;
         }
 
         public Color RandomColor()

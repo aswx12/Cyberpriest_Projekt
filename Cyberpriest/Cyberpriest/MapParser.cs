@@ -50,11 +50,12 @@ namespace Cyberpriest
         Vector2 PokemonballPos;
         Vector2 DoorPos;
         Vector2 MagnetPos;
-      
+
         Vector2[] enemySkeletonPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
         Vector2[] backgroundPos;
+        Vector2[] coinPos;
 
         public MapParser(string filename)
         {
@@ -219,7 +220,7 @@ namespace Cyberpriest
 
             #region Pokemonball PowerUp
 
-            PokemonballPos = ParsePos(stringList[15]);
+            PokemonballPos = ParsePos(stringList[24]);
 
             powerUp = new PowerUp(AssetManager.pokeball, PokemonballPos);
             powerUpList.Add(powerUp);
