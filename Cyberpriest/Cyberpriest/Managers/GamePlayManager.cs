@@ -22,12 +22,8 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-<<<<<<< HEAD
-
             health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
-=======
->>>>>>> main
             row = 0;
             column = 0;
         }
@@ -209,10 +205,19 @@ namespace Cyberpriest
                                     }
                                 }
                             }
-<<<<<<< HEAD
-=======
 
                             #endregion
+
+                            #region Pokemon To Enemy Collision
+
+                            if (obj is PokemonGeodude)
+                            {
+                                if (otherObj is EnemyType)
+                                {
+                                    if (!otherObj.isActive)
+                                        continue;
+
+                                    if (obj.PixelCollision(otherObj))
 
                             #region Coin
 
@@ -234,7 +239,6 @@ namespace Cyberpriest
                             }
 
                             #endregion
->>>>>>> main
                         }
                         #endregion
 
@@ -306,15 +310,12 @@ namespace Cyberpriest
                 }
             }
         }
-<<<<<<< HEAD
-
+              
         public static void HealthDraw(SpriteBatch sb)
         {
             if (Game1.GetState == GameState.Play)
                 health.Draw(sb);
         }
 
-=======
->>>>>>> main
     }
 }
