@@ -43,11 +43,8 @@
   <ItemGroup>
     <Compile Include="HeadArvClass\AnimatedObject.cs" />
     <Compile Include="Bullet.cs" />
-<<<<<<< HEAD
     <Compile Include="Door.cs" />
-=======
     <Compile Include="Coin.cs" />
->>>>>>> main
     <Compile Include="EnemyBullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />

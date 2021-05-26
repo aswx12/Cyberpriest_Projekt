@@ -22,7 +22,6 @@ namespace Cyberpriest
 
         public static void Initializer()
         {
-            health = new Health(AssetManager.fullHealthbar, Vector2.Zero);
 
             row = 0;
             column = 0;
@@ -217,7 +216,10 @@ namespace Cyberpriest
                                     if (!otherObj.isActive)
                                         continue;
 
-                                    if (obj.PixelCollision(otherObj))
+                                     
+                                }
+                            }
+                            #endregion
 
                             #region Coin
 
@@ -240,8 +242,6 @@ namespace Cyberpriest
 
                             #endregion
                         }
-                        #endregion
-
                     }
                 }
             }
@@ -310,12 +310,7 @@ namespace Cyberpriest
                 }
             }
         }
-              
-        public static void HealthDraw(SpriteBatch sb)
-        {
-            if (Game1.GetState == GameState.Play)
-                health.Draw(sb);
-        }
-
     }
 }
+
+
