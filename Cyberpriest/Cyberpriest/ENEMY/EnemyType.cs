@@ -69,12 +69,14 @@ namespace Cyberpriest
                     PatrolTimer(gt);
                     break;
                 case EnemyState.Chase:
-                    if (player.Position.X > pos.X)
+                    int facingOffset = 5;
+
+                    if (player.Position.X > pos.X + facingOffset)
                     {
                         pos.X += startVelocity.X;
                         enemyFacing = Facing.Right;
                     }
-                    else if (player.Position.X < pos.X)
+                    else if (player.Position.X < pos.X - facingOffset)
                     {
                         pos.X -= startVelocity.X;
                         enemyFacing = Facing.Left;

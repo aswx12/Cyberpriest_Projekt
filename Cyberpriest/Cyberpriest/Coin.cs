@@ -21,11 +21,16 @@ namespace Cyberpriest
 
         public Coin(Texture2D tex, Vector2 pos, Player player, List<PowerUp> powerUpList) : base(tex, pos)
         {
+            frameInterval = 100;
+            spritesFrame = 6;
+
             this.player = player;
             this.powerUpList = powerUpList;
 
             moveDir = new Vector2(50, 50);
             velocity = new Vector2(1, 1);
+
+            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
         }
 
         public override void HandleCollision(GameObject other)
@@ -43,6 +48,7 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + 0.5f : pos.X - 0.5f);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + 0.5f : pos.Y - 0.5f);
 
+            Animation(gt);
             PowerUp();
         }
 
@@ -69,7 +75,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive)
-                sb.Draw(tex, pos, Color.White);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
         }
     }
 }

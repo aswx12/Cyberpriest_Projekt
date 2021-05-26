@@ -31,9 +31,9 @@ namespace Cyberpriest
             enemyState = EnemyState.Patrol;
             velocity = new Vector2(3, 0);
             startVelocity = velocity;
-            chasingRange = 400;
+            chasingRange = 2000;
 
-            randomizationPeriod = 2;
+            randomizationPeriod = 4;
             rand = new Random();
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             healthPoints = 1000;
@@ -131,7 +131,7 @@ namespace Cyberpriest
 
         void Combat(GameTime gt)
         {
-            if (enemyState == EnemyState.Chase)
+            if (enemyState == EnemyState.Chase && isActive == true)
             {
                 if (shotCount > 0)
                 {

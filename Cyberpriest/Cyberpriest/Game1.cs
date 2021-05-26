@@ -29,6 +29,12 @@ namespace Cyberpriest
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            int maxWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            int maxHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            graphics.PreferredBackBufferWidth = maxWidth;
+            graphics.PreferredBackBufferHeight = maxHeight;
         }
 
         protected override void Initialize()
@@ -58,7 +64,7 @@ namespace Cyberpriest
 
             AssetManager.LoadAssets(Content);
 
-            window.AllowUserResizing = true;
+            window.AllowUserResizing = false;
 
             gameState = GameState.Menu;
         }

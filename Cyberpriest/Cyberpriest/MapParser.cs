@@ -190,7 +190,7 @@ namespace Cyberpriest
 
             #region Magnet PowerUp
 
-            MagnetPos = ParsePos(stringList[14]);
+            MagnetPos = ParsePos(stringList[25]);
 
             powerUp = new PowerUp(AssetManager.magnet, MagnetPos);
             powerUpList.Add(powerUp);
@@ -210,7 +210,7 @@ namespace Cyberpriest
 
             #region Star PowerUp
 
-            StarPos = ParsePos(stringList[14]);
+            StarPos = ParsePos(stringList[26]);
 
             powerUp = new PowerUp(AssetManager.star1, StarPos);
             powerUpList.Add(powerUp);
@@ -315,7 +315,7 @@ namespace Cyberpriest
 
             coinPos = ParseVectorArray(stringList[13]);
 
-            CreateCoin(AssetManager.avocado, coinPos);
+            CreateCoin(AssetManager.coinSprite, coinPos);
 
             #endregion
         }

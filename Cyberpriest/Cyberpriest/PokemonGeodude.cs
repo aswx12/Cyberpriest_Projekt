@@ -136,9 +136,5 @@ namespace Cyberpriest
             }
         }
 
-        public override void Animation(GameTime gameTime)
-        {
-            base.Animation(gameTime);
-        }
     }
 }

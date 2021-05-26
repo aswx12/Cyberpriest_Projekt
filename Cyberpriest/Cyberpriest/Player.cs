@@ -134,7 +134,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            //Console.WriteLine("Current position: " + pos);
+            Console.WriteLine("Current position: " + pos);
             //Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
@@ -184,6 +184,12 @@ namespace Cyberpriest
             GamePlayManager.levelComplete = false;
 
             GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
+            
+            if(GameStats.currentAmmo <= 0)
+            {
+                canShoot = true;
+                GameStats.currentAmmo = GameStats.maxAmmo;
+            }
 
         }
 
@@ -290,11 +296,11 @@ namespace Cyberpriest
 
             int mouseOffset = 425;
 
-            if (KeyMouseReader.mouseState.X >= pos.X + mouseOffset)
+            if (KeyMouseReader.mouseState.X >= bX/2)
             {
                 playerFacing = Facing.Right;
             }
-            else if (KeyMouseReader.mouseState.X <= pos.X + mouseOffset)
+            else if (KeyMouseReader.mouseState.X <= bX/2)
             {
                 playerFacing = Facing.Left;
             }

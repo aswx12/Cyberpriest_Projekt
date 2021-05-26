@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 1;
+        public static int levelNumber = 2;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
