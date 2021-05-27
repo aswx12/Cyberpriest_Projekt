@@ -52,11 +52,9 @@ namespace Cyberpriest
                 return;
             }
                 
-
             if (other is PokemonGeodude)
             {
                 healthPoints -= 100;
-                isActive = false;
             }
                 
         }
@@ -93,8 +91,15 @@ namespace Cyberpriest
 
             if (distanceToPlayerX < chasingRange)
             {
-                moveDir = player.Position - pos;
-                enemyState = EnemyState.Chase;
+                if (pos.X >= startPos.X + 75 || pos.X <= startPos.X - 75) //tempfix for enemy float off platforms.
+                {
+                    enemyState = EnemyState.Patrol;
+                }
+                else
+                {
+                    moveDir = player.Position - pos;
+                    enemyState = EnemyState.Chase;
+                }              
             }
             else
             {

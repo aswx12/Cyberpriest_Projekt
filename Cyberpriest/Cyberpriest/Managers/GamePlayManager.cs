@@ -104,7 +104,7 @@ namespace Cyberpriest
                                     int leftSideOffset = 35;
                                     int rightSideOffset = 25;
 
-                                    if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
+                                    if (obj.Position.X < (otherObj.Position.X - leftSideOffset) || otherObj.Position.Y < obj.Position.Y || obj.Position.X  > otherObj.Position.X + otherObj.GetTexLength - rightSideOffset)
                                         continue;
 
                                     obj.HandleCollision(otherObj);
@@ -141,6 +141,9 @@ namespace Cyberpriest
 
                                 if (obj.PixelCollision(otherObj))
                                 {
+                                    if (obj.Position.Y <= otherObj.Position.Y-20 || obj.Position.Y >= otherObj.Position.Y + 20)//no floating tempfix
+                                        continue;
+
                                     obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
                                 }
