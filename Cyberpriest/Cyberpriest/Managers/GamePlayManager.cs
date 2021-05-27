@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 2;
+        public static int levelNumber = 1;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -83,168 +83,165 @@ namespace Cyberpriest
             {
                 foreach (GameObject otherObj in map.objectList)
                 {
-                    if (obj is Platform && otherObj is Platform)
+                    if (/*obj is Platform && */otherObj is Platform)//?
                     {
                         continue;
                     }
 
-                    if (otherObj != obj)
+                    if (obj.IntersectCollision(otherObj))
                     {
-                        if (obj.IntersectCollision(otherObj))
+                        #region Platform Collision
+
+                        if (otherObj is Platform)
                         {
-                            #region Platform Collision
-
-                            if (otherObj is Platform)
+                            if (otherObj.PixelCollision(obj))
                             {
-                                if (otherObj.PixelCollision(obj))
+                                if (obj is Player || obj is EnemyType)
                                 {
-                                    if (obj is Player || obj is EnemyType)
-                                    {
-                                        int leftSideOffset = 35;
-                                        int rightSideOffset = 25;
+                                    int leftSideOffset = 35;
+                                    int rightSideOffset = 25;
 
-                                        if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
-                                            continue;
-                                    }
+                                    if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
+                                        continue;
+                                }
+                                obj.HandleCollision(otherObj);
+                            }
+                        }
+
+                        #endregion
+
+                        #region Door Collision
+
+                        if (otherObj is Door)
+                        {
+                            if (otherObj.PixelCollision(obj))
+                            {
+                                if (obj is Player)
+                                {
+                                    otherObj.HandleCollision(obj);
+                                }
+                            }
+                        }
+
+
+                        #endregion
+
+                        #region Player To Enemy Collision
+
+                        if (obj is Player)
+                        {
+                            if (otherObj is EnemyType)
+                            {
+
+                                if (!otherObj.isActive)
+                                    continue;
+
+                                if (obj.PixelCollision(otherObj))
+                                {
                                     obj.HandleCollision(otherObj);
+                                    otherObj.HandleCollision(obj);
                                 }
                             }
+                        }
 
-                            #endregion
+                        #endregion
 
-                            #region Door Collision
+                        #region Item To Inventory
 
-                            if (otherObj is Door)
-                            {
-                                if (otherObj.PixelCollision(obj))
-                                {
-                                    if (obj is Player)
-                                    {
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-
-
-                            #endregion
-
-                            #region Player To Enemy Collision
-
+                        if (otherObj is Item)
+                        {
                             if (obj is Player)
                             {
-                                if (otherObj is EnemyType)
+                                if (map.inventory.Count >= 9)
                                 {
+                                    //replace later with text shows on screen instead of debug.
+                                    Console.WriteLine("Inventory is full!");
+                                    continue;
+                                }
 
-                                    if (!otherObj.isActive)
-                                        continue;
+                                if (!otherObj.isActive)
+                                {
+                                    continue;
+                                }
 
-                                    if (obj.PixelCollision(otherObj))
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    (otherObj as Item).row = row;
+                                    (otherObj as Item).column = column;
+                                    (otherObj as Item).inInventory = true;
+
+                                    if (!map.inventoryArray[row, column].occupied)
                                     {
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
+                                        map.inventory.Add(otherObj);
                                     }
+
+                                    obj.HandleCollision(otherObj);
+                                    otherObj.HandleCollision(obj);
                                 }
                             }
-
-                            #endregion
-
-                            #region Item To Inventory
-
-                            if (otherObj is Item)
-                            {
-                                if (obj is Player)
-                                {
-                                    if (map.inventory.Count >= 9)
-                                    {
-                                        //replace later with text shows on screen instead of debug.
-                                        Console.WriteLine("Inventory is full!");
-                                        continue;
-                                    }
-
-                                    if (!otherObj.isActive)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (otherObj.PixelCollision(obj))
-                                    {
-                                        (otherObj as Item).row = row;
-                                        (otherObj as Item).column = column;
-                                        (otherObj as Item).inInventory = true;
-
-                                        if (!map.inventoryArray[row, column].occupied)
-                                        {
-                                            map.inventory.Add(otherObj);
-                                        }
-
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-
-                            #endregion
-
-                            #region PowerUp
-
-                            if (otherObj is PowerUp)
-                            {
-                                if (obj is Player)
-                                {
-                                    if (!otherObj.isActive)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (otherObj.PixelCollision(obj))
-                                    {
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-
-                            #endregion
-
-                            #region Pokemon To Enemy Collision
-
-                         if (obj is PokemonGeodude)
-                            {
-                                if (otherObj is EnemyType)
-                                {
-                                    if (!otherObj.isActive)
-                                        continue;
-
-                                    if (obj.PixelCollision(otherObj))
-                                    {
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-                            #endregion
-
-                            #region Coin
-
-                            if (otherObj is Coin)
-                            {
-                                if (obj is Player)
-                                {
-                                    if (!otherObj.isActive)
-                                    {
-                                        continue;
-                                    }
-
-                                    if (otherObj.PixelCollision(obj))
-                                    {
-                                        obj.HandleCollision(otherObj);
-                                        otherObj.HandleCollision(obj);
-                                    }
-                                }
-                            }
-
-                            #endregion
                         }
+
+                        #endregion
+
+                        #region PowerUp
+
+                        if (otherObj is PowerUp)
+                        {
+                            if (obj is Player)
+                            {
+                                if (!otherObj.isActive)
+                                {
+                                    continue;
+                                }
+
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    obj.HandleCollision(otherObj);
+                                    otherObj.HandleCollision(obj);
+                                }
+                            }
+                        }
+
+                        #endregion
+
+                        #region Pokemon To Enemy Collision
+
+                        if (obj is PokemonGeodude)
+                        {
+                            if (otherObj is EnemyType)
+                            {
+                                if (!otherObj.isActive)
+                                    continue;
+
+                                if (obj.PixelCollision(otherObj))
+                                {
+                                    obj.HandleCollision(otherObj);
+                                    otherObj.HandleCollision(obj);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Coin
+
+                        if (otherObj is Coin)
+                        {
+                            if (obj is Player)
+                            {
+                                if (!otherObj.isActive)
+                                {
+                                    continue;
+                                }
+
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    obj.HandleCollision(otherObj);
+                                    otherObj.HandleCollision(obj);
+                                }
+                            }
+                        }
+
+                        #endregion
                     }
                 }
             }
