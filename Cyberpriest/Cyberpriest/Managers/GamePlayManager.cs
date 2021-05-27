@@ -83,22 +83,22 @@ namespace Cyberpriest
             {
                 foreach (GameObject otherObj in map.objectList)
                 {
+                    if (obj == otherObj)//?
+                    {
+                        continue;
+                    }
+
                     if (obj.IntersectCollision(otherObj))
                     {
-                        if (obj == otherObj)//?
-                        {
-                            continue;
-                        }
-
                         #region Platform Collision
 
-                        if (otherObj is Platform)
+                        if (otherObj is Platform)//pixel perfect sudden lag
                         {
-                            if (!(obj is Player || obj is EnemyType))
-                                continue;
+                            //if (!(obj is Player || obj is EnemyType))
+                            //    continue;
 
-                            if (otherObj.PixelCollision(obj))
-                            {
+                            //if (otherObj.PixelCollision(obj))
+                            //{
                                 if (obj is Player || obj is EnemyType)
                                 {
                                     int leftSideOffset = 35;
@@ -106,9 +106,10 @@ namespace Cyberpriest
 
                                     if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
                                         continue;
+
+                                    obj.HandleCollision(otherObj);
                                 }
-                                obj.HandleCollision(otherObj);
-                            }
+                            //}
                         }
 
                         #endregion
