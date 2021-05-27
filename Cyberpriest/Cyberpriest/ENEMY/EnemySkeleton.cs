@@ -47,7 +47,11 @@ namespace Cyberpriest
             }
 
             if (other is Player)
+            {
                 isHit = true;
+                return;
+            }
+                
 
             if (other is PokemonGeodude)
             {

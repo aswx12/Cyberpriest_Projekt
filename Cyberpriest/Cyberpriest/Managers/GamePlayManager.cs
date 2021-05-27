@@ -83,7 +83,7 @@ namespace Cyberpriest
             {
                 foreach (GameObject otherObj in map.objectList)
                 {
-                    if (/*obj is Platform && */otherObj is Platform)//?
+                    if (obj ==otherObj)//?
                     {
                         continue;
                     }
@@ -94,8 +94,8 @@ namespace Cyberpriest
 
                         if (otherObj is Platform)
                         {
-                            if (otherObj.PixelCollision(obj))
-                            {
+                            //if (otherObj.PixelCollision(obj))
+                            //{
                                 if (obj is Player || obj is EnemyType)
                                 {
                                     int leftSideOffset = 35;
@@ -105,7 +105,7 @@ namespace Cyberpriest
                                         continue;
                                 }
                                 obj.HandleCollision(otherObj);
-                            }
+                           // }
                         }
 
                         #endregion
