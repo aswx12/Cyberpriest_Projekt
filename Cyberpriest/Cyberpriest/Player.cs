@@ -84,10 +84,8 @@ namespace Cyberpriest
 
             if (other is EnemyBullet)
             {
-
                 other.isActive = false;
                 charmed = true;
-
 
                 return;
             }
