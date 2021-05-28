@@ -62,7 +62,7 @@ namespace Cyberpriest
 
             foreach (GameObject obj in map.objectList)
             {
-                foreach (EnemyBullet eBullet in map.enemyLust.bulletList)
+                foreach (LustBullet eBullet in map.enemyLust.bulletList)
                 {
                     if (eBullet.IntersectCollision(obj))
                     {

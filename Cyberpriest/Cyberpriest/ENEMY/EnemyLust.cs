@@ -135,7 +135,7 @@ namespace Cyberpriest
             {
                 if (shotCount > 0)
                 {
-                    bullet = new EnemyBullet(AssetManager.heartSprite, pos, enemyFacing);
+                    bullet = new LustBullet(AssetManager.heartSprite, pos, enemyFacing);
                     bulletList.Add(bullet);
                     bullet.isActive = true;
 
@@ -145,7 +145,7 @@ namespace Cyberpriest
 
             if (enemyState == EnemyState.Chase || enemyState == EnemyState.Patrol)
             {
-                foreach (EnemyBullet bullet in bulletList)
+                foreach (LustBullet bullet in bulletList)
                 {
                     bullet.Velocity = new Vector2(3, 3);
                     moveDir = player.Position - bullet.Position;
@@ -175,7 +175,7 @@ namespace Cyberpriest
             if (isActive == true)
                 sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
 
-            foreach (EnemyBullet bullet in bulletList)
+            foreach (LustBullet bullet in bulletList)
             {
                 bullet.Draw(sb);
             }

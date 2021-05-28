@@ -13,12 +13,10 @@ namespace Cyberpriest
     {
         public List<Bullet> bulletList = new List<Bullet>();
         List<PowerUp> powerUpList;
-        Vector2 startPos;
         Bullet bullet;
 
         public Facing playerFacing;
 
-        //private int lives;
         int bY, bX;
         int normalVel = 3;
         int dashLength = 150;
@@ -34,11 +32,7 @@ namespace Cyberpriest
 
         double nextBlinkTime;
         double dashTimer;
-        double dashCD;
         double shotTimer;
-        double shotCD;
-
-        double cooldownTimer = 0;
 
         double affectedTimer;
 
@@ -62,11 +56,9 @@ namespace Cyberpriest
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
             dashTimer = 0;
-            dashCD = 1.5;
 
             shotCount = 1;
             shotTimer = 0;
-            shotCD = 2;
 
             affectedTimer = 0;
 
@@ -80,7 +72,7 @@ namespace Cyberpriest
             velocity.Y = 0;
             isGrounded = true;
 
-            if (other is EnemyBullet)
+            if (other is LustBullet)
             {
                 other.isActive = false;
                 charmed = true;

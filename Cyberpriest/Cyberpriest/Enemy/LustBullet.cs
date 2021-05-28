@@ -8,14 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    class EnemyBullet : Bullet
+    class LustBullet : Bullet
     {
-        public EnemyBullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos, facing)
+        public LustBullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos, facing)
         {
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
         }
-
 
         public override void Draw(SpriteBatch sb)
         {
