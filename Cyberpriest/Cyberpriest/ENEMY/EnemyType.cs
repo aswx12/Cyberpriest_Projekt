@@ -56,7 +56,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 1);
         }
 
 

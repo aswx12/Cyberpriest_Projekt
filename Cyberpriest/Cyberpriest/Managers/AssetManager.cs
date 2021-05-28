@@ -54,6 +54,7 @@ namespace Cyberpriest
         public static Texture2D enemyGhost;
         public static Texture2D enemyDemon;
         public static Texture2D enemySkeleton;
+        public static Texture2D enemyBug;
         public static Texture2D bossCleopatra;
         public static Texture2D bossCerberus; 
         public static Texture2D bossAlighiero;
@@ -122,7 +123,8 @@ namespace Cyberpriest
 
         #region Background
 
-        //public static Texture2D inventoryBG;
+        public static Texture2D inventoryBG;
+        public static Texture2D shopBG;
         public static Texture2D backgroundLvl1;
         public static Texture2D inventorySlot;
 
@@ -188,6 +190,7 @@ namespace Cyberpriest
             enemyGhost = content.Load<Texture2D>("Enemy1");
             enemyDemon = content.Load<Texture2D>("enemy2");
             enemySkeleton = content.Load<Texture2D>("enemy3");
+            enemyBug = content.Load<Texture2D>("enemy4");
             bossCleopatra = content.Load<Texture2D>("Boss_Lust");
             bossCerberus = content.Load<Texture2D>("Boss_Gluttony");
             bossAlighiero = content.Load<Texture2D>("Boss_Greed");
@@ -257,7 +260,8 @@ namespace Cyberpriest
 
             #region Background
 
-            //inventoryBG = content.Load<Texture2D>("hole");
+            inventoryBG = content.Load<Texture2D>("InventoryBG");
+            shopBG = content.Load<Texture2D>("ShopBG");
             backgroundLvl1 = content.Load<Texture2D>("BG_Lvl_1");
             inventorySlot = content.Load<Texture2D>("InventorySlot");
 

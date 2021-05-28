@@ -36,7 +36,11 @@ namespace Cyberpriest
             randomizationPeriod = 4;
             rand = new Random();
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
             healthPoints = 1000;
+
+            frameInterval = 100;
+            spritesFrame = 6;
         }
 
         public override void HandleCollision(GameObject other)
@@ -85,6 +89,7 @@ namespace Cyberpriest
             EnemyFacing();
             Combat(gt);
             DistanceToGeo();
+            Animation(gt);
         }
 
 
