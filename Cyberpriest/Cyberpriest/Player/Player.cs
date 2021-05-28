@@ -53,7 +53,7 @@ namespace Cyberpriest
             bX = window.ClientBounds.Width;
             playerFacing = Facing.Right;
             this.powerUpList = powerUpList;
-            //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
+            srRect = new Rectangle(0, 0, tex.Width / 17, tex.Height);
             //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
             dashTimer = 0;
@@ -69,6 +69,9 @@ namespace Cyberpriest
 
             melee = new Melee(AssetManager.redSword, pos);
             meleeList.Add(melee);
+
+            frameInterval = 125;
+            spritesFrame = 17;
         }
 
         public override void HandleCollision(GameObject other)
@@ -159,7 +162,7 @@ namespace Cyberpriest
             Charmed(gt);
             if (charmed == false)
             {
-                Control();
+                Control(gt);
             }
 
             PowerUp(gt);
@@ -189,19 +192,19 @@ namespace Cyberpriest
             if (iFrameTimer > 0)
             {
                 if (blinking)
-                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                    sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else if (invincible)
             {
-                sb.Draw(tex, pos, null, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(tex, pos, srRect, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
             }
             else if (charmed)
             {
-                sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(AssetManager.playerCharmed, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else
             {
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
 
             foreach (Bullet b in bulletList)
@@ -265,7 +268,7 @@ namespace Cyberpriest
             }
         }
 
-        public void Control()
+        public void Control(GameTime gt)
         {
             if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true)
             {
@@ -277,11 +280,13 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
+                WalkingAnimation(gt);
                 velocity.X = normalVel;
 
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
+                WalkingAnimation(gt);
                 velocity.X = -normalVel;
             }
             else
@@ -345,8 +350,60 @@ namespace Cyberpriest
             }
             else
                 melee.isActive = false;
+
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.Q))
+            {
+                PunchingAnimation(gt);
+            }
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.R))
+            {
+                KickingAnimation(gt);
+            }
         }
 
+        #region Animation
+
+        public void WalkingAnimation(GameTime gameTime)
+        {
+            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (frameTimer <= 0)
+            {
+                frameTimer = frameInterval;
+                frame++;
+                srRect.X = (frame % spritesFrame) * spriteSize;
+                if (frame > 6)
+                    frame = 1;
+            }
+        }
+
+        public void PunchingAnimation(GameTime gameTime)
+        {
+            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (frameTimer <= 0)
+            {
+                frameTimer = frameInterval;
+                frame++;
+                srRect.X = (frame % spritesFrame) * spriteSize;
+                if (frame < 7 || frame > 10)
+                    frame = 7;
+            }
+        }
+
+        public void KickingAnimation(GameTime gameTime)
+        {
+            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (frameTimer <= 0)
+            {
+                frameTimer = frameInterval;
+                frame++;
+                srRect.X = (frame % spritesFrame) * spriteSize;
+                if (frame < 11 || frame > 15)
+                    frame = 11;
+            }
+        }
+
+
+        #endregion
 
         public void IFrame(GameTime gameTime)
         {

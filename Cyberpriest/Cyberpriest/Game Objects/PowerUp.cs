@@ -17,7 +17,11 @@ namespace Cyberpriest
 
         public PowerUp(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            frameInterval = 100;
+            spritesFrame = 6;
+
+            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 6, tex.Height);
             isActive = true;
             poweredUp = false;
             activeTimer = 10; //how long the power up is actived
@@ -44,6 +48,8 @@ namespace Cyberpriest
                 poweredUp = false;
                 Player.invincible = false;
             }
+
+            Animation(gameTime);
         }
 
         public override void HandleCollision(GameObject other)
@@ -59,7 +65,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive)
-                sb.Draw(tex, hitBox, Color.White);
+                sb.Draw(tex, hitBox, srRect, Color.White);
         }
     }
 }
