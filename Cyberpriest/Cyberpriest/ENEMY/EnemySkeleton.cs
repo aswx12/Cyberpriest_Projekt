@@ -130,7 +130,6 @@ namespace Cyberpriest
                         velocity = startVelocity;
                         enemyFacing = Facing.Right;
                     }
-                    //PatrolTimer(gt);
                     break;
 
                 case EnemyState.Chase:

@@ -40,6 +40,7 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
+
         }
 
         public override void Update(GameTime gt)

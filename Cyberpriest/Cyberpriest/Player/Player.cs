@@ -11,7 +11,6 @@ namespace Cyberpriest
 {
     class Player : MovingObject
     {
-
         public List<Bullet> bulletList = new List<Bullet>();
         List<PowerUp> powerUpList;
         Vector2 startPos;
@@ -53,7 +52,6 @@ namespace Cyberpriest
         {
             charmed = false;
             isGrounded = true;
-            //lives = 3;
             startPos = pos;
             velocity = new Vector2(0, 0);
             bY = window.ClientBounds.Height;
@@ -133,7 +131,7 @@ namespace Cyberpriest
         public override void Update(GameTime gt)
         {
             Console.WriteLine("Current position: " + pos);
-            //Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
+            Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
@@ -178,17 +176,14 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
 
-
             GamePlayManager.levelComplete = false;
 
             GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
-            
-            if(GameStats.currentAmmo <= 0)
-            {
-                canShoot = true;
-                GameStats.currentAmmo = GameStats.maxAmmo;
-            }
 
+            if (GameStats.currentAmmo <= 0)
+            {
+                canShoot = false;
+            }
         }
 
         public override void Draw(SpriteBatch sb)
@@ -292,8 +287,6 @@ namespace Cyberpriest
             else
                 velocity.X = 0;
 
-            int mouseOffset = 425;
-
             if (KeyMouseReader.mouseState.X >= bX/2)
             {
                 playerFacing = Facing.Right;
@@ -302,9 +295,6 @@ namespace Cyberpriest
             {
                 playerFacing = Facing.Left;
             }
-
-            //else
-            //    playerFacing = Facing.Idle;
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.LeftShift))
             {
