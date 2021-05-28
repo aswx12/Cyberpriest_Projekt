@@ -44,7 +44,6 @@ namespace Cyberpriest
         #region Player
 
         public static Texture2D player;
-
         public static Texture2D playerCharmed;
 
         #endregion
@@ -54,6 +53,7 @@ namespace Cyberpriest
         public static Texture2D enemyGhost;
         public static Texture2D enemyDemon;
         public static Texture2D enemySkeleton;
+        public static Texture2D enemyBug;
         public static Texture2D bossCleopatra;
         public static Texture2D bossCerberus; 
         public static Texture2D bossAlighiero;
@@ -122,7 +122,8 @@ namespace Cyberpriest
 
         #region Background
 
-        //public static Texture2D inventoryBG;
+        public static Texture2D inventoryBG;
+        public static Texture2D shopBG;
         public static Texture2D backgroundLvl1;
         public static Texture2D inventorySlot;
 
@@ -177,8 +178,7 @@ namespace Cyberpriest
 
             #region Player
 
-            player = content.Load<Texture2D>("player1");
-
+            player = content.Load<Texture2D>("Player1");
             playerCharmed = content.Load<Texture2D>("PlayerCharmed");
 
             #endregion
@@ -188,6 +188,7 @@ namespace Cyberpriest
             enemyGhost = content.Load<Texture2D>("Enemy1");
             enemyDemon = content.Load<Texture2D>("enemy2");
             enemySkeleton = content.Load<Texture2D>("enemy3");
+            enemyBug = content.Load<Texture2D>("enemy4");
             bossCleopatra = content.Load<Texture2D>("Boss_Lust");
             bossCerberus = content.Load<Texture2D>("Boss_Gluttony");
             bossAlighiero = content.Load<Texture2D>("Boss_Greed");
@@ -256,8 +257,9 @@ namespace Cyberpriest
             #endregion
 
             #region Background
-
-            //inventoryBG = content.Load<Texture2D>("hole");
+      
+            shopBG = content.Load<Texture2D>("ShopBG");
+            inventoryBG = content.Load<Texture2D>("InventoryBG");
             backgroundLvl1 = content.Load<Texture2D>("BG_Lvl_1");
             inventorySlot = content.Load<Texture2D>("InventorySlot");
 

@@ -17,6 +17,9 @@ namespace Cyberpriest
 
         public PowerUp(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
+            frameInterval = 100;
+            spritesFrame = 6;
+            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             isActive = true;
             poweredUp = false;
@@ -34,6 +37,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gameTime)
         {
+            Animation(gameTime);
+
             if (poweredUp)
             {
                 countdown -= gameTime.ElapsedGameTime.TotalSeconds;
@@ -59,7 +64,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive)
-                sb.Draw(tex, hitBox, Color.White);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
         }
     }
 }
