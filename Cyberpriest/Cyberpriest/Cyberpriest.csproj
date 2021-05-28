@@ -45,9 +45,10 @@
     <Compile Include="Game Objects\Bullet.cs" />
     <Compile Include="Game Objects\Door.cs" />
     <Compile Include="Game Objects\Coin.cs" />
-    <Compile Include="Enemy\EnemyBullet.cs" />
+    <Compile Include="Enemy\LustBullet.cs" />
     <Compile Include="Enemy\EnemyLust.cs" />
     <Compile Include="Enemy\EnemySkeleton.cs" />
+    <Compile Include="Melee.cs" />
     <Compile Include="Player\GameStats.cs" />
     <Compile Include="Player\Health.cs" />
     <Compile Include="Managers\GamePlayManager.cs" />

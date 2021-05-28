@@ -20,7 +20,7 @@ namespace Cyberpriest
 
         protected EnemyState enemyState;
 
-        protected int healthPoints;
+        public int healthPoints;
         protected Vector2 moveDir;
 
         protected int chasingRange;
@@ -40,7 +40,7 @@ namespace Cyberpriest
 
         public override void HandleCollision(GameObject other)
         {
-
+            
         }
 
         public override void Update(GameTime gt)

@@ -12,9 +12,10 @@ namespace Cyberpriest
     class Player : MovingObject
     {
         public List<Bullet> bulletList = new List<Bullet>();
+        public List<Melee> meleeList = new List<Melee>();
         List<PowerUp> powerUpList;
         Bullet bullet;
-
+        public Melee melee;
         public Facing playerFacing;
 
         int bY, bX;
@@ -65,6 +66,9 @@ namespace Cyberpriest
             isHit = false;
 
             rand = new Random();
+
+            melee = new Melee(AssetManager.redSword, pos);
+            meleeList.Add(melee);
         }
 
         public override void HandleCollision(GameObject other)
@@ -168,6 +172,8 @@ namespace Cyberpriest
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
 
+            melee.Update(gt);
+
             GamePlayManager.levelComplete = false;
 
             GameStats.currentAmmo = GameStats.maxAmmo - bulletList.Count;
@@ -202,6 +208,8 @@ namespace Cyberpriest
             {
                 b.Draw(sb);
             }
+
+            melee.Draw(sb, pos,playerFacing,effect);
 
         }
 
@@ -279,11 +287,11 @@ namespace Cyberpriest
             else
                 velocity.X = 0;
 
-            if (KeyMouseReader.mouseState.X >= bX/2)
+            if (KeyMouseReader.mouseState.X >= bX / 2)
             {
                 playerFacing = Facing.Right;
             }
-            else if (KeyMouseReader.mouseState.X <= bX/2)
+            else if (KeyMouseReader.mouseState.X <= bX / 2)
             {
                 playerFacing = Facing.Left;
             }
@@ -330,6 +338,13 @@ namespace Cyberpriest
                     shotCount = 0;
                 }
             }
+
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.F))
+            {
+                melee.isActive = true;
+            }
+            else
+                melee.isActive = false;
         }
 
 

@@ -50,14 +50,14 @@ namespace Cyberpriest
             if (powerUp.poweredUp)
             {
                 velocity = new Vector2(4, 4);
-            }
 
-            Animation(gameTime);
-            GeoFacing();
-            CurrentState();
-            GeoStateLogic();
+                Animation(gameTime);
+                GeoFacing();
+                CurrentState();
+                GeoStateLogic();
 
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 6, tex.Height);
+                hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 6, tex.Height);
+            }           
         }
 
         public override void Draw(SpriteBatch sb)

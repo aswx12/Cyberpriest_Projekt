@@ -34,7 +34,10 @@ namespace Cyberpriest
 
         public abstract void Update(GameTime gt);
 
-        public abstract void Draw(SpriteBatch sb);
+        public virtual void Draw(SpriteBatch sb)
+        {
+            sb.Draw(tex, pos, Color.White);
+        }
 
         public virtual bool IntersectCollision(GameObject other)
         {
