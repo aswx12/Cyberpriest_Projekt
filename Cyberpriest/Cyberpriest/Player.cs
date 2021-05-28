@@ -60,8 +60,8 @@ namespace Cyberpriest
             bX = window.ClientBounds.Width;
             playerFacing = Facing.Right;
             this.powerUpList = powerUpList;
-            srRect = new Rectangle(0, 0, tex.Width / 17, tex.Height);
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 17, tex.Height);
+            //srRect = new Rectangle(tileSize.X * 0, tileSize.Y * 2, tileSize.X, tileSize.Y);
+            //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             dashCount = 1;
             dashTimer = 0;
             dashCD = 1.5;
@@ -71,9 +71,6 @@ namespace Cyberpriest
             shotCD = 2;
 
             affectedTimer = 0;
-
-            frameInterval = 125;
-            spritesFrame = 17;
 
             isHit = false;
 
@@ -168,7 +165,7 @@ namespace Cyberpriest
             Charmed(gt);
             if (charmed == false)
             {
-                Control(gt);
+                Control();
             }
 
             PowerUp(gt);
@@ -199,19 +196,19 @@ namespace Cyberpriest
             if (iFrameTimer > 0)
             {
                 if (blinking)
-                    sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                    sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else if (invincible)
             {
-                sb.Draw(tex, pos, srRect, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(tex, pos, null, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
             }
             else if (charmed)
             {
-                sb.Draw(AssetManager.playerCharmed, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else
             {
-                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
 
             foreach (Bullet b in bulletList)
@@ -273,7 +270,7 @@ namespace Cyberpriest
             }
         }
 
-        public void Control(GameTime gt)
+        public void Control()
         {
             if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true)
             {
@@ -285,13 +282,11 @@ namespace Cyberpriest
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
             {
-                WalkingAnimation(gt);
                 velocity.X = normalVel;
 
             }
             else if (KeyMouseReader.keyState.IsKeyDown(Keys.A))// && pos.X >= startPos.X
             {
-                WalkingAnimation(gt);
                 velocity.X = -normalVel;
             }
             else
@@ -355,46 +350,6 @@ namespace Cyberpriest
             }
         }
 
-        #region Animation
-
-        private void WalkingAnimation(GameTime gameTime)
-        {
-            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (frameTimer <= 0)
-            {
-                frameTimer = frameInterval;
-                frame++;
-                srRect.X = (frame % 8) * spriteSize;
-            }
-        }
-
-        private void PunchingAnimation(GameTime gameTime)
-        {
-            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (frameTimer <= 0)
-            {
-                frameTimer = frameInterval;
-                frame++;
-                srRect.X = (frame % spritesFrame) * spriteSize;
-                if (frame > 12 || frame < 9)
-                    frame = 9;
-            }
-        }
-
-        private void KickingAnimation(GameTime gameTime)
-        {
-            frameTimer -= gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (frameTimer <= 0)
-            {
-                frameTimer = frameInterval;
-                frame++;
-                srRect.X = (frame % spritesFrame) * spriteSize;
-                if (frame > 17 || frame < 13) 
-                    frame = 13;
-            }
-        }
-
-        #endregion
 
         public void IFrame(GameTime gameTime)
         {

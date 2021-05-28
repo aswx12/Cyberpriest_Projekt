@@ -10,11 +10,11 @@ namespace Cyberpriest
 {
     class AnimatedObject : GameObject
     {
-        protected int frame;
-        protected double frameTimer;
+        int frame;
+        double frameTimer;
         protected double frameInterval;
         protected int spritesFrame;
-        protected int spriteSize;
+        int spriteSize;
 
         public AnimatedObject(Texture2D tex, Vector2 pos) : base(tex, pos)
         {

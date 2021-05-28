@@ -277,18 +277,6 @@
 /processorParam:TextureFormat=Color
 /build:enemy3.png
 
-#begin enemy4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:enemy4.png
-
 #begin Font/normalFont.bmp
 /importer:TextureImporter
 /processor:FontTextureProcessor
@@ -364,18 +352,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:HeartSprite.png
-
-#begin InventoryBG.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:InventoryBG.png
 
 #begin InventorySlot.png
 /importer:TextureImporter
@@ -940,18 +916,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Shield2.png
-
-#begin ShopBG.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ShopBG.png
 
 #begin SmallPlatform.png
 /importer:TextureImporter

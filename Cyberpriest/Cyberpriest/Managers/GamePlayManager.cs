@@ -255,11 +255,6 @@ namespace Cyberpriest
 
         public static void InventoryDraw(SpriteBatch sb)
         {
-            int maxWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            int maxHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-          
-            sb.Draw(AssetManager.inventoryBG, new Rectangle(0, 0, maxWidth, maxHeight), Color.White);
-
             #region Draw Inventory Slots
 
             for (int i = 0; i < map.inventoryArray.GetLength(0); i++)
