@@ -12,7 +12,6 @@ namespace Cyberpriest
     class Player : MovingObject
     {
         public List<Bullet> bulletList = new List<Bullet>();
-        public List<Melee> meleeList = new List<Melee>();
         List<PowerUp> powerUpList;
         Bullet bullet;
         public Melee melee;
@@ -45,6 +44,7 @@ namespace Cyberpriest
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
+            tileSize = new Point(64, 64);
             charmed = false;
             isGrounded = true;
             startPos = pos;
@@ -54,7 +54,7 @@ namespace Cyberpriest
             playerFacing = Facing.Right;
             this.powerUpList = powerUpList;
             srRect = new Rectangle(0, 0, tex.Width / 17, tex.Height);
-            //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y,tileSize.X, tileSize.Y);
             dashCount = 1;
             dashTimer = 0;
 
@@ -68,7 +68,6 @@ namespace Cyberpriest
             rand = new Random();
 
             melee = new Melee(AssetManager.redSword, pos);
-            meleeList.Add(melee);
 
             frameInterval = 125;
             spritesFrame = 17;
@@ -129,8 +128,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine("Current position: " + pos);
-            Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y); //there is no hitbox
+            Console.WriteLine("Current hitbox: " + hitBox);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {

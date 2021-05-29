@@ -12,6 +12,7 @@ namespace Cyberpriest
     {
         public EnemySkeleton(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
+            tileSize = new Point(64, 64);
             this.player = player;
             startPos = pos;
             isActive = true;
@@ -26,7 +27,7 @@ namespace Cyberpriest
 
             randomizationPeriod = 2;
             rand = new Random();
-            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, tex.Width / 6, tex.Height);
             srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
 
             frameInterval = 100;
@@ -65,6 +66,7 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            Console.WriteLine("emenyhitbox:" + hitBox);
             float i = 0.75f;
             pos.Y += gravity * i;
 
