@@ -66,7 +66,6 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine("emenyhitbox:" + hitBox);
             float i = 0.75f;
             pos.Y += gravity * i;
 

@@ -47,6 +47,8 @@ namespace Cyberpriest
 
         public static Texture2D playerCharmed;
 
+        public static Texture2D idlePlayer;
+
         #endregion
 
         #region Enemy
@@ -56,7 +58,7 @@ namespace Cyberpriest
         public static Texture2D enemySkeleton;
         public static Texture2D enemyBug;
         public static Texture2D bossCleopatra;
-        public static Texture2D bossCerberus; 
+        public static Texture2D bossCerberus;
         public static Texture2D bossAlighiero;
         public static Texture2D bossPhlegyas;
         #endregion
@@ -70,7 +72,6 @@ namespace Cyberpriest
 
         #region PowerUp
 
-        public static Texture2D item;
         public static Texture2D redWhitepil;
         public static Texture2D orangeBlackPil;
         public static Texture2D magnet;
@@ -99,6 +100,14 @@ namespace Cyberpriest
 
         #endregion
 
+        #region PickUp
+
+        public static Texture2D item;
+        public static Texture2D coinSprite;
+        public static Texture2D coin;
+
+        #endregion
+
         #region Armor
 
         public static Texture2D silverBoots;
@@ -114,8 +123,8 @@ namespace Cyberpriest
         public static Texture2D blueSword;
         public static Texture2D redSword;
         public static Texture2D semiAutomaticPistolVer1;
-        public static Texture2D semiAutomaticPistolVer2; 
-        public static Texture2D semiAutomaticPistolVer3; 
+        public static Texture2D semiAutomaticPistolVer2;
+        public static Texture2D semiAutomaticPistolVer3;
         public static Texture2D shieldBlue;
         public static Texture2D shieldRed;
 
@@ -133,7 +142,6 @@ namespace Cyberpriest
         #region HUD
 
         public static Texture2D heartSprite;
-        public static Texture2D coinSprite;
         public static Texture2D fullHealthbar;
         public static Texture2D emptyHealthbar;
 
@@ -183,10 +191,12 @@ namespace Cyberpriest
 
             playerCharmed = content.Load<Texture2D>("PlayerCharmed");
 
+            idlePlayer = content.Load<Texture2D>("idlePlayer");
+
             #endregion
 
             #region Enemy
-         
+
             enemyGhost = content.Load<Texture2D>("Enemy1");
             enemyDemon = content.Load<Texture2D>("enemy2");
             enemySkeleton = content.Load<Texture2D>("enemy3");
@@ -195,7 +205,7 @@ namespace Cyberpriest
             bossCerberus = content.Load<Texture2D>("Boss_Gluttony");
             bossAlighiero = content.Load<Texture2D>("Boss_Greed");
             bossPhlegyas = content.Load<Texture2D>("Boss_Phlegyas");
-            
+
             #endregion
 
             #region Trap
@@ -231,8 +241,15 @@ namespace Cyberpriest
             rubyEye = content.Load<Texture2D>("l0_sprite_22");
             diamond = content.Load<Texture2D>("l0_sprite_23");
             diamond2 = content.Load<Texture2D>("l0_sprite_24");
-            item = content.Load<Texture2D>("PotionsSprite");
             pokemonGeodude = content.Load<Texture2D>("Pokemon Geodude");
+
+            #endregion
+
+            #region PickUp
+
+            item = content.Load<Texture2D>("PotionsSprite");
+            coinSprite = content.Load<Texture2D>("CoinSprite");
+            coin = content.Load<Texture2D>("coin");
 
             #endregion
 
@@ -270,7 +287,6 @@ namespace Cyberpriest
             #region HUD
 
             heartSprite = content.Load<Texture2D>("HeartSprite");
-            coinSprite = content.Load<Texture2D>("CoinSprite");
             fullHealthbar = content.Load<Texture2D>("FullHealthbar");
             emptyHealthbar = content.Load<Texture2D>("EmptyHealthbar");
 

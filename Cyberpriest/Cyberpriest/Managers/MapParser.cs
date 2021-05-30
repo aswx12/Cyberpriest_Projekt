@@ -230,7 +230,7 @@ namespace Cyberpriest
 
             playerPos = ParsePos(stringList[0]);
 
-            player = new Player(AssetManager.player, playerPos, Game1.window, powerUpList);
+            player = new Player(AssetManager.idlePlayer, playerPos, Game1.window, powerUpList);
             objectList.Add(player);
 
             #endregion
@@ -313,7 +313,7 @@ namespace Cyberpriest
 
             coinPos = ParseVectorArray(stringList[13]);
 
-            CreateCoin(AssetManager.coinSprite, coinPos);
+            CreateCoin(AssetManager.coin, coinPos);
 
             #endregion
         }

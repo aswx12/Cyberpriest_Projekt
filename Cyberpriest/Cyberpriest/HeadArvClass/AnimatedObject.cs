@@ -44,7 +44,7 @@ namespace Cyberpriest
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, hitBox, srRect, Color.White);
+            spriteBatch.Draw(tex, pos, srRect, Color.White);
         }
     }
 }
