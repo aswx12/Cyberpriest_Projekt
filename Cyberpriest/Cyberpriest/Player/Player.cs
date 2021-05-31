@@ -12,7 +12,6 @@ namespace Cyberpriest
     class Player : MovingObject
     {
         public List<Bullet> bulletList = new List<Bullet>();
-        public List<Melee> meleeList = new List<Melee>();
         List<PowerUp> powerUpList;
         Bullet bullet;
         public Melee melee;
@@ -53,8 +52,7 @@ namespace Cyberpriest
             bX = window.ClientBounds.Width;
             playerFacing = Facing.Right;
             this.powerUpList = powerUpList;
-            srRect = new Rectangle(0, 0, tex.Width / 17, tex.Height);
-            //hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
+            srRect = new Rectangle(0, 0, tex.Width, tex.Height);
             dashCount = 1;
             dashTimer = 0;
 
@@ -68,10 +66,10 @@ namespace Cyberpriest
             rand = new Random();
 
             melee = new Melee(AssetManager.redSword, pos);
-            meleeList.Add(melee);
 
             frameInterval = 125;
             spritesFrame = 17;
+            
         }
 
         public override void HandleCollision(GameObject other)
@@ -129,8 +127,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            Console.WriteLine("Current position: " + pos);
-            Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
+            hitBox = new Rectangle((int)pos.X, (int)pos.Y, 64, 64);
+            Console.WriteLine("Current hitbox: " + hitBox);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
@@ -185,6 +183,8 @@ namespace Cyberpriest
             {
                 canShoot = false;
             }
+
+
         }
 
         public override void Draw(SpriteBatch sb)
@@ -192,11 +192,11 @@ namespace Cyberpriest
             if (iFrameTimer > 0)
             {
                 if (blinking)
-                    sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                    sb.Draw(AssetManager.player, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else if (invincible)
             {
-                sb.Draw(tex, pos, srRect, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(AssetManager.player, pos, srRect, RandomColor(), 0, Vector2.Zero, 1, effect, 0);
             }
             else if (charmed)
             {
@@ -204,7 +204,7 @@ namespace Cyberpriest
             }
             else
             {
-                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(AssetManager.player, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
 
             foreach (Bullet b in bulletList)
@@ -212,7 +212,7 @@ namespace Cyberpriest
                 b.Draw(sb);
             }
 
-            melee.Draw(sb, pos,playerFacing,effect);
+            melee.Draw(sb, pos, playerFacing, effect);
 
         }
 

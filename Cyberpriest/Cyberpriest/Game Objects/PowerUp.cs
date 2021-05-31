@@ -17,6 +17,7 @@ namespace Cyberpriest
 
         public PowerUp(Texture2D tex, Vector2 pos) : base(tex, pos)
         {
+            tileSize = new Point(64, 64);
             frameInterval = 100;
             spritesFrame = 6;
 

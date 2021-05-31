@@ -84,7 +84,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\BG_Lvl_1.jpg" />
+    <Content Include="Content\coin.png" />
     <Content Include="Content\Font\normalFont.bmp" />
+    <Content Include="Content\idlePlayer.png" />
+    <Content Include="Content\l0_sprite_12.png" />
     <Content Include="Content\level4.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
