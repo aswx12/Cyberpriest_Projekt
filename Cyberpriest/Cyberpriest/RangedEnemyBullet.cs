@@ -13,6 +13,7 @@ namespace Cyberpriest
 
         public static List<RangedEnemyBullet> enemyBulletList = new List<RangedEnemyBullet>();
         private Vector2 direction;
+        public static bool bossBullet;
 
         public RangedEnemyBullet(Texture2D tex, Vector2 pos, Vector2 direction, Facing facing) : base(tex, pos, facing)
         {

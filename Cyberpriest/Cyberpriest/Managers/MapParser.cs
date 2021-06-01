@@ -31,6 +31,7 @@ namespace Cyberpriest
         public Door door;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public EnemyGreed enemyGreed;
         public Coin coin;
         public Key key;
 
@@ -277,6 +278,16 @@ namespace Cyberpriest
             enemyLust = new EnemyLust(AssetManager.bossCleopatra, enemyPos/*, Game1.window*/, player, geodude);
             enemyList.Add(enemyLust);
             objectList.Add(enemyLust);
+
+            #endregion
+
+            #region EnemyGreed
+
+            enemyPos = ParsePos(stringList[16]);
+
+            enemyGreed = new EnemyGreed(AssetManager.bossAlighiero, enemyPos, player, geodude);
+            enemyList.Add(enemyGreed);
+            objectList.Add(enemyGreed);
 
             #endregion
 
