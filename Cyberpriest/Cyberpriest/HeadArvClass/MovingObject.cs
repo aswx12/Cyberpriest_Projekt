@@ -11,7 +11,7 @@ namespace Cyberpriest
     enum Facing { Left, Right, Idle, Jump };
     class MovingObject : AnimatedObject
     {
-        protected float lifeSpan;
+        public float lifeSpan;
 
         protected bool isGrounded;
         protected Vector2 velocity;

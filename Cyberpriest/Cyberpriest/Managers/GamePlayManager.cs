@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 1;
+        public static int levelNumber = 3;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -38,6 +38,9 @@ namespace Cyberpriest
 
         public static void Update(GameTime gameTime)
         {
+            foreach (GameObject obj in map.objectList)
+                obj.Update(gameTime);
+
             #region Bullet Collision
 
             foreach (GameObject movingObj in map.objectList)
@@ -46,19 +49,22 @@ namespace Cyberpriest
                 {
                     continue;
                 }
+            }
 
+            foreach (EnemyType enemy in map.enemyList)
+            {
                 foreach (Bullet bullet in map.player.bulletList)
                 {
-                    if (bullet.IntersectCollision(movingObj))
+                    if (bullet.PixelCollision(enemy))
                     {
-                        movingObj.HandleCollision(bullet);
+                        enemy.HandleCollision(bullet);
                     }
                 }
             }
 
             #endregion
 
-            Console.WriteLine("Current level: " + levelNumber);
+            #region EnemyBullet to Player Collision
 
             foreach (GameObject obj in map.objectList)
             {
@@ -66,18 +72,36 @@ namespace Cyberpriest
                 {
                     if (eBullet.IntersectCollision(obj))
                     {
-                        if (obj is Player && eBullet.isActive)
+                        if (eBullet.PixelCollision(obj))
                         {
-                            obj.HandleCollision(eBullet);
+                            if (obj is Player && eBullet.isActive)
+                            {
+                                obj.HandleCollision(eBullet);
+                            }
+                            else
+                                continue;
                         }
-                        else
-                            continue;
+                    }
+                }
+
+                foreach (RangedEnemyBullet eBullet in RangedEnemyBullet.enemyBulletList)
+                {
+                    if (eBullet is RangedEnemyBullet)
+                    {
+                        if (obj is Player)
+                        {
+                            if (obj.PixelCollision(eBullet))
+                            {
+                                obj.HandleCollision(eBullet);
+                                eBullet.HandleCollision(obj);
+                            }
+                        }
+
                     }
                 }
             }
 
-            foreach (GameObject obj in map.objectList)
-                obj.Update(gameTime);
+            #endregion
 
             foreach (GameObject obj in map.objectList)
             {
@@ -94,22 +118,22 @@ namespace Cyberpriest
 
                         if (otherObj is Platform)//pixel perfect sudden lag
                         {
-                            //if (!(obj is Player || obj is EnemyType))
-                            //    continue;
+                            if (!(obj is Player || obj is EnemyType))
+                                continue;
 
-                            //if (otherObj.PixelCollision(obj))
-                            //{
+                            if (otherObj.PixelCollision(obj))
+                            {
                                 if (obj is Player || obj is EnemyType)
                                 {
                                     int leftSideOffset = 35;
                                     int rightSideOffset = 25;
 
-                                    if (obj.Position.X < (otherObj.Position.X - leftSideOffset) || otherObj.Position.Y < obj.Position.Y || obj.Position.X  > otherObj.Position.X + otherObj.GetTexLength - rightSideOffset)
+                                    if (obj.Position.X < (otherObj.Position.X - leftSideOffset) || otherObj.Position.Y < obj.Position.Y || obj.Position.X > otherObj.Position.X + otherObj.GetTexLength - rightSideOffset)
                                         continue;
 
                                     obj.HandleCollision(otherObj);
                                 }
-                            //}
+                            }
                         }
 
                         #endregion
@@ -141,8 +165,8 @@ namespace Cyberpriest
 
                                 if (obj.PixelCollision(otherObj))
                                 {
-                                    if (obj.Position.Y <= otherObj.Position.Y-20 || obj.Position.Y >= otherObj.Position.Y + 20)//no floating tempfix
-                                        continue;
+                                    //if (obj.Position.Y <= otherObj.Position.Y-20 || obj.Position.Y >= otherObj.Position.Y + 20)//no floating tempfix
+                                    //    continue;
 
                                     obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
@@ -205,6 +229,27 @@ namespace Cyberpriest
                                     obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
                                 }
+                            }
+                        }
+
+                        #endregion
+
+                        #region Key Collision
+
+                        if (otherObj is Key)
+                        {
+                            if (obj is Player)
+                            {
+                                if (!otherObj.isActive)
+                                {
+                                    continue;
+                                }
+
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    otherObj.HandleCollision(obj);
+                                }
+
                             }
                         }
 

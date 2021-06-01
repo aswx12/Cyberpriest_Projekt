@@ -11,13 +11,15 @@ namespace Cyberpriest
     class EnemyLust : EnemyType
     {
         Bullet bullet;
-        public List<Bullet> bulletList = new List<Bullet>();
+        Key key;
 
         int shotCount;
         double shootCD;
 
         public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
+
+            bulletList = new List<Bullet>();
             this.player = player;
             isActive = true;
             isHit = false;
@@ -29,7 +31,7 @@ namespace Cyberpriest
             moveDir = new Vector2(50, 50);
 
             enemyState = EnemyState.Patrol;
-            velocity = new Vector2(3, 0);
+            velocity = new Vector2(2, 0);
             startVelocity = velocity;
             chasingRange = 2000;
 
@@ -64,6 +66,7 @@ namespace Cyberpriest
                 if(isActive)
                     GameStats.coinCollected += 50;
 
+                Key.keyPickedUp = true;
                 isActive = false;
             }
 
@@ -102,8 +105,6 @@ namespace Cyberpriest
                 {
                     player.playerFacing = Facing.Right;
                     player.Velocity = 1f;
-
-
                 }
                 else if (player.Position.X > pos.X)
                 {
@@ -147,9 +148,10 @@ namespace Cyberpriest
             {
                 foreach (EnemyBullet bullet in bulletList)
                 {
-                    bullet.Velocity = new Vector2(3, 3);
+                    bullet.Velocity = new Vector2(4, 4);
                     moveDir = player.Position - bullet.Position;
-                    bullet.Position += bullet.Velocity * moveDir * 0.015f;
+                    moveDir.Normalize();
+                    bullet.Position += bullet.Velocity * moveDir;
                     bullet.Update(gt);
                 }
             }
@@ -173,7 +175,10 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
+            {
                 sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
+                
+            }
 
             foreach (EnemyBullet bullet in bulletList)
             {

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Cyberpriest
 {
-    enum EnemyState { Chase, Patrol };
+    enum EnemyState { Chase, Patrol, RangedAttack };
 
     class EnemyType : MovingObject
     {
@@ -29,6 +29,8 @@ namespace Cyberpriest
 
         protected float randomizationTime;
         protected float randomizationPeriod;
+
+        public List<Bullet> bulletList;
 
         protected PokemonGeodude geodude;
         public Vector2 directionToGeo;
@@ -69,14 +71,12 @@ namespace Cyberpriest
                     PatrolTimer(gt);
                     break;
                 case EnemyState.Chase:
-                    int facingOffset = 5;
-
-                    if (player.Position.X > pos.X + facingOffset)
+                    if (player.Position.X > pos.X)
                     {
                         pos.X += startVelocity.X;
                         enemyFacing = Facing.Right;
                     }
-                    else if (player.Position.X < pos.X - facingOffset)
+                    else if (player.Position.X < pos.X)
                     {
                         pos.X -= startVelocity.X;
                         enemyFacing = Facing.Left;

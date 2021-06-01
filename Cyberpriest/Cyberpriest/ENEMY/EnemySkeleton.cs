@@ -61,8 +61,8 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
-            float i = 0.75f;
-            pos.Y += gravity * i;
+            gravity = 5f;
+            pos.Y += gravity;
 
             if (healthPoints <= 0)
             {
@@ -82,6 +82,7 @@ namespace Cyberpriest
             Movement();
             CurrentEnemyState(gt);
             DistanceToGeo();
+            
         }
 
         private void Movement()
@@ -91,7 +92,7 @@ namespace Cyberpriest
 
             if (distanceToPlayerX < chasingRange)
             {
-                if (pos.X >= startPos.X + 75 || pos.X <= startPos.X - 75) //tempfix for enemy float off platforms.
+                if (pos.X >= startPos.X + 75 && enemyState != EnemyState.Chase || pos.X <= startPos.X - 75 && enemyState != EnemyState.Chase) //tempfix for enemy float off platforms.
                 {
                     enemyState = EnemyState.Patrol;
                 }
@@ -100,10 +101,6 @@ namespace Cyberpriest
                     moveDir = player.Position - pos;
                     enemyState = EnemyState.Chase;
                 }              
-            }
-            else
-            {
-                enemyState = EnemyState.Patrol;
             }
         }
 

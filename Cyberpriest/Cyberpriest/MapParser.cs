@@ -33,25 +33,30 @@ namespace Cyberpriest
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
         public Coin coin;
+        public Key key;
 
         public bool doorOpen;
 
         public PowerUp powerUp;
         public PokemonGeodude geodude;
         public EnemySkeleton enemySkeleton;
+        public EnemyRanged enemyRanged;
         public EnemyLust enemyLust;
 
-        Vector2 PlayerPos;
-        Vector2 EnemyPos;
-        Vector2 WingsPos;
-        Vector2 BootsPos;
-        Vector2 EnergyPos;
-        Vector2 StarPos;
-        Vector2 PokemonballPos;
-        Vector2 DoorPos;
-        Vector2 MagnetPos;
+        Vector2 playerPos;
+        Vector2 enemyPos;
+        Vector2 wingsPos;
+        Vector2 bootsPos;
+        Vector2 energyPos;
+        Vector2 starPos;
+        Vector2 pokemonballPos;
+        Vector2 doorPos;
+        Vector2 magnetPos;
+        Vector2 keyPos;
 
         Vector2[] enemySkeletonPos;
+        Vector2[] enemyRangedPos;
+        Vector2[] enemyGhostPos;
         Vector2[] itemPos;
         Vector2[] platformPos;
         Vector2[] backgroundPos;
@@ -177,22 +182,22 @@ namespace Cyberpriest
             #region Doors
 
             doorOpen = true;
-            DoorPos = ParsePos(stringList[10]);
-            door = new Door(AssetManager.closedDoor, DoorPos, doorOpen);
+            doorPos = ParsePos(stringList[10]);
+            door = new Door(AssetManager.closedDoor, doorPos, doorOpen);
             objectList.Add(door);
 
             doorOpen = false;
-            DoorPos = ParsePos(stringList[11]);
-            door = new Door(AssetManager.closedDoor, DoorPos, doorOpen);
+            doorPos = ParsePos(stringList[11]);
+            door = new Door(AssetManager.closedDoor, doorPos, doorOpen);
             objectList.Add(door);
 
             #endregion
 
             #region Magnet PowerUp
 
-            MagnetPos = ParsePos(stringList[25]);
+            magnetPos = ParsePos(stringList[25]);
 
-            powerUp = new PowerUp(AssetManager.magnet, MagnetPos);
+            powerUp = new PowerUp(AssetManager.magnet, magnetPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -200,9 +205,9 @@ namespace Cyberpriest
 
             #region Energy PowerUp
 
-            EnergyPos = ParsePos(stringList[13]);
+            energyPos = ParsePos(stringList[13]);
 
-            powerUp = new PowerUp(AssetManager.energy, EnergyPos);
+            powerUp = new PowerUp(AssetManager.energy, energyPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -210,19 +215,28 @@ namespace Cyberpriest
 
             #region Star PowerUp
 
-            StarPos = ParsePos(stringList[26]);
+            starPos = ParsePos(stringList[26]);
 
-            powerUp = new PowerUp(AssetManager.star1, StarPos);
+            powerUp = new PowerUp(AssetManager.star1, starPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
             #endregion
 
+            #region Key
+
+            keyPos = ParsePos(stringList[27]);
+
+            key = new Key(AssetManager.keySprite, keyPos);
+            objectList.Add(key);
+
+            #endregion
+
             #region Pokemonball PowerUp
 
-            PokemonballPos = ParsePos(stringList[24]);
+            pokemonballPos = ParsePos(stringList[24]);
 
-            powerUp = new PowerUp(AssetManager.pokeball, PokemonballPos);
+            powerUp = new PowerUp(AssetManager.pokeball, pokemonballPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -230,9 +244,9 @@ namespace Cyberpriest
 
             #region Player's Start Position
 
-            PlayerPos = ParsePos(stringList[0]);
+            playerPos = ParsePos(stringList[0]);
 
-            player = new Player(AssetManager.player, PlayerPos, Game1.window, powerUpList);
+            player = new Player(AssetManager.player, playerPos, Game1.window, powerUpList);
             objectList.Add(player);
 
             #endregion
@@ -246,37 +260,35 @@ namespace Cyberpriest
 
             #region EnemyGhost
 
-            EnemyPos = ParsePos(stringList[12]);
-
-            enemyGhost = new EnemyGhost(AssetManager.enemyGhost, EnemyPos/*, Game1.window*/, player, geodude);
-            enemyList.Add(enemyGhost);
-            objectList.Add(enemyGhost);
+            enemyGhostPos = ParseVectorArray(stringList[12]);
+            CreateEnemyGhost(AssetManager.enemyGhost, enemyGhostPos);
 
             #endregion
 
             #region EnemySkeleton
 
             enemySkeletonPos = ParseVectorArray(stringList[13]);
-
             CreateEnemySkeleton(AssetManager.enemySkeleton, enemySkeletonPos);
-          
-            //EnemyPos = ParsePos(stringList[9]);
-
-            //enemySkeleton = new EnemySkeleton(AssetManager.enemySkeleton, EnemyPos/*, Game1.window*/, player);
-            //objectList.Add(enemySkeleton);
 
             #endregion
 
             #region EnemyLust
 
-            EnemyPos = ParsePos(stringList[14]);
+            enemyPos = ParsePos(stringList[14]);
 
-            enemyLust = new EnemyLust(AssetManager.bossCleopatra, EnemyPos/*, Game1.window*/, player, geodude);
+            enemyLust = new EnemyLust(AssetManager.bossCleopatra, enemyPos/*, Game1.window*/, player, geodude);
             enemyList.Add(enemyLust);
             objectList.Add(enemyLust);
 
             #endregion
-              
+
+            #region EnemyRanged
+
+            enemyRangedPos = ParseVectorArray(stringList[15]);
+            CreateEnemyRanged(AssetManager.enemySkeleton, enemyRangedPos);
+
+            #endregion
+
             #region Item Spawn
 
             itemPos = ParseVectorArray(stringList[20]);
@@ -293,9 +305,9 @@ namespace Cyberpriest
 
             #region Wings PowerUp
 
-            WingsPos = ParsePos(stringList[22]);
+            wingsPos = ParsePos(stringList[22]);
 
-            powerUp = new PowerUp(AssetManager.wing, WingsPos);
+            powerUp = new PowerUp(AssetManager.wing, wingsPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -303,9 +315,9 @@ namespace Cyberpriest
 
             #region Boots PowerUp
 
-            BootsPos = ParsePos(stringList[23]);
+            bootsPos = ParsePos(stringList[23]);
 
-            powerUp = new PowerUp(AssetManager.boots, BootsPos);
+            powerUp = new PowerUp(AssetManager.boots, bootsPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -329,15 +341,6 @@ namespace Cyberpriest
             }
         }
 
-        //public void CreateBackground(Texture2D texture, Vector2[] pos)
-        //{
-        //    for (int i = 0; i < pos.Length; i++)
-        //    {
-        //        background = new Background(texture, pos[i]);
-        //        objectList.Add(platform);
-        //    }
-        //}
-
         public void CreateEnemySkeleton(Texture2D texture, Vector2[] pos)
         {
             for (int i = 0; i < pos.Length; i++)
@@ -345,6 +348,26 @@ namespace Cyberpriest
                 enemySkeleton = new EnemySkeleton(texture, pos[i], /*Game1.window,*/ player, geodude);
                 objectList.Add(enemySkeleton);
                 enemyList.Add(enemySkeleton);
+            }
+        }
+
+        public void CreateEnemyGhost(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                enemyGhost = new EnemyGhost(texture, pos[i], player, geodude);
+                objectList.Add(enemyGhost);
+                enemyList.Add(enemyGhost);
+            }
+        }
+
+        public void CreateEnemyRanged(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                enemyRanged = new EnemyRanged(texture, pos[i], player, geodude);
+                objectList.Add(enemyRanged);
+                enemyList.Add(enemyRanged);
             }
         }
 

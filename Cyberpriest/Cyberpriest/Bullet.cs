@@ -10,7 +10,7 @@ namespace Cyberpriest
 {
     class Bullet : MovingObject
     {
-        private float timer;
+        public float timer;
         Facing facing;
 
         public Bullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos)

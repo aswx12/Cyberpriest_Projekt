@@ -41,6 +41,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enemy\EnemyGreed.cs" />
+    <Compile Include="RangedEnemyBullet.cs" />
+    <Compile Include="Enemy\EnemyRanged.cs" />
     <Compile Include="HeadArvClass\AnimatedObject.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Door.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="Enemy\EnemySkeleton.cs" />
     <Compile Include="GameStats.cs" />
     <Compile Include="Health.cs" />
+    <Compile Include="Key.cs" />
     <Compile Include="Managers\GamePlayManager.cs" />
     <Compile Include="Enemy\EnemyGhost.cs" />
     <Compile Include="Inventory\Inventory.cs" />
