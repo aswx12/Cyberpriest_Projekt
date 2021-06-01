@@ -283,7 +283,7 @@ namespace Cyberpriest
             #region EnemyRanged
 
             enemyRangedPos = ParseVectorArray(stringList[15]);
-            CreateEnemyRanged(AssetManager.enemySkeleton, enemyRangedPos);
+            CreateEnemyRanged(AssetManager.enemyBug, enemyRangedPos);
 
             #endregion
 

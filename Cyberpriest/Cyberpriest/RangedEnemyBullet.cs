@@ -20,7 +20,7 @@ namespace Cyberpriest
             isActive = true;
             //srRect = new Rectangle(0, 0, tex.Width/6, tex.Height);
             srRect = new Rectangle(0, 0, tex.Width, tex.Height);
-            spritesFrame = 6;
+            spritesFrame = 4;
             frameInterval = 100;
             velocity = new Vector2(0.5f, 0.5f);
             lifeSpan = 20;
@@ -58,7 +58,7 @@ namespace Cyberpriest
         {
             if (isActive)
                 //sb.Draw(tex, pos, Color.White);
-                sb.Draw(AssetManager.purpleFire, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+                sb.Draw(AssetManager.redFire, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
         }
     }
 }

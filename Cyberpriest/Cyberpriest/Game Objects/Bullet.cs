@@ -15,7 +15,7 @@ namespace Cyberpriest
 
         public Bullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos)
         {
-            lifeSpan = 5f;
+            lifeSpan = 2f;
             isActive = false;
             velocity = new Vector2(6, 0);
             this.facing = facing;

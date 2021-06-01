@@ -30,8 +30,13 @@ namespace Cyberpriest
             bulletOffset = new Vector2(0, tex.Height / 2);
 
             isActive = true;
+            tileSize = new Point(64, 64);
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
+            srRect = new Rectangle(0, 0, tex.Width / 4, tex.Height);
+
+            spritesFrame = 4;
+            frameInterval = 100;
+
             shotCount = 1;
             shootCD = 0;
 
@@ -72,10 +77,10 @@ namespace Cyberpriest
                 bullet.Update(gt);
             }
 
+            Animation(gt);
             CurrentEnemyState(gt);
             ShootCooldown(gt);
             EnemyFacing();
-
         }
 
         protected override void CurrentEnemyState(GameTime gt)
@@ -122,6 +127,14 @@ namespace Cyberpriest
                     RangedEnemyBullet.enemyBulletList.Add(bullet);
 
                     shotCount--;
+
+                    for (int j = 0; j < RangedEnemyBullet.enemyBulletList.Count(); j++)
+                    {
+                        if (bullet.isActive == false)
+                        {
+                            RangedEnemyBullet.enemyBulletList.RemoveAt(j);
+                        }
+                    }
                 }
 
                 if (distanceToPlayerX >= chasingRange || distanceToPlayerY >= chasingRange)

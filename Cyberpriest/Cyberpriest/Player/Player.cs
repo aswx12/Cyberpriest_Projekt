@@ -178,7 +178,7 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
-            float i = 0.75f;
+            float i = 0.6f;
             velocity.Y += gravity * i; //falling faster and faster
 
             PlayerFacing();
@@ -485,7 +485,7 @@ namespace Cyberpriest
             if (shotCount <= 0)
                 shotTimer += gt.ElapsedGameTime.TotalSeconds;
 
-            double cooldown = 1;
+            double cooldown = 2;
 
             if (shotTimer >= cooldown && shotCount == 0)
             {
