@@ -14,6 +14,7 @@ namespace Cyberpriest
         public static Rectangle mouseRect;
 
         public static int levelNumber =2;
+
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -38,6 +39,9 @@ namespace Cyberpriest
 
         public static void Update(GameTime gameTime)
         {
+            foreach (GameObject obj in map.objectList)
+                obj.Update(gameTime);
+
             #region Bullet Collision
 
             foreach (GameObject movingObj in map.objectList)
@@ -46,19 +50,22 @@ namespace Cyberpriest
                 {
                     continue;
                 }
+            }
 
+            foreach (EnemyType enemy in map.enemyList)
+            {
                 foreach (Bullet bullet in map.player.bulletList)
                 {
-                    if (bullet.IntersectCollision(movingObj))
+                    if (bullet.PixelCollision(enemy))
                     {
-                        movingObj.HandleCollision(bullet);
+                        enemy.HandleCollision(bullet);
                     }
                 }
             }
 
             #endregion
 
-            Console.WriteLine("Current level: " + levelNumber);
+            #region EnemyBullet to Player Collision
 
             #region Melee
 
@@ -84,17 +91,37 @@ namespace Cyberpriest
                 {
                     if (eBullet.IntersectCollision(obj))
                     {
-                        if (obj is Player && eBullet.isActive)
+                        if (eBullet.PixelCollision(obj))
                         {
-                            obj.HandleCollision(eBullet);
+                            if (obj is Player && eBullet.isActive)
+                            {
+                                obj.HandleCollision(eBullet);
+                            }
+                            else
+                                continue;
                         }
-                        else
-                            continue;
+                    }
+                }
+
+                foreach (RangedEnemyBullet eBullet in RangedEnemyBullet.enemyBulletList)
+                {
+                    if (eBullet is RangedEnemyBullet)
+                    {
+                        if (obj is Player)
+                        {
+                            if (obj.PixelCollision(eBullet))
+                            {
+                                obj.HandleCollision(eBullet);
+                                eBullet.HandleCollision(obj);
+                            }
+                        }
+
                     }
                 }
             }
 
             #endregion
+        
 
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);
@@ -117,19 +144,19 @@ namespace Cyberpriest
                             if (!(obj is Player || obj is EnemyType))
                                 continue;
 
-                            //if (otherObj.PixelCollision(obj))
-                            //{
-                            if (obj is Player || obj is EnemyType)
+                            if (otherObj.PixelCollision(obj))
                             {
-                                int leftSideOffset = 35;
-                                int rightSideOffset = 25;
+                                if (obj is Player || obj is EnemyType)
+                                {
+                                    int leftSideOffset = 35;
+                                    int rightSideOffset = 25;
 
-                                if (obj.Position.X < (otherObj.Position.X - leftSideOffset) || otherObj.Position.Y < obj.Position.Y || obj.Position.X > otherObj.Position.X + otherObj.GetTexLength - rightSideOffset)
-                                    continue;
+                                    if (obj.Position.X < (otherObj.Position.X - leftSideOffset) || otherObj.Position.Y < obj.Position.Y || obj.Position.X > otherObj.Position.X + otherObj.GetTexLength - rightSideOffset)
+                                        continue;
 
-                                obj.HandleCollision(otherObj);
+                                    obj.HandleCollision(otherObj);
+                                }
                             }
-                            //}
                         }
 
                         #endregion
@@ -162,10 +189,7 @@ namespace Cyberpriest
 
                                 if (obj.PixelCollision(otherObj))
                                 {
-                                    //if (obj.Position.Y <= otherObj.Position.Y - 10 || obj.Position.Y >= otherObj.Position.Y + 10)//no floating tempfix
-                                    //    continue;
-                                    //Console.WriteLine("NOW IN CPOLLISON LOO");
-                                    obj.HandleCollision(otherObj); //bug here?
+                                    obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
                                 }
                             }
@@ -226,6 +250,27 @@ namespace Cyberpriest
                                     obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
                                 //}
+                            }
+                        }
+
+                        #endregion
+
+                        #region Key Collision
+
+                        if (otherObj is Key)
+                        {
+                            if (obj is Player)
+                            {
+                                if (!otherObj.isActive)
+                                {
+                                    continue;
+                                }
+
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    otherObj.HandleCollision(obj);
+                                }
+
                             }
                         }
 

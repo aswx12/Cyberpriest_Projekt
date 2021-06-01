@@ -68,6 +68,8 @@ namespace Cyberpriest
         public static Texture2D purpleFire;
         public static Texture2D redFire;
 
+        public static Texture2D purpleFireTest;
+
         #endregion
 
         #region PowerUp
@@ -148,6 +150,12 @@ namespace Cyberpriest
 
         #endregion
 
+        #region Key
+
+        public static Texture2D keySprite;
+
+        #endregion
+
         #region Font
 
         public static SpriteFont normalFont;
@@ -188,7 +196,7 @@ namespace Cyberpriest
 
             #region Player
 
-            player = content.Load<Texture2D>("player1");
+            player = content.Load<Texture2D>("Player1");
 
             playerCharmed = content.Load<Texture2D>("PlayerCharmed");
 
@@ -213,6 +221,8 @@ namespace Cyberpriest
 
             purpleFire = content.Load<Texture2D>("PurpleFireSprite");
             redFire = content.Load<Texture2D>("RedFireSprite");
+
+            purpleFireTest = content.Load<Texture2D>("PurpleFireSpriteTest");
 
             #endregion
 
@@ -291,6 +301,12 @@ namespace Cyberpriest
             heartSprite = content.Load<Texture2D>("HeartSprite");
             fullHealthbar = content.Load<Texture2D>("FullHealthbar");
             emptyHealthbar = content.Load<Texture2D>("EmptyHealthbar");
+
+            #endregion
+
+            #region Key
+
+            keySprite = content.Load<Texture2D>("Key");
 
             #endregion
 
