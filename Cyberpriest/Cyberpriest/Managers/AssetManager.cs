@@ -107,6 +107,7 @@ namespace Cyberpriest
         public static Texture2D item;
         public static Texture2D coinSprite;
         public static Texture2D coin;
+        public static Texture2D pokeIdle;
 
         #endregion
 
@@ -239,6 +240,7 @@ namespace Cyberpriest
             crate = content.Load<Texture2D>("l0_sprite_10");
             mysteryBox = content.Load<Texture2D>("l0_sprite_11");
             pokeball = content.Load<Texture2D>("l0_sprite_12");
+            pokeIdle = content.Load<Texture2D>("pokeIdle");
             specialPokeball = content.Load<Texture2D>("l0_sprite_13");
             avocado = content.Load<Texture2D>("l0_sprite_14");
             thugLifeSmoke = content.Load<Texture2D>("l0_sprite_15");
