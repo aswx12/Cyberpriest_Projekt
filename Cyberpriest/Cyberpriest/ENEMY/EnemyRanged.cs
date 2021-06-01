@@ -31,7 +31,7 @@ namespace Cyberpriest
 
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
-
+            srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
             shotCount = 1;
             shootCD = 0;
 
@@ -75,7 +75,7 @@ namespace Cyberpriest
             CurrentEnemyState(gt);
             ShootCooldown(gt);
             EnemyFacing();
-            
+
         }
 
         protected override void CurrentEnemyState(GameTime gt)
@@ -99,7 +99,7 @@ namespace Cyberpriest
         {
             isGrounded = true;
 
-            if(other is Platform)
+            if (other is Platform)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
@@ -114,9 +114,9 @@ namespace Cyberpriest
 
         void Combat(GameTime gt)
         {
-            if(enemyState == EnemyState.RangedAttack && isActive == true)
+            if (enemyState == EnemyState.RangedAttack && isActive == true)
             {
-                if(shotCount > 0)
+                if (shotCount > 0)
                 {
                     bullet = new RangedEnemyBullet(AssetManager.star1, pos - bulletOffset, moveDir, enemyFacing);
                     RangedEnemyBullet.enemyBulletList.Add(bullet);
@@ -128,7 +128,6 @@ namespace Cyberpriest
                 {
                     enemyState = EnemyState.Patrol;
                 }
-
             }
         }
 
@@ -151,7 +150,7 @@ namespace Cyberpriest
         {
             if (isActive == true)
             {
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 1);
 
             }
 
