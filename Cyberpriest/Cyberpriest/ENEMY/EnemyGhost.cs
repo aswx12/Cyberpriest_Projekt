@@ -11,6 +11,8 @@ namespace Cyberpriest
 {
     class EnemyGhost : EnemyType
     {
+        int random;
+
         public EnemyGhost(Texture2D tex, Vector2 pos, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
             this.player = player;
@@ -25,8 +27,10 @@ namespace Cyberpriest
             startVelocity = velocity;
             chasingRange = 250;
 
-            randomizationPeriod = 2;
             rand = new Random();
+
+            randomizationPeriod = 2;
+            
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             srRect = new Rectangle(0, 0, tex.Width / 6, tex.Height);
 
@@ -53,6 +57,9 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            random = rand.Next(0, 4);
+
+
             Console.WriteLine(enemyFacing);
 
             if (healthPoints <= 0)
@@ -81,7 +88,10 @@ namespace Cyberpriest
             if (distanceToPlayerX < 0)
                 distanceToPlayerX = distanceToPlayerX * -1;
 
-            if (distanceToPlayerX < chasingRange)
+            if (distanceToPlayerY < 0)
+                distanceToPlayerY = distanceToPlayerY * -1;
+
+            if (distanceToPlayerX < chasingRange && distanceToPlayerY < chasingRange)
             {
                 moveDir = player.Position - pos;
                 enemyState = EnemyState.Chase;
@@ -108,7 +118,7 @@ namespace Cyberpriest
                     else if (pos.X < player.Position.X)
                         enemyFacing = Facing.Right;
 
-                    if (distanceToPlayerX > chasingRange)
+                    if (distanceToPlayerX > chasingRange || distanceToPlayerY > chasingRange)
                         enemyState = EnemyState.Patrol;
                     break;
             }
@@ -133,8 +143,6 @@ namespace Cyberpriest
 
         protected override void RandomDirection()
         {
-            int random = rand.Next(0, 4);
-
             //Down right
             if (random == 0)
             {

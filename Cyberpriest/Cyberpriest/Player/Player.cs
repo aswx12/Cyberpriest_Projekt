@@ -85,6 +85,18 @@ namespace Cyberpriest
                 return;
             }
 
+            if(other is RangedEnemyBullet && other.isActive == true)
+            {
+                if (iFrameTimer <= 0 && GameStats.health.hitBox.Width >= 0)
+                {
+                    GameStats.health.hitBox.Width -= 20;
+                }
+
+                isHit = true;
+                Console.WriteLine(GameStats.health.hitBox.Width);
+                return;
+            }
+
             if (other is EnemyType && other.isActive == true)
             {
                 if (iFrameTimer <= 0 && GameStats.health.hitBox.Width >= 0)
@@ -118,7 +130,7 @@ namespace Cyberpriest
                 return;
             }
 
-            if (downPlatform == true)
+            if (downPlatform == true && other is Platform)
             {
                 hitBox.Y = other.hitBox.Y - hitBox.Height;
                 pos.Y = hitBox.Y;
@@ -128,7 +140,20 @@ namespace Cyberpriest
         public override void Update(GameTime gt)
         {
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, 64, 64);
-            Console.WriteLine("Current hitbox: " + hitBox);
+
+            for (int j = 0; j < bulletList.Count(); j++)
+            {
+                if (bullet.isActive == false)
+                {
+                    bulletList.RemoveAt(j);
+                    j--;
+                }
+            }
+
+            Console.WriteLine("amount of bullets in list: " + bulletList.Count());
+
+            Console.WriteLine("Current position: " + pos);
+            //Console.WriteLine("Current mouse: " + KeyMouseReader.mouseState.X);
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
@@ -270,12 +295,13 @@ namespace Cyberpriest
 
         public void Control(GameTime gt)
         {
-            if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true)
+            if (KeyMouseReader.keyState.IsKeyDown(Keys.E) && GamePlayManager.levelComplete == true && Key.keyPickedUp == true)
             {
                 GamePlayManager.levelNumber++;
                 GamePlayManager.currentLevel = "level" + GamePlayManager.levelNumber.ToString();
                 GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
                 GamePlayManager.levelComplete = false;
+                Key.keyPickedUp = false;
             }
 
             if (KeyMouseReader.keyState.IsKeyDown(Keys.D))
