@@ -64,8 +64,6 @@ namespace Cyberpriest
 
             #endregion
 
-            #region EnemyBullet to Player Collision
-
             #region Melee
 
             foreach (GameObject obj in map.objectList)
