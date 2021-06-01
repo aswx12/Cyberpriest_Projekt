@@ -18,6 +18,7 @@ namespace Cyberpriest
 
         public EnemyLust(Texture2D tex, Vector2 pos/*, GameWindow window*/, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
+            tileSize = new Point(128, 128);
             this.player = player;
             isActive = true;
             isHit = false;
@@ -41,6 +42,7 @@ namespace Cyberpriest
 
             frameInterval = 100;
             spritesFrame = 6;
+            spriteSize = 128;
         }
 
         public override void HandleCollision(GameObject other)
@@ -178,7 +180,7 @@ namespace Cyberpriest
         public override void Draw(SpriteBatch sb)
         {
             if (isActive == true)
-                sb.Draw(tex, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 1);
+                sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 1);
 
             foreach (LustBullet bullet in bulletList)
             {

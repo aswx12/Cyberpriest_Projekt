@@ -13,6 +13,7 @@ namespace Cyberpriest
     {
         public EnemyGhost(Texture2D tex, Vector2 pos, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
+            tileSize = new Point(64, 64);
             this.player = player;
             isActive = true;
             isHit = false;

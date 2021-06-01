@@ -13,7 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 1;
+        public static int levelNumber =2;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -162,8 +162,8 @@ namespace Cyberpriest
 
                                 if (obj.PixelCollision(otherObj))
                                 {
-                                    //if (obj.Position.Y <= otherObj.Position.Y - 20 || obj.Position.Y >= otherObj.Position.Y + 20)//no floating tempfix
-                                    //    continue; 
+                                    //if (obj.Position.Y <= otherObj.Position.Y - 10 || obj.Position.Y >= otherObj.Position.Y + 10)//no floating tempfix
+                                    //    continue;
                                     //Console.WriteLine("NOW IN CPOLLISON LOO");
                                     obj.HandleCollision(otherObj); //bug here?
                                     otherObj.HandleCollision(obj);
@@ -221,11 +221,11 @@ namespace Cyberpriest
                                     continue;
                                 }
 
-                                if (otherObj.PixelCollision(obj))
-                                {
+                                //if (otherObj.PixelCollision(obj))
+                                //{
                                     obj.HandleCollision(otherObj);
                                     otherObj.HandleCollision(obj);
-                                }
+                                //}
                             }
                         }
 

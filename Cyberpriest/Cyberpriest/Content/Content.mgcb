@@ -581,18 +581,6 @@
 /processorParam:TextureFormat=Color
 /build:l0_sprite_12.png
 
-#begin l0_sprite_12.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:l0_sprite_12.png
-
 #begin l0_sprite_13.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -844,6 +832,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PlayerCharmed.png
+
+#begin pokeIdle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:pokeIdle.png
 
 #begin Pokemon Geodude.png
 /importer:TextureImporter

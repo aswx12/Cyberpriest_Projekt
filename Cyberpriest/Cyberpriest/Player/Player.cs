@@ -69,7 +69,7 @@ namespace Cyberpriest
 
             frameInterval = 125;
             spritesFrame = 17;
-            
+
         }
 
         public override void HandleCollision(GameObject other)
@@ -172,7 +172,7 @@ namespace Cyberpriest
             pos += velocity;
             hitBox.X = (int)(pos.X >= 0 ? pos.X + hitBoxOffset : pos.X - hitBoxOffset);
             hitBox.Y = (int)(pos.Y >= 0 ? pos.Y + hitBoxOffset : pos.Y - hitBoxOffset);
-
+            
             melee.Update(gt);
 
             GamePlayManager.levelComplete = false;
@@ -200,7 +200,7 @@ namespace Cyberpriest
             }
             else if (charmed)
             {
-                sb.Draw(AssetManager.playerCharmed, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 0);
+                sb.Draw(AssetManager.playerCharmed, pos, null, Color.White, 0, Vector2.Zero, 1, effect, 0);
             }
             else
             {
