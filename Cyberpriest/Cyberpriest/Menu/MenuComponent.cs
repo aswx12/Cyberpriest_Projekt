@@ -42,14 +42,31 @@ namespace Cyberpriest
 
         public void ContinueEnable()
         {
-            choices[1] = (new MenuChoice() { Text = "CONTINUE", ClickAction = RestartClicked });
-            choices[2] = (new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
-
-            if (!continueEnabled)
+            if (Player.dead)
             {
-                continueEnabled = true;
-                choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
+                continueEnabled = false;
             }
+
+            if (!Player.dead)
+            {
+                choices[1] = (new MenuChoice() { Text = "CONTINUE", ClickAction = ContinueClicked });
+                choices[2] = (new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
+
+                if (!continueEnabled)
+                {
+                    continueEnabled = true;
+                    choices.Add(new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
+                }
+            }
+            else
+            {
+                choices[1] = (new MenuChoice() { Text = "OPTIONS", ClickAction = MenuOptionsClicked });
+                choices[2] = (new MenuChoice() { Text = "QUIT", ClickAction = MenuQuitClicked });
+                if (choices.Count >= 4)
+                    choices.RemoveAt(3);
+
+            }
+
         }
 
         #region Menu Clicks
@@ -59,9 +76,10 @@ namespace Cyberpriest
             GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
             Game1.GetState = GameState.Play;
             Game1.newGame = true;
+           
         }
 
-        private void RestartClicked()
+        private void ContinueClicked()
         {
             Game1.GetState = GameState.Play;
         }

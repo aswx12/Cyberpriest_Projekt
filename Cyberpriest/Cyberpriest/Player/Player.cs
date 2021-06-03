@@ -41,6 +41,7 @@ namespace Cyberpriest
         bool blinking;
         public bool charmed;
         bool canShoot;
+        public static bool dead;
 
         public Player(Texture2D tex, Vector2 pos, GameWindow window, List<PowerUp> powerUpList) : base(tex, pos)
         {
@@ -62,7 +63,7 @@ namespace Cyberpriest
             affectedTimer = 0;
 
             isHit = false;
-
+            dead = false;
             rand = new Random();
 
             melee = new Melee(AssetManager.redSword, pos);
@@ -157,7 +158,10 @@ namespace Cyberpriest
 
             if (GameStats.health.hitBox.Width <= 0 || pos.Y > maxFallDistance) //Placeholder death "method".
             {
+                dead = true;
+                Game1.newGame = true;
                 pos = startPos;
+                Game1.GetState = GameState.Menu;
                 GameStats.health.hitBox.Width = AssetManager.fullHealthbar.Width;
             }
 

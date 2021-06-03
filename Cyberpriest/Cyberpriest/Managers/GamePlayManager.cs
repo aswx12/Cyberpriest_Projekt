@@ -13,7 +13,8 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 4;
+
+        public static int levelNumber = 2;
 
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
@@ -157,8 +158,8 @@ namespace Cyberpriest
                             if (!(obj is Player || obj is EnemyType))
                                 continue;
 
-                            if (otherObj.PixelCollision(obj))
-                            {
+                            //if (otherObj.PixelCollision(obj))
+                            //{
                                 if (obj is Player || obj is EnemyType)
                                 {
                                     int leftSideOffset = 35;
@@ -169,7 +170,7 @@ namespace Cyberpriest
 
                                     obj.HandleCollision(otherObj);
                                 }
-                            }
+                            //}
                         }
 
                         #endregion
