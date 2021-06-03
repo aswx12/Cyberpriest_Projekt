@@ -57,9 +57,12 @@ namespace Cyberpriest
 
         public override void Draw(SpriteBatch sb)
         {
-            if (isActive)
+            if (isActive && bossBullet == false)
                 //sb.Draw(tex, pos, Color.White);
                 sb.Draw(AssetManager.redFire, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+            else if(isActive && bossBullet == true)
+                sb.Draw(AssetManager.coinSprite, pos, srRect, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
+
         }
     }
 }

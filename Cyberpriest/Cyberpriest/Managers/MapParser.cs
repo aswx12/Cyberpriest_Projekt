@@ -204,7 +204,7 @@ namespace Cyberpriest
 
             #region Energy PowerUp
 
-            energyPos = ParsePos(stringList[13]);
+            energyPos = ParsePos(stringList[28]);
 
             powerUp = new PowerUp(AssetManager.energy, energyPos);
             powerUpList.Add(powerUp);
@@ -216,7 +216,7 @@ namespace Cyberpriest
 
             starPos = ParsePos(stringList[26]);
 
-            powerUp = new PowerUp(AssetManager.star1, starPos);
+            powerUp = new PowerUp(AssetManager.star2, starPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 

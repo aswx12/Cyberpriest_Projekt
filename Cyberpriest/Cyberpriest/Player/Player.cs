@@ -265,7 +265,7 @@ namespace Cyberpriest
                         JumpingPowerUp();
                     else if (powerUp.GetTexture == AssetManager.energy)
                         SpeedPowerUp();
-                    else if (powerUp.GetTexture == AssetManager.star1)
+                    else if (powerUp.GetTexture == AssetManager.star2)
                     {
                         invincible = true;
                         InvincibilityPowerUp(gameTime);

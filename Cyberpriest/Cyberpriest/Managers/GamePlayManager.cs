@@ -116,10 +116,25 @@ namespace Cyberpriest
 
                     }
                 }
+
+                foreach (RangedEnemyBullet eBullet in EnemyGreed.greedBulletList)
+                {
+                    if (eBullet is RangedEnemyBullet)
+                    {
+                        if (obj is Player)
+                        {
+                            if (obj.PixelCollision(eBullet))
+                            {
+                                obj.HandleCollision(eBullet);
+                                eBullet.HandleCollision(obj);
+                            }
+                        }
+
+                    }
+                }
             }
 
             #endregion
-        
 
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);

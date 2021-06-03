@@ -11,17 +11,21 @@ namespace Cyberpriest
     class EnemyGreed : EnemyType
     {
         Bullet bullet;
+        Bullet bullet2;
+        Bullet bullet3;
+
         Key key;
 
         int shotCount;
         double shootCD;
+        public static List<Bullet> greedBulletList;
 
         public EnemyGreed(Texture2D tex, Vector2 pos, Player player, PokemonGeodude geodude) : base(tex, pos, geodude)
         {
             this.player = player;
 
             tileSize = new Point(128, 128);
-            bulletList = new List<Bullet>();
+            greedBulletList = new List<Bullet>();
 
             isActive = true;
             isHit = false;
@@ -41,7 +45,7 @@ namespace Cyberpriest
             rand = new Random();
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
             srRect = new Rectangle(0, 0, tex.Width / 5, tex.Height);
-            healthPoints = 1000;
+            healthPoints = 2000;
 
             frameInterval = 100;
             spritesFrame = 5;
@@ -65,6 +69,15 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            for (int j = 0; j < greedBulletList.Count(); j++)
+            {
+                if (bullet.isActive == false)
+                {
+                    greedBulletList.RemoveAt(j);
+                    j--;
+                }
+            }
+
             if (healthPoints <= 0)
             {
                 if (isActive)
@@ -85,7 +98,6 @@ namespace Cyberpriest
             distanceToPlayerX = (int)player.Position.X - (int)pos.X;
             distanceToPlayerY = (int)player.Position.Y - (int)pos.Y;
 
-            PlayerCharmed();
             ShootCooldown(gt);
             Movement();
             CurrentEnemyState(gt);
@@ -100,23 +112,6 @@ namespace Cyberpriest
         {
             directionToGeo = pos - geodude.Position;
             return directionToGeo.Length();
-        }
-
-        void PlayerCharmed()
-        {
-            if (player.charmed == true)
-            {
-                if (player.Position.X < pos.X)
-                {
-                    player.playerFacing = Facing.Right;
-                    player.Velocity = 1f;
-                }
-                else if (player.Position.X > pos.X)
-                {
-                    player.playerFacing = Facing.Left;
-                    player.Velocity = -1f;
-                }
-            }
         }
 
         private void Movement()
@@ -142,22 +137,30 @@ namespace Cyberpriest
                 if (shotCount > 0)
                 {
                     RangedEnemyBullet.bossBullet = true;
-                    bullet = new LustBullet(AssetManager.heartSprite, pos, enemyFacing);
-                    bulletList.Add(bullet);
+                    bullet = new RangedEnemyBullet(AssetManager.star1, pos, moveDir, enemyFacing);
+                    moveDir.Y -= 100;
+                    moveDir.X -= 100;
+                    bullet2 = new RangedEnemyBullet(AssetManager.star1, pos, moveDir, enemyFacing);
+                    moveDir.Y += 200;
+                    moveDir.X += 200;
+                    bullet3 = new RangedEnemyBullet(AssetManager.star1, pos, moveDir, enemyFacing);
+
+                    greedBulletList.Add(bullet);
+                    greedBulletList.Add(bullet2);
+                    greedBulletList.Add(bullet3);
                     bullet.isActive = true;
 
                     shotCount--;
+
                 }
             }
 
             if (enemyState == EnemyState.Chase || enemyState == EnemyState.Patrol)
             {
-                foreach (LustBullet bullet in bulletList)
+                foreach (RangedEnemyBullet bullet in greedBulletList)
                 {
-                    bullet.Velocity = new Vector2(4, 4);
+                    bullet.Velocity = new Vector2(5, 5);
                     moveDir = player.Position - bullet.Position;
-                    moveDir.Normalize();
-                    bullet.Position += bullet.Velocity * moveDir;
                     bullet.Update(gt);
                 }
             }
@@ -184,7 +187,7 @@ namespace Cyberpriest
                 sb.Draw(tex, pos, srRect, Color.White, 0, Vector2.Zero, 1, effect, 1);
 
 
-            foreach (LustBullet bullet in bulletList)
+            foreach (RangedEnemyBullet bullet in greedBulletList)
             {
                 bullet.Draw(sb);
             }
