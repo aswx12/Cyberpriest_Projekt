@@ -52,6 +52,15 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            for (int j = 0; j < RangedEnemyBullet.enemyBulletList.Count(); j++)
+            {
+                if (bullet.isActive == false)
+                {
+                    RangedEnemyBullet.enemyBulletList.RemoveAt(j);
+                    j--;
+                }
+            }
+
             moveDir = player.Position - pos;
             moveDir.Normalize();
 

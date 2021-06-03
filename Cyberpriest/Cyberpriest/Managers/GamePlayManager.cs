@@ -13,6 +13,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
+
         public static int levelNumber = 2;
 
         public static string currentLevel = "level" + levelNumber.ToString();
@@ -116,10 +117,25 @@ namespace Cyberpriest
 
                     }
                 }
+
+                foreach (RangedEnemyBullet eBullet in EnemyGreed.greedBulletList)
+                {
+                    if (eBullet is RangedEnemyBullet)
+                    {
+                        if (obj is Player)
+                        {
+                            if (obj.PixelCollision(eBullet))
+                            {
+                                obj.HandleCollision(eBullet);
+                                eBullet.HandleCollision(obj);
+                            }
+                        }
+
+                    }
+                }
             }
 
             #endregion
-        
 
             foreach (GameObject obj in map.objectList)
                 obj.Update(gameTime);

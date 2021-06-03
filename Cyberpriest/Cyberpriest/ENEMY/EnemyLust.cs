@@ -61,9 +61,6 @@ namespace Cyberpriest
 
             if (other is Player)
                 isHit = true;
-
-            if (other is PokemonGeodude)
-                healthPoints -= 100;
         }
 
         public override void Update(GameTime gt)

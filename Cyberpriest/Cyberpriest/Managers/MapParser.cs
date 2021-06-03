@@ -31,6 +31,7 @@ namespace Cyberpriest
         public Door door;
         //public EnemyType enemy;
         public EnemyGhost enemyGhost;
+        public EnemyGreed enemyGreed;
         public Coin coin;
         public Key key;
 
@@ -203,7 +204,7 @@ namespace Cyberpriest
 
             #region Energy PowerUp
 
-            energyPos = ParsePos(stringList[13]);
+            energyPos = ParsePos(stringList[28]);
 
             powerUp = new PowerUp(AssetManager.energy, energyPos);
             powerUpList.Add(powerUp);
@@ -215,7 +216,7 @@ namespace Cyberpriest
 
             starPos = ParsePos(stringList[26]);
 
-            powerUp = new PowerUp(AssetManager.star1, starPos);
+            powerUp = new PowerUp(AssetManager.star2, starPos);
             powerUpList.Add(powerUp);
             objectList.Add(powerUp);
 
@@ -277,6 +278,16 @@ namespace Cyberpriest
             enemyLust = new EnemyLust(AssetManager.bossCleopatra, enemyPos/*, Game1.window*/, player, geodude);
             enemyList.Add(enemyLust);
             objectList.Add(enemyLust);
+
+            #endregion
+
+            #region EnemyGreed
+
+            enemyPos = ParsePos(stringList[16]);
+
+            enemyGreed = new EnemyGreed(AssetManager.bossAlighiero, enemyPos, player, geodude);
+            enemyList.Add(enemyGreed);
+            objectList.Add(enemyGreed);
 
             #endregion
 
