@@ -182,7 +182,7 @@ namespace Cyberpriest
                 downPlatform = true;
             }
 
-            float i = 0.6f;
+            float i = 0.5f;
             velocity.Y += gravity * i; //falling faster and faster
 
             PlayerFacing();
