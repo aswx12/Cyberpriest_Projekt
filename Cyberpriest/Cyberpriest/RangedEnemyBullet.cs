@@ -38,6 +38,11 @@ namespace Cyberpriest
 
         public override void Update(GameTime gt)
         {
+            if(bossBullet == true)
+            {
+                lifeSpan = 5f;
+            }
+
             direction.Normalize();
             
             pos += velocity * direction;
