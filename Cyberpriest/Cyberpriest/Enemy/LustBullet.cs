@@ -12,6 +12,7 @@ namespace Cyberpriest
     {
         public LustBullet(Texture2D tex, Vector2 pos, Facing facing) : base(tex, pos, facing)
         {
+            lifeSpan = 5f;
             isActive = true;
             hitBox = new Rectangle((int)pos.X, (int)pos.Y, tileSize.X, tileSize.Y);
         }
