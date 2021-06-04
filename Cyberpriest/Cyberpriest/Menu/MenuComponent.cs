@@ -73,10 +73,11 @@ namespace Cyberpriest
 
         private void MenuStartClicked()
         {
+            GamePlayManager.levelNumber = 1;
+            GamePlayManager.currentLevel = "level" + GamePlayManager.levelNumber.ToString();
             GamePlayManager.map = new MapParser("Content/" + GamePlayManager.currentLevel + ".txt");
             Game1.GetState = GameState.Play;
-            Game1.newGame = true;
-           
+            Game1.newGame = true;        
         }
 
         private void ContinueClicked()
