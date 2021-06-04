@@ -163,6 +163,7 @@ namespace Cyberpriest
                 pos = startPos;
                 Game1.GetState = GameState.Menu;
                 GameStats.health.hitBox.Width = AssetManager.fullHealthbar.Width;
+                
             }
 
             if (gt.TotalGameTime.TotalMilliseconds >= nextBlinkTime)

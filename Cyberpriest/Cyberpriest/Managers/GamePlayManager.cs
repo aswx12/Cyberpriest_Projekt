@@ -13,9 +13,9 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 1;
+        public static int levelNumber;
 
-        public static string currentLevel = "level" + levelNumber.ToString();
+        public static string currentLevel;
         public static bool levelComplete;
 
         static int row;
@@ -25,6 +25,8 @@ namespace Cyberpriest
         {
             row = 0;
             column = 0;
+            levelNumber = 1;
+            currentLevel = "level" + levelNumber.ToString();
         }
 
         public static void MouseRect(GameTime gt)
