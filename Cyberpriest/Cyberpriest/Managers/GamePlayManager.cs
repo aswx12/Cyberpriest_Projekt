@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Cyberpriest.HeadArvClass;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Cyberpriest
         public static MapParser map;
         public static Rectangle mouseRect;
 
-        public static int levelNumber = 2;
+        public static int levelNumber = 1;
         public static string currentLevel = "level" + levelNumber.ToString();
         public static bool levelComplete;
 
@@ -108,6 +109,28 @@ namespace Cyberpriest
                                     }
                                     obj.HandleCollision(otherObj);
                                 }
+                            }
+
+
+                            #endregion
+
+                            #region Wall Collision
+
+                            if (otherObj is Wall)
+                            {
+                                if (otherObj.PixelCollision(obj))
+                                {
+                                    if (obj is Player)
+                                    {
+                                        int leftSideOffset = 35;
+                                        int rightSideOffset = 25;
+
+                                        if (otherObj.Position.X > (obj.Position.X + leftSideOffset) || otherObj.Position.Y < obj.Position.Y || (otherObj.Position.X + otherObj.GetTexLength - rightSideOffset) < obj.Position.X)
+                                            continue;
+                                        
+                                    }
+                                }
+                                obj.HandleCollision(otherObj);
                             }
 
                             #endregion

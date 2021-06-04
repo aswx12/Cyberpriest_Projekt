@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cyberpriest.HeadArvClass;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -122,6 +123,12 @@ namespace Cyberpriest
             if (other is Coin)
             {
                 GameStats.coinCollected += 1;
+                return;
+            }
+
+            if (other is Wall)
+            {
+                velocity = new Vector2(0, 0);
                 return;
             }
 

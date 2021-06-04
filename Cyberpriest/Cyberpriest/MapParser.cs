@@ -1,4 +1,5 @@
-﻿using Cyberpriest.Menu;
+﻿using Cyberpriest.HeadArvClass;
+using Cyberpriest.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -28,6 +29,7 @@ namespace Cyberpriest
         public Player player;
         public Item item;
         public Platform platform;
+        public Wall wall;
         public Door door;
         public Background background;
         //public EnemyType enemy;
@@ -108,7 +110,7 @@ namespace Cyberpriest
 
                 platformPos = ParseVectorArray(stringList[3]);
                 //This is the taller version of the platform
-                CreatePlatform(AssetManager.tallPlatform, platformPos);
+                CreateWall(AssetManager.tallPlatform, platformPos);
 
                 platformPos = ParseVectorArray(stringList[4]);
                 //This is the smallest platform
@@ -141,7 +143,7 @@ namespace Cyberpriest
                 CreatePlatform(AssetManager.rightTileBlue, platformPos);
 
                 platformPos = ParseVectorArray(stringList[8]);
-                CreatePlatform(AssetManager.tallTileBlue, platformPos);
+                CreateWall(AssetManager.tallTileBlue, platformPos);
             }
 
             #endregion
@@ -326,6 +328,15 @@ namespace Cyberpriest
             {
                 platform = new Platform(texture, pos[i]);
                 objectList.Add(platform);
+            }
+        }
+
+        public void CreateWall(Texture2D texture, Vector2[] pos)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                wall = new Wall(texture, pos[i]);
+                objectList.Add(wall);
             }
         }
 
